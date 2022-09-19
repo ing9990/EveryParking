@@ -27,8 +27,10 @@ public class Car {
     @ManyToOne
     private User user;
 
-    private String carType;
+    @Column(name = "CAR_CARMODEL")
+    private String carModel;
 
+    @Column(name = "CAR_SIZE")
     private CarSize carSize;
 
     public static enum CarSize {

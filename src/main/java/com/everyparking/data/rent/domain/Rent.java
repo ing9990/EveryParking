@@ -34,13 +34,19 @@ public class Rent {
     @OneToOne(fetch = FetchType.EAGER)
     private Place place;
 
+    @Column(name = "RENT_COST")
     private long cost;
 
+    @Column(name = "RENT_MESSAGE")
     private String message;
 
+    @Column(name = "RENT_ISBORROWED")
     private boolean isBorrowed;
 
+    @Column(name = "RENT_START_TIME")
     private LocalDateTime start;
+
+    @Column(name = "RENT_END_TIME")
     private LocalDateTime end;
 
 }
