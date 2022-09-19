@@ -44,13 +44,10 @@ public class User {
     @Column(name = "USER_INTORDUCE", columnDefinition = "VARCHAR(30)")
     private String introduce;
 
-    @Column(unique = true)
-    private String phoneNumber;
-
-
     @Column(name = "USER_POINT")
     private long point;
 
+    @Column(name = "USER_CITY")
     private City city;
 
     @Column(updatable = false)
