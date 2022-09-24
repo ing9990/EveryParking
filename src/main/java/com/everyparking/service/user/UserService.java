@@ -8,7 +8,6 @@ package com.everyparking.service.user;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.repository.UserRepository;
 import com.everyparking.dto.registry.RegistryRequestDto;
-import com.everyparking.exception.EmailDuplicatedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
