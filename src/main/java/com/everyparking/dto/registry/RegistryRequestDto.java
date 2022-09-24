@@ -6,15 +6,13 @@ package com.everyparking.dto.registry;
 
 
 import com.everyparking.data.user.domain.User;
-import com.everyparking.service.user.DuplicatedEmailConstraint;
-import com.everyparking.service.user.DuplicatedNicknameConstraint;
+import com.everyparking.data.user.service.user.DuplicatedEmailConstraint;
+import com.everyparking.data.user.service.user.DuplicatedNicknameConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

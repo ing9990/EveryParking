@@ -6,7 +6,7 @@ package com.everyparking.api.user;
 
 
 import com.everyparking.dto.registry.RegistryRequestDto;
-import com.everyparking.service.user.UserService;
+import com.everyparking.data.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
