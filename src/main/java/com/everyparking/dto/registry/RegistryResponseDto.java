@@ -17,5 +17,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RegistryResponseDto {
-    
+    private String username;
+    private String token;
 }
