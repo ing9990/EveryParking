@@ -1,4 +1,4 @@
-package com.everyparking.api.config;
+package com.everyparking.config;
 /**
  * @author Taewoo
  */
