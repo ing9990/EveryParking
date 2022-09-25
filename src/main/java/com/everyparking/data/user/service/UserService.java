@@ -29,5 +29,13 @@ public class UserService {
                         registryDto.getIntroduce(), registryDto.getCity()));
     }
 
+    public Object getUsers() {
+        return userRepository.findAll();
+    }
+
+    public Object getUserByNickname(String name) {
+        return userRepository.findUserByNicknameContaining(name);
+    }
+
 
 }

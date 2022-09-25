@@ -35,8 +35,8 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Swagger 3.0 Api Sample")
-                .description("This is Sample")
+                .title("EveryParking Api Server")
+                .description("주차장 대여 서비스 에브리파킹 Api 테스터")
                 .version("1.0")
                 .build();
     }
