@@ -1,5 +1,7 @@
 package com.everyparking.exception.global;
 
+import com.everyparking.exception.EmailNotFoundException;
+import com.everyparking.exception.PasswordNotMatchException;
 import com.everyparking.exception.dto.Error;
 import com.everyparking.exception.dto.ErrorResponse;
 import lombok.Data;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,17 @@ import java.util.List;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
+
+    @ExceptionHandler({EmailNotFoundException.class, PasswordNotMatchException.class})
+    public ResponseEntity<?> emailNotFoundException(Exception e) {
+
+        if (e instanceof EmailNotFoundException)
+            return ResponseEntity.badRequest()
+                    .body("Wrong email");
+
+        return ResponseEntity.badRequest()
+                .body("Wrong password");
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> methodArgsNotValidException(HttpServletRequest request, MethodArgumentNotValidException e) {

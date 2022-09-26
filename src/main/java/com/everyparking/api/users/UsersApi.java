@@ -1,10 +1,11 @@
-package com.everyparking.api.user;
+package com.everyparking.api.users;
 
 /**
  * @author Taewoo
  */
 
 
+import com.everyparking.dto.login.LoginRequestDto;
 import com.everyparking.dto.registry.RegistryRequestDto;
 import com.everyparking.data.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,24 +22,29 @@ import javax.validation.Valid;
 @RequestMapping("/api/users")
 @CrossOrigin("*")
 @RequiredArgsConstructor
-public class UserApi {
+public class UsersApi {
 
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<?> getUsers(@RequestParam(required = false) String name) {
-        log.info("User 요청");
-        if (name == null)
-            return ResponseEntity.ok().body(userService.getUsers());
-
-        return ResponseEntity.ok().body(userService.getUserByNickname(name));
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok()
+                .body(userService.getUsers());
     }
 
     @PostMapping("")
-    public ResponseEntity<?> registyUsers(@Valid @RequestBody RegistryRequestDto registryDto) {
+    public ResponseEntity<?> registyUser(@Valid @RequestBody RegistryRequestDto registryDto) {
         log.info("회원가입 요청: " + registryDto.getEmail());
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(userService.registryUser(registryDto));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        log.info("로그인 요청: " + loginRequestDto.getEmail());
+
+        return ResponseEntity.ok()
+                .body(userService.loginUser(loginRequestDto));
     }
 }

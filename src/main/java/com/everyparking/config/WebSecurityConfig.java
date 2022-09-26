@@ -4,8 +4,6 @@ package com.everyparking.config;
  */
 
 
-import com.everyparking.config.auth.CustomOAuth2UserService;
-import com.everyparking.config.handler.OAuth2AuthenticationSuccessHandler;
 import com.everyparking.data.user.service.UserSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -30,29 +27,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserSecurityService userSecurityService;
     private final PasswordEncoder passwordEncoder;
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuth2AuthenticationSuccessHandler successHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors();
+
         http.authorizeRequests().antMatchers("/**").permitAll();
         http.authorizeRequests().antMatchers("/swagger-resources/**").permitAll();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.formLogin().disable();
 
-        http.oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorization")
-                .and()
-                .redirectionEndpoint()
-                .baseUri("/*/oauth2/code/*")
-                .and()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService)
-                .and()
-                .successHandler(successHandler)
-        ;
 
     }
 

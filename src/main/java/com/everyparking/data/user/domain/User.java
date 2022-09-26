@@ -28,7 +28,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "TABLE_USER")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class User implements UserDetails, OAuth2User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,6 +58,10 @@ public class User implements UserDetails, OAuth2User {
     @Enumerated(EnumType.STRING)
     private City city;
 
+    @Column(name = "USER_ROLE")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public static enum City {
         서울특별시, 부산광역시, 대구광역시, 인천광역시, 광주광역시, 대전광역시, 울산광역시, 세종특별자치시, 경기도, 강원도, 충청북도, 충청남도, 전라북도, 전라남도, 경상북도, 경상남도, 제주특별자치도, 미정
     }
@@ -68,17 +72,6 @@ public class User implements UserDetails, OAuth2User {
 
     @JsonIgnore
     private LocalDateTime updated;
-
-
-    @Override
-    public String getName() {
-        return getNickname();
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return Map.of("id", id, "name", nickname, "email", email, "password", password, "tel", tel, "introduce", introduce, "point", point);
-    }
 
     @Override
     @Transient
@@ -121,6 +114,11 @@ public class User implements UserDetails, OAuth2User {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getRoleKey() {
+        return role.getKey();
+    }
+
 
     public static User makeUser(String email, String password, String nickname, String tel, String introduce, City city) {
         return User.builder().email(email).password(password).nickname(nickname).tel(tel).introduce(introduce).city(city).created(LocalDateTime.now()).updated(LocalDateTime.now()).build();

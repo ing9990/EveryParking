@@ -8,6 +8,7 @@ package com.everyparking.api;
 import com.everyparking.data.user.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,7 @@ public class CityApi {
         if (listSize == null) return ResponseEntity.ok().body(User.City.values());
         return ResponseEntity.ok().body(Arrays.stream(User.City.values()).limit(listSize));
     }
-
-
+    
 }
 
 
