@@ -17,7 +17,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
 
@@ -57,10 +56,6 @@ public class User implements UserDetails {
     @Column(name = "USER_CITY")
     @Enumerated(EnumType.STRING)
     private City city;
-
-    @Column(name = "USER_ROLE")
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
     public static enum City {
         서울특별시, 부산광역시, 대구광역시, 인천광역시, 광주광역시, 대전광역시, 울산광역시, 세종특별자치시, 경기도, 강원도, 충청북도, 충청남도, 전라북도, 전라남도, 경상북도, 경상남도, 제주특별자치도, 미정
@@ -113,10 +108,6 @@ public class User implements UserDetails {
     @JsonIgnore
     public boolean isEnabled() {
         return true;
-    }
-
-    public String getRoleKey() {
-        return role.getKey();
     }
 
 

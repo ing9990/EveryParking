@@ -1,0 +1,35 @@
+server:
+  port: 7777
+
+jwt:
+  secret: parking
+
+spring:
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jackson:
+    serialization:
+      WRAP_ROOT_VALUE: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/parking
+    username: root
+    password: 1111
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 858674605972-e7kubu9jn6ruf9vk5rfpfiaih7c22cgd.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
