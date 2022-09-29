@@ -16,7 +16,7 @@ import java.util.*;
 @RequestMapping("/api/parking")
 public class ParkingApi {
 
-    @GetMapping({"/", ""})
+    @GetMapping
     public ResponseEntity test() {
         return ResponseEntity.ok().body("TEST");
     }
