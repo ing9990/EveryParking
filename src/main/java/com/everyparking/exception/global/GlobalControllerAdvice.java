@@ -1,6 +1,7 @@
 package com.everyparking.exception.global;
 
 import com.everyparking.exception.EmailNotFoundException;
+import com.everyparking.exception.InvalidAuthenticationException;
 import com.everyparking.exception.PasswordNotMatchException;
 import com.everyparking.exception.dto.Error;
 import com.everyparking.exception.dto.ErrorResponse;
@@ -25,15 +26,10 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
-    @ExceptionHandler({EmailNotFoundException.class, PasswordNotMatchException.class})
-    public ResponseEntity<?> emailNotFoundException(Exception e) {
-
-        if (e instanceof EmailNotFoundException)
-            return ResponseEntity.badRequest()
-                    .body("Wrong email");
-
+    @ExceptionHandler(InvalidAuthenticationException.class)
+    public ResponseEntity<?> invalidAuth() {
         return ResponseEntity.badRequest()
-                .body("Wrong password");
+                .body("Invalid Auth");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

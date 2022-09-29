@@ -8,9 +8,9 @@ package com.everyparking.api.users;
 import com.everyparking.dto.login.LoginRequestDto;
 import com.everyparking.dto.registry.RegistryRequestDto;
 import com.everyparking.data.user.service.UserService;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +22,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/users")
 @CrossOrigin("*")
 @RequiredArgsConstructor
+@JsonRootName("user")
 public class UsersApi {
 
     private final UserService userService;
@@ -31,6 +32,13 @@ public class UsersApi {
         return ResponseEntity.ok()
                 .body(userService.getUsers());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok()
+                .body(userService.getUserById(id));
+    }
+
 
     @PostMapping("")
     public ResponseEntity<?> registyUser(@Valid @RequestBody RegistryRequestDto registryDto) {

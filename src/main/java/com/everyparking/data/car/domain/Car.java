@@ -31,6 +31,7 @@ public class Car {
     private String carModel;
 
     @Column(name = "CAR_SIZE")
+    @Enumerated(EnumType.STRING)
     private CarSize carSize;
 
     public static enum CarSize {

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 
+import com.everyparking.data.car.domain.Car;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -114,4 +115,6 @@ public class User implements UserDetails {
     public static User makeUser(String email, String password, String nickname, String tel, String introduce, City city) {
         return User.builder().email(email).password(password).nickname(nickname).tel(tel).introduce(introduce).city(city).created(LocalDateTime.now()).updated(LocalDateTime.now()).build();
     }
+
+
 }

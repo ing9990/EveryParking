@@ -6,6 +6,7 @@ package com.everyparking.api;
 
 
 import com.everyparking.data.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class CityApi {
         if (listSize == null) return ResponseEntity.ok().body(User.City.values());
         return ResponseEntity.ok().body(Arrays.stream(User.City.values()).limit(listSize));
     }
-    
+
 }
 
 

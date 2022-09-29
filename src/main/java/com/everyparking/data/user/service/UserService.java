@@ -61,4 +61,12 @@ public class UserService {
 
         throw new EmailNotFoundException();
     }
+
+    public Object getUserById(Long id) {
+        if (userRepository.findById(id).isPresent()) {
+            var user = userRepository.findById(id).get();
+            return user;
+        }
+        return null;
+    }
 }
