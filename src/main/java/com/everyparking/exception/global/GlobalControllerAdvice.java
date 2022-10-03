@@ -27,9 +27,11 @@ import java.util.List;
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(InvalidAuthenticationException.class)
-    public ResponseEntity<?> invalidAuth() {
+    public ResponseEntity<?> invalidAuth(HttpServletRequest request, InvalidAuthenticationException e) {
         return ResponseEntity.badRequest()
-                .body("Invalid Auth");
+                .body(Error.builder()
+                        .path(request.getRequestURI())
+                        .message(e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -41,9 +43,22 @@ public class GlobalControllerAdvice {
             var fieldName = field.getField();
             var message = field.getDefaultMessage();
 
-            errorList.add(Error.builder().field(fieldName).message(message).build());
+            errorList.add(Error.builder().field(fieldName).message(message)
+                    .path(request.getRequestURI())
+                    .build());
         });
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().errorList(errorList).message("").requestUrl(request.getRequestURI()).statusCode(HttpStatus.BAD_REQUEST.value()).resultCode("FAIL").build());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> exception(HttpServletRequest request, Exception e) {
+        var message = e.getMessage();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Error.builder()
+                        .message(message)
+                        .path(request.getRequestURI())
+                        .build());
     }
 }
