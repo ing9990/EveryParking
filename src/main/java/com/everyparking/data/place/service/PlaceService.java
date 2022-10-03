@@ -8,7 +8,7 @@ package com.everyparking.data.place.service;
 import com.everyparking.data.place.domain.Place;
 import com.everyparking.data.place.repository.PlaceRepository;
 import com.everyparking.data.user.service.valid.JwtTokenUtils;
-import com.everyparking.dto.place.PlaceRequestDto;
+import com.everyparking.api.dto.place.PlaceRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -5,8 +5,8 @@ package com.everyparking.api.users;
  */
 
 
-import com.everyparking.dto.login.LoginRequestDto;
-import com.everyparking.dto.registry.RegistryRequestDto;
+import com.everyparking.api.dto.login.LoginRequestDto;
+import com.everyparking.api.dto.registry.RegistryRequestDto;
 import com.everyparking.data.user.service.UserService;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.RequiredArgsConstructor;

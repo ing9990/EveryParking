@@ -1,13 +1,12 @@
-package com.everyparking.dto.car;
+package com.everyparking.api.dto.car;
 
 /**
  * @author Taewoo
  */
 
 
-import java.util.*;
-
 import com.everyparking.data.car.domain.Car;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

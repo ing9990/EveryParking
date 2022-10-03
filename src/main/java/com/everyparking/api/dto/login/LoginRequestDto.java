@@ -1,4 +1,4 @@
-package com.everyparking.dto.login;
+package com.everyparking.api.dto.login;
 
 /**
  * @author Taewoo

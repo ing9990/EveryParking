@@ -5,11 +5,7 @@ package com.everyparking.data.place.domain;
  */
 
 
-import java.awt.*;
-import java.util.*;
-
 import com.everyparking.data.user.domain.User;
-import com.everyparking.dto.place.PlaceRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

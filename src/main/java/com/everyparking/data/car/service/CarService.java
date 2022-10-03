@@ -5,10 +5,11 @@ package com.everyparking.data.car.service;
  */
 
 
+import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.data.car.repository.CarRepository;
 import com.everyparking.data.user.service.valid.JwtTokenUtils;
-import com.everyparking.dto.car.AddCarDto;
-import lombok.RequiredArgsConstructor;
+import com.everyparking.api.dto.car.AddCarDto;
+import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,12 @@ public class CarService {
         var car = addCarDto.dtoToEntity(addCarDto);
 
         car.setUser(user);
+        carRepository.save(car);
 
-        return carRepository.save(car);
+        return DefaultResponseDtoEntity
+                .builder()
+                .message("자동차 등록 성공")
+                .data(car)
+                .build();
     }
 }
