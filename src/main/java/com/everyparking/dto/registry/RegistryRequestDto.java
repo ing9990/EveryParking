@@ -6,8 +6,8 @@ package com.everyparking.dto.registry;
 
 
 import com.everyparking.data.user.domain.User;
-import com.everyparking.data.user.service.user.DuplicatedEmailConstraint;
-import com.everyparking.data.user.service.user.DuplicatedNicknameConstraint;
+import com.everyparking.data.user.service.valid.DuplicatedEmailConstraint;
+import com.everyparking.data.user.service.valid.DuplicatedNicknameConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

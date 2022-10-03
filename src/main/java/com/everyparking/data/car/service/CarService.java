@@ -5,15 +5,12 @@ package com.everyparking.data.car.service;
  */
 
 
-import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.car.repository.CarRepository;
-import com.everyparking.data.user.service.user.JwtTokenUtils;
+import com.everyparking.data.user.service.valid.JwtTokenUtils;
 import com.everyparking.dto.car.AddCarDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
 
 @Service
 @Transactional

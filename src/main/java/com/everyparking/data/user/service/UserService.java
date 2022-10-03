@@ -7,7 +7,7 @@ package com.everyparking.data.user.service;
 
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.repository.UserRepository;
-import com.everyparking.data.user.service.user.JwtTokenUtils;
+import com.everyparking.data.user.service.valid.JwtTokenUtils;
 import com.everyparking.dto.login.LoginRequestDto;
 import com.everyparking.dto.login.LoginResponseDto;
 import com.everyparking.dto.registry.RegistryRequestDto;
@@ -15,13 +15,9 @@ import com.everyparking.exception.EmailNotFoundException;
 import com.everyparking.exception.PasswordNotMatchException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
 
 @Service
 @Slf4j

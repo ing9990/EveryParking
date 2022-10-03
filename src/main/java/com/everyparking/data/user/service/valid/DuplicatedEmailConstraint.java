@@ -1,19 +1,18 @@
-package com.everyparking.data.user.service.user;
-
-/**
- * @author Taewoo
- */
-
+package com.everyparking.data.user.service.valid;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-@Constraint(validatedBy = DuplicatedNicknameValidator.class)
+/**
+ * @author Taewoo
+ */
+
+@Constraint(validatedBy = DuplicatedEmailValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DuplicatedNicknameConstraint {
-    String message() default "닉네임이 중복되었습니다.";
+public @interface DuplicatedEmailConstraint {
+    String message() default "이메일이 중복되었습니다.";
 
     Class<?>[] groups() default {};
 

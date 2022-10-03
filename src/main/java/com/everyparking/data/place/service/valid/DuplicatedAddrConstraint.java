@@ -1,4 +1,4 @@
-package com.everyparking.data.user.service.user;
+package com.everyparking.data.place.service.valid;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,10 +9,10 @@ import java.lang.annotation.RetentionPolicy;
  * @author Taewoo
  */
 
-@Constraint(validatedBy = DuplicatedEmailValidator.class)
+@Constraint(validatedBy = DuplicatedAddrValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DuplicatedEmailConstraint {
-    String message() default "이메일이 중복되었습니다.";
+public @interface DuplicatedAddrConstraint {
+    String message() default "주소가 중복되었습니다.";
 
     Class<?>[] groups() default {};
 

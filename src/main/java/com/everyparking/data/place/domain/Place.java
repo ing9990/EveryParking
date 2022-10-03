@@ -9,6 +9,8 @@ import java.awt.*;
 import java.util.*;
 
 import com.everyparking.data.user.domain.User;
+import com.everyparking.dto.place.PlaceRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +32,7 @@ public class Place {
 
     @ManyToOne
     @JoinColumn(name = "PLACE_OWNER")
+    @JsonIgnore
     private User user;
 
     @Column(name = "PLACE_NAME")
@@ -43,6 +46,18 @@ public class Place {
     private double mapX;
     private double mapY;
 
+    @Transient
+    public static Place dtoToEntity(User user, String name, String addr, String message, double mapX, double mapY) {
+        return Place
+                .builder()
+                .user(user)
+                .name(name)
+                .addr(addr)
+                .mapX(mapX)
+                .mapY(mapY)
+                .message(message)
+                .build();
+    }
 
 }
 
