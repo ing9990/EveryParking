@@ -40,7 +40,6 @@ public class JwtTokenUtils {
     }
 
     public User getUserByToken(String token) {
-
         return userRepository.findUserByEmail(JWT.decode(token).getClaim("email").asString())
                 .orElseThrow(() -> new InvalidAuthenticationException());
     }

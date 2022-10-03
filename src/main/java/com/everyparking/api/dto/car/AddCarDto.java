@@ -6,6 +6,7 @@ package com.everyparking.api.dto.car;
 
 
 import com.everyparking.data.car.domain.Car;
+import com.everyparking.data.car.service.valid.DuplicatedCarNumberConstraint;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ import javax.validation.constraints.NotBlank;
 public class AddCarDto {
 
     @NotBlank
+    @DuplicatedCarNumberConstraint
     private String carNumber;
     
     @NotBlank

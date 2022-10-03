@@ -31,7 +31,7 @@ public class UserService {
     private final JwtTokenUtils jwtTokenUtils;
 
     public DefaultResponseDtoEntity registryUser(RegistryRequestDto registryDto) {
-        return DefaultResponseDtoEntity.ok("성공", userRepository.save(User.makeUser(registryDto.getEmail(), passwordEncoder.encode(registryDto.getPassword()), registryDto.getNickname(), registryDto.getTel(), registryDto.getIntroduce(), registryDto.getCity())));
+        return DefaultResponseDtoEntity.ok("회원가입 성공", userRepository.save(User.makeUser(registryDto.getEmail(), passwordEncoder.encode(registryDto.getPassword()), registryDto.getNickname(), registryDto.getTel(), registryDto.getIntroduce(), registryDto.getCity())));
     }
 
     public DefaultResponseDtoEntity getUsers() {
@@ -46,7 +46,7 @@ public class UserService {
                 var user = optionalUser.get();
                 var token = jwtTokenUtils.buildToken(user.getEmail(), user.getNickname(), user.getTel(), user.getIntroduce(), user.getPoint(), user.getCity());
 
-                return DefaultResponseDtoEntity.ok("회원가입 성공", token);
+                return DefaultResponseDtoEntity.ok("로그인 성공", token);
             }
             throw new PasswordNotMatchException();
         }

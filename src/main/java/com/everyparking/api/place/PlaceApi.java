@@ -33,10 +33,10 @@ public class PlaceApi {
 
     @PostMapping
     public ResponseEntity<?> addPlace(
-            @RequestHeader String token,
+            @RequestHeader String authorization,
             @Valid @RequestBody PlaceRequestDto placeRequestDto
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(placeService.addPlace(token, placeRequestDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(placeService.addPlace(authorization, placeRequestDto));
     }
 
 
