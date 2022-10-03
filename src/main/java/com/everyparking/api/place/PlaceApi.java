@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @RestController
@@ -34,7 +35,7 @@ public class PlaceApi {
     @PostMapping
     public ResponseEntity<?> addPlace(
             @RequestHeader String token,
-            @RequestBody PlaceRequestDto placeRequestDto
+            @Valid @RequestBody PlaceRequestDto placeRequestDto
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(placeService.addPlace(token, placeRequestDto));
     }
