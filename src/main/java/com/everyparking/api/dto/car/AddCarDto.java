@@ -28,7 +28,6 @@ public class AddCarDto {
     @NotBlank(message = "자동차 모델이 빈칸입니다.")
     private String carModel;
 
-    @NotBlank(message = "사이즈를 선택해주세요.")
     private Car.CarSize size;
 
     public Car dtoToEntity(AddCarDto addCarDto) {
