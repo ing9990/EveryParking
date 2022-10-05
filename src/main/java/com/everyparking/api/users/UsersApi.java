@@ -22,7 +22,6 @@ import javax.validation.Valid;
 @RequestMapping("/api/users")
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@JsonRootName("user")
 public class UsersApi {
 
     private final UserService userService;

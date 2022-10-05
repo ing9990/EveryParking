@@ -26,16 +26,12 @@ public class PlaceApi {
 
     @GetMapping
     public ResponseEntity<?> getAllPlace() {
-        return ResponseEntity.ok()
-                .body(placeService.getAllPlace());
+        return ResponseEntity.ok().body(placeService.getAllPlace());
     }
 
 
     @PostMapping
-    public ResponseEntity<?> addPlace(
-            @RequestHeader String authorization,
-            @Valid @RequestBody PlaceRequestDto placeRequestDto
-    ) {
+    public ResponseEntity<?> addPlace(@RequestHeader(name = "Authorization") String authorization, @Valid @RequestBody PlaceRequestDto placeRequestDto) {
         log.info(placeRequestDto.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(placeService.addPlace(authorization, placeRequestDto));
     }

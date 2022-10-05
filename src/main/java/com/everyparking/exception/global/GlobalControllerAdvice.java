@@ -61,13 +61,4 @@ public class GlobalControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Error.builder().message(exception.getMessage()).path(request.getRequestURI()).build());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> exception(HttpServletRequest request, Exception e) {
-
-        log.info(e.getMessage());
-
-        var message = e.getMessage();
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Error.builder().message(message).path(request.getRequestURI()).build());
-    }
 }
