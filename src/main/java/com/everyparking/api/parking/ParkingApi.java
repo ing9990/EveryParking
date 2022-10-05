@@ -23,7 +23,7 @@ public class ParkingApi {
     private final RentService rentService;
 
     @GetMapping
-    public ResponseEntity<?> getMyPlace(@RequestHeader String authorization) {
+    public ResponseEntity<?> getMyPlace(@RequestHeader(value = "authorization") String authorization) {
         log.info("장소 조회: " + authorization);
 
         return ResponseEntity.ok()

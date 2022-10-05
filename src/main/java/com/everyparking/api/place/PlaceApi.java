@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/place")
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class PlaceApi {
 
     private final PlaceService placeService;
@@ -31,7 +31,9 @@ public class PlaceApi {
 
 
     @PostMapping
-    public ResponseEntity<?> addPlace(@RequestHeader(name = "Authorization") String authorization, @Valid @RequestBody PlaceRequestDto placeRequestDto) {
+    public ResponseEntity<?> addPlace(
+            @RequestHeader(value = "Authorization") String authorization,
+            @Valid @RequestBody PlaceRequestDto placeRequestDto) {
         log.info(placeRequestDto.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(placeService.addPlace(authorization, placeRequestDto));
     }
