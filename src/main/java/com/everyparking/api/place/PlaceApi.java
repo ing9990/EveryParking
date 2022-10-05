@@ -36,6 +36,7 @@ public class PlaceApi {
             @RequestHeader String authorization,
             @Valid @RequestBody PlaceRequestDto placeRequestDto
     ) {
+        log.info(placeRequestDto.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(placeService.addPlace(authorization, placeRequestDto));
     }
 
