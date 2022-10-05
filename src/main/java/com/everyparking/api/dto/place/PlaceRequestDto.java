@@ -13,8 +13,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -27,10 +29,10 @@ public class PlaceRequestDto {
     private String placeName;
 
     @NotBlank(message = "X 좌표가 빈칸입니다.")
-    private double mapX;
+    private String mapX;
 
     @NotBlank(message = "Y 좌표가 빈칸입니다.")
-    private double mapY;
+    private String mapY;
 
     @DuplicatedAddrConstraint(message = "중복된 도로명 주소입니다.")
     @NotBlank(message = "도로명 주소가 빈칸입니다.")

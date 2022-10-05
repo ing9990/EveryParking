@@ -39,11 +39,11 @@ public class Place {
 
     private String message;
 
-    private double mapX;
-    private double mapY;
+    private String mapX;
+    private String mapY;
 
     @Transient
-    public static Place dtoToEntity(User user, String name, String addr, String message, double mapX, double mapY) {
+    public static Place dtoToEntity(User user, String name, String addr, String message, String mapX, String mapY) {
         return Place
                 .builder()
                 .user(user)
