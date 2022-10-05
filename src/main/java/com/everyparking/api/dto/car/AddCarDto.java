@@ -21,14 +21,14 @@ import javax.validation.constraints.NotBlank;
 @Builder
 public class AddCarDto {
 
-    @NotBlank
-    @DuplicatedCarNumberConstraint
+    @NotBlank(message = "자동차 번호가 빈칸입니다.")
+    @DuplicatedCarNumberConstraint(message = "중복된 자동차 번호입니다.")
     private String carNumber;
-    
-    @NotBlank
+
+    @NotBlank(message = "자동차 모델이 빈칸입니다.")
     private String carModel;
 
-    @NotBlank
+    @NotBlank(message = "사이즈를 선택해주세요.")
     private Car.CarSize size;
 
     public Car dtoToEntity(AddCarDto addCarDto) {
