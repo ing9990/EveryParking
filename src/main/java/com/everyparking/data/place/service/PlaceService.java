@@ -34,7 +34,8 @@ public class PlaceService {
                         dto.getMapAddr(),
                         dto.getMessage(),
                         dto.getMapX(),
-                        dto.getMapY()));
+                        dto.getMapY(),
+                        dto.getImgUrl()));
 
 
 

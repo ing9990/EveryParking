@@ -24,6 +24,7 @@ public class Place {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @ManyToOne
@@ -42,16 +43,16 @@ public class Place {
     private String mapX;
     private String mapY;
 
+    private boolean isBorrow = false;
+
+    @Column(name="PLACE_IMG", length = 10000)
+    private String imgUrl;
+
     @Transient
-    public static Place dtoToEntity(User user, String name, String addr, String message, String mapX, String mapY) {
-        return Place
-                .builder()
-                .user(user)
-                .name(name)
-                .addr(addr)
-                .mapX(mapX)
-                .mapY(mapY)
-                .message(message)
+    public static Place dtoToEntity(User user, String name, String addr, String message, String mapX, String mapY, String imgUrl) {
+        return Place.builder()
+                .user(user).name(name).addr(addr).mapX(mapX).mapY(mapY).message(message)
+                .imgUrl(imgUrl)
                 .build();
     }
 

@@ -24,7 +24,7 @@ public class ParkingApi {
 
     @GetMapping
     public ResponseEntity<?> getMyPlace(@RequestHeader(value = "authorization") String authorization) {
-        log.info("장소 조회: " + authorization);
+        log.info("User 접속");
 
         return ResponseEntity.ok()
                 .body(rentService.getMyPlace(authorization));
