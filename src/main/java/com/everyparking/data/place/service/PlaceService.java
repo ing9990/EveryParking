@@ -10,13 +10,10 @@ import com.everyparking.api.dto.PlaceRequestDto;
 import com.everyparking.data.place.domain.Place;
 import com.everyparking.data.place.repository.PlaceRepository;
 import com.everyparking.data.user.service.valid.JwtTokenUtils;
-import com.everyparking.api.dto.place.PlaceRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +34,6 @@ public class PlaceService {
                         dto.getMapX(),
                         dto.getMapY(),
                         dto.getImgUrl()));
-
-
-
-
 
         return DefaultResponseDtoEntity
                 .of(HttpStatus.CREATED, "주차공간 등록 성공", data);

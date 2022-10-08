@@ -4,18 +4,17 @@ package com.everyparking.api.dto;
  * @author Taewoo
  */
 
-
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Data
 @Builder
 public class DefaultResponseDtoEntity {
 
-    private DefaultResponseDtoEntity() {}
+    private DefaultResponseDtoEntity() {
+
+    }
 
     private String message;
 
