@@ -13,11 +13,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
@@ -41,5 +43,6 @@ public class PlaceRequestDto {
 
     private String message;
 
+    @Length(max = 9999, message = "이미지 주소가 10000자리 이상입니다.")
     private String imgUrl;
 }
