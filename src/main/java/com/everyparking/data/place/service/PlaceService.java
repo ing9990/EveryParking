@@ -6,6 +6,7 @@ package com.everyparking.data.place.service;
 
 
 import com.everyparking.api.dto.DefaultResponseDtoEntity;
+import com.everyparking.api.dto.PlaceRequestDto;
 import com.everyparking.data.place.domain.Place;
 import com.everyparking.data.place.repository.PlaceRepository;
 import com.everyparking.data.user.service.valid.JwtTokenUtils;

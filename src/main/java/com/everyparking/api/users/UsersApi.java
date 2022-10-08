@@ -5,10 +5,9 @@ package com.everyparking.api.users;
  */
 
 
-import com.everyparking.api.dto.login.LoginRequestDto;
-import com.everyparking.api.dto.registry.RegistryRequestDto;
+import com.everyparking.api.dto.LoginRequestDto;
+import com.everyparking.api.dto.RegistryRequestDto;
 import com.everyparking.data.user.service.UserService;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

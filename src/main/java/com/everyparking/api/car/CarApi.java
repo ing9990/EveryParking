@@ -5,10 +5,9 @@ package com.everyparking.api.car;
  */
 
 
+import com.everyparking.api.dto.AddCarDto;
 import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.car.service.CarService;
-import com.everyparking.api.dto.car.AddCarDto;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -34,9 +33,7 @@ public class CarApi {
     }
 
     @PostMapping
-    public ResponseEntity<?> addCar(@RequestHeader(name = "authorization", required = false) String authorization, @Valid @RequestBody AddCarDto addCarDto) {
-        log.info("authorization: " + authorization);
-
+    public ResponseEntity<?> addCar(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization, @Valid @RequestBody AddCarDto addCarDto) {
         log.info("자동차 등록: " + addCarDto.getCarNumber());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(carService.addCar(authorization, addCarDto));

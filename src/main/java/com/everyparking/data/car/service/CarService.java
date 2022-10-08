@@ -5,6 +5,7 @@ package com.everyparking.data.car.service;
  */
 
 
+import com.everyparking.api.dto.AddCarDto;
 import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.data.car.repository.CarRepository;
 import com.everyparking.data.user.service.valid.JwtTokenUtils;

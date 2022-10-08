@@ -9,6 +9,7 @@ import com.everyparking.api.dto.AddRentDto;
 import com.everyparking.data.rent.service.RentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class RentApi {
 
     @PostMapping("")
     public ResponseEntity<?> addRent(
-            @RequestHeader String authorization,
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
             @Valid @RequestBody AddRentDto addRentDto
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)

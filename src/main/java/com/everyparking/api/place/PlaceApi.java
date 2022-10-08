@@ -7,9 +7,9 @@ package com.everyparking.api.place;
 
 import com.everyparking.api.dto.PlaceRequestDto;
 import com.everyparking.data.place.service.PlaceService;
-import com.everyparking.api.dto.place.PlaceRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +33,7 @@ public class PlaceApi {
 
     @PostMapping
     public ResponseEntity<?> addPlace(
-            @RequestHeader(value = "Authorization") String authorization,
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
             @Valid @RequestBody PlaceRequestDto placeRequestDto) {
         log.info(placeRequestDto.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(placeService.addPlace(authorization, placeRequestDto));
