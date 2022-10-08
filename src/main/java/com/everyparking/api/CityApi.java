@@ -6,10 +6,7 @@ package com.everyparking.api;
 
 
 import com.everyparking.data.user.domain.User;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

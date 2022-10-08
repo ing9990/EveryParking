@@ -2,7 +2,6 @@ package com.everyparking.data.place.service.valid;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 

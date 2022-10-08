@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.*;
 
 @RequiredArgsConstructor
 public class DuplicatedPlaceNameValidator implements ConstraintValidator<DuplicatedPlaceNameConstraint, String> {

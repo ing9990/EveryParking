@@ -6,7 +6,6 @@ package com.everyparking.data.car.service.valid;
 
 
 import com.everyparking.data.car.repository.CarRepository;
-import com.everyparking.data.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.ConstraintValidator;
