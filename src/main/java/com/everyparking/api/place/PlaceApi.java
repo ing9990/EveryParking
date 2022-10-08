@@ -5,6 +5,7 @@ package com.everyparking.api.place;
  */
 
 
+import com.everyparking.api.dto.PlaceRequestDto;
 import com.everyparking.data.place.service.PlaceService;
 import com.everyparking.api.dto.place.PlaceRequestDto;
 import lombok.RequiredArgsConstructor;

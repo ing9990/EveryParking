@@ -1,4 +1,4 @@
-package com.everyparking.api.dto.car;
+package com.everyparking.api.dto;
 
 /**
  * @author Taewoo
@@ -7,7 +7,6 @@ package com.everyparking.api.dto.car;
 
 import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.car.service.valid.DuplicatedCarNumberConstraint;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

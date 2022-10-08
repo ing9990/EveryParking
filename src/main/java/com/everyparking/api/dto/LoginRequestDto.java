@@ -1,11 +1,9 @@
-package com.everyparking.api.dto.login;
+package com.everyparking.api.dto;
 
 /**
  * @author Taewoo
  */
 
-
-import java.util.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data

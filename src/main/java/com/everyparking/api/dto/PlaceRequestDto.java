@@ -1,11 +1,9 @@
-package com.everyparking.api.dto.place;
+package com.everyparking.api.dto;
 
 /**
  * @author Taewoo
  */
 
-
-import java.util.*;
 
 import com.everyparking.data.place.service.valid.DuplicatedAddrConstraint;
 import com.everyparking.data.place.service.valid.DuplicatedPlaceNameConstraint;
@@ -14,12 +12,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
