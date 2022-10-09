@@ -14,6 +14,5 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class AddRentDto {
-
-
+    private String test;
 }
