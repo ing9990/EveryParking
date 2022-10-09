@@ -10,6 +10,7 @@ import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.car.service.CarService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,13 @@ public class CarApi {
     public ResponseEntity<?> getCarSize() {
         log.info("차 사이즈 조회");
         return ResponseEntity.ok().body(Car.CarSize.values());
+    }
+
+    @GetMapping("/dat")
+    public ResponseEntity<?> getCars() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(carService.getAll());
     }
 
     @PostMapping

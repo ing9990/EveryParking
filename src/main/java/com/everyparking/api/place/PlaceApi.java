@@ -35,7 +35,6 @@ public class PlaceApi {
     public ResponseEntity<?> addPlace(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
             @Valid @RequestBody PlaceRequestDto placeRequestDto) {
-        log.info(placeRequestDto.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(placeService.addPlace(authorization, placeRequestDto));
     }
 

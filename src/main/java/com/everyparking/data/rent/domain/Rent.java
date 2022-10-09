@@ -49,4 +49,14 @@ public class Rent {
     @Column(name = "RENT_END_TIME")
     private LocalDateTime end;
 
+    public static Rent dtoToEntity(Place place, long cost, String message, boolean isBorrowed, LocalDateTime start, LocalDateTime end) {
+        return Rent.builder()
+                .place(place)
+                .cost(cost)
+                .message(message)
+                .isBorrowed(isBorrowed)
+                .start(start)
+                .end(end)
+                .build();
+    }
 }

@@ -3,9 +3,9 @@ package com.everyparking.exception.global;
 import com.everyparking.exception.EmailNotFoundException;
 import com.everyparking.exception.InvalidAuthenticationException;
 import com.everyparking.exception.PasswordNotMatchException;
+import com.everyparking.exception.RentTimeInvalidException;
 import com.everyparking.exception.dto.Error;
 import com.everyparking.exception.dto.ErrorResponse;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,23 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(InvalidAuthenticationException.class)
     public ResponseEntity<?> invalidAuth(HttpServletRequest request, InvalidAuthenticationException e) {
-        return ResponseEntity.badRequest().body(Error.builder().path(request.getRequestURI()).message(e.getMessage()));
+        return ResponseEntity
+                .badRequest()
+                .body(Error.builder()
+                        .path(request.getRequestURI())
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(RentTimeInvalidException.class)
+    public ResponseEntity<?> invalidTime(HttpServletRequest request, RentTimeInvalidException e) {
+        return ResponseEntity
+                .badRequest()
+                .body(Error
+                        .builder()
+                        .path(request.getRequestURI())
+                        .message(e.getMessage())
+                        .build());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -29,10 +29,11 @@ public class CarService {
         car.setUser(user);
         carRepository.save(car);
 
+        return DefaultResponseDtoEntity.ok("자동차 등록 성공", car);
+    }
+
+    public DefaultResponseDtoEntity getAll() {
         return DefaultResponseDtoEntity
-                .builder()
-                .message("자동차 등록 성공")
-                .data(car)
-                .build();
+                .ok("자동차 조회 성공", carRepository.findAll());
     }
 }
