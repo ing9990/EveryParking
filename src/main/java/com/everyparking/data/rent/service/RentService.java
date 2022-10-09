@@ -9,6 +9,7 @@ import com.everyparking.api.dto.AddRentDto;
 import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.data.place.domain.Place;
 import com.everyparking.data.place.repository.PlaceRepository;
+import com.everyparking.data.place.service.PlaceService;
 import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.rent.repository.RentRepository;
 import com.everyparking.data.user.service.valid.JwtTokenUtils;
@@ -30,17 +31,15 @@ import java.util.*;
 @Slf4j
 public class RentService {
 
-    private final PlaceRepository placeRepository;
     private final RentRepository rentRepository;
-    private final JwtTokenUtils jwtTokenUtils;
 
+    private final PlaceService placeService;
+    private final JwtTokenUtils jwtTokenUtils;
+    
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getMyPlace(String authorization) {
-
         var user = jwtTokenUtils.getUserByToken(authorization);
-
-        List<Place> places = placeRepository.findPlacesByUser(user);
-
+        List<Place> places = placeService.findPlacesByUser(user);
         return DefaultResponseDtoEntity.ok("성공", places);
     }
 
@@ -49,7 +48,7 @@ public class RentService {
 
         log.info(addRentDto.getEndTime().toString());
 
-        var place = placeRepository.findById(addRentDto.getPlaceId())
+        var place = placeService.findById(addRentDto.getPlaceId())
                 .orElseThrow(PlaceNotFoundException::new);
 
         var user = jwtTokenUtils.getUserByToken(authorization);
@@ -68,8 +67,7 @@ public class RentService {
                 addRentDto.getEndTime().minusHours(3).plusSeconds(49)
         );
 
-        place.setBorrow(true);
-        placeRepository.save(place);
+        placeService.updateBorrow(place);
 
         return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "렌트 등록 성공", rentRepository.save(rent));
     }
