@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 public class PlaceRequestDto {
 
     @DuplicatedPlaceNameConstraint
-    @NotBlank(message = "장소이름이 빈칸입니다.")
+    @NotBlank(message = "장소 별칭이 빈칸입니다.")
     private String placeName;
 
     @NotBlank(message = "X 좌표가 빈칸입니다.")
@@ -39,7 +39,6 @@ public class PlaceRequestDto {
 
     private String message;
 
-    @NotNull(message = "주차공간 사이즈는 필수 값입니다.")
     private Car.CarSize size;
 
     @Length(max = 9999, message = "이미지 주소가 10000자리 이상입니다.")

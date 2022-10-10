@@ -6,6 +6,7 @@ package com.everyparking.data.car.domain;
 
 
 import com.everyparking.data.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Car {
     private String carNumber;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @Column(name = "CAR_CARMODEL")

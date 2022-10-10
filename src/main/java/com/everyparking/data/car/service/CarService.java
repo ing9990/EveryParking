@@ -41,4 +41,11 @@ public class CarService {
         return DefaultResponseDtoEntity
                 .ok("자동차 조회 성공", carRepository.findAll());
     }
+
+    public DefaultResponseDtoEntity getMyCar(String authorization) {
+        var user = jwtTokenUtils.getUserByToken(authorization);
+
+        return DefaultResponseDtoEntity
+                .ok("내 차 조회 성공", carRepository.findCarsByUser(user));
+    }
 }
