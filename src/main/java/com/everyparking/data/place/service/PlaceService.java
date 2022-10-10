@@ -10,7 +10,7 @@ import com.everyparking.api.dto.PlaceRequestDto;
 import com.everyparking.data.place.domain.Place;
 import com.everyparking.data.place.repository.PlaceRepository;
 import com.everyparking.data.user.domain.User;
-import com.everyparking.data.user.service.valid.JwtTokenUtils;
+import com.everyparking.data.user.service.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

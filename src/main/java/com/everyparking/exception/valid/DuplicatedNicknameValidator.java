@@ -1,4 +1,4 @@
-package com.everyparking.data.user.service.valid;
+package com.everyparking.exception.valid;
 
 /**
  * @author Taewoo
@@ -12,11 +12,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @RequiredArgsConstructor
-public class DuplicatedEmailValidator implements ConstraintValidator<DuplicatedEmailConstraint, String> {
+public class DuplicatedNicknameValidator implements ConstraintValidator<DuplicatedNicknameConstraint, String> {
+
     private final UserRepository userRepository;
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return (value == null || value.isEmpty() || !userRepository.existsUserByEmail(value));
+        return (value == null || value.isEmpty() || !userRepository.existsUserByNickname(value));
     }
 }

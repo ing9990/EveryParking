@@ -10,7 +10,6 @@ import com.everyparking.api.dto.LoginRequestDto;
 import com.everyparking.api.dto.RegistryRequestDto;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.repository.UserRepository;
-import com.everyparking.data.user.service.valid.JwtTokenUtils;
 import com.everyparking.exception.EmailNotFoundException;
 import com.everyparking.exception.PasswordNotMatchException;
 import lombok.RequiredArgsConstructor;

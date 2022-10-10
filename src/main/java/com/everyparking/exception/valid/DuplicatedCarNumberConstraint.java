@@ -1,4 +1,4 @@
-package com.everyparking.data.place.service.valid;
+package com.everyparking.exception.valid;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,10 +9,10 @@ import java.lang.annotation.RetentionPolicy;
  * @author Taewoo
  */
 
-@Constraint(validatedBy = DuplicatedPlaceNameValidator.class)
+@Constraint(validatedBy = DuplicatedCarNumberValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DuplicatedPlaceNameConstraint {
-    String message() default "주소 이름이 중복되었습니다.";
+public @interface DuplicatedCarNumberConstraint {
+    String message() default "이미 등록된 차량입니다.";
 
     Class<?>[] groups() default {};
 

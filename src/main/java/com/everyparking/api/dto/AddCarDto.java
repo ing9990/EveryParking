@@ -6,7 +6,7 @@ package com.everyparking.api.dto;
 
 
 import com.everyparking.data.car.domain.Car;
-import com.everyparking.data.car.service.valid.DuplicatedCarNumberConstraint;
+import com.everyparking.exception.valid.DuplicatedCarNumberConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

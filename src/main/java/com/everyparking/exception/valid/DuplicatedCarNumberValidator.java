@@ -1,4 +1,4 @@
-package com.everyparking.data.car.service.valid;
+package com.everyparking.exception.valid;
 
 /**
  * @author Taewoo

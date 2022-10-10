@@ -6,7 +6,6 @@ package com.everyparking.api.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Data

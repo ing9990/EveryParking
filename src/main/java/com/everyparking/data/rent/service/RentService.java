@@ -8,11 +8,10 @@ package com.everyparking.data.rent.service;
 import com.everyparking.api.dto.AddRentDto;
 import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.data.place.domain.Place;
-import com.everyparking.data.place.repository.PlaceRepository;
 import com.everyparking.data.place.service.PlaceService;
 import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.rent.repository.RentRepository;
-import com.everyparking.data.user.service.valid.JwtTokenUtils;
+import com.everyparking.data.user.service.JwtTokenUtils;
 import com.everyparking.exception.PlaceNotFoundException;
 import com.everyparking.exception.RentTimeInvalidException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.*;
 

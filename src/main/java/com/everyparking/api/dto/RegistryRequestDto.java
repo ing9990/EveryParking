@@ -6,8 +6,8 @@ package com.everyparking.api.dto;
 
 
 import com.everyparking.data.user.domain.User;
-import com.everyparking.data.user.service.valid.DuplicatedEmailConstraint;
-import com.everyparking.data.user.service.valid.DuplicatedNicknameConstraint;
+import com.everyparking.exception.valid.DuplicatedEmailConstraint;
+import com.everyparking.exception.valid.DuplicatedNicknameConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,6 +41,7 @@ public class RegistryRequestDto {
     @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
     private String tel;
 
+    @Size(max = 255, message = "자기소개는 255자 미만으로 입력해주세요.")
     private String introduce;
 
     private User.City city;

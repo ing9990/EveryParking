@@ -1,4 +1,4 @@
-package com.everyparking.data.user.service.valid;
+package com.everyparking.data.user.service;
 
 /**
  * @author Taewoo

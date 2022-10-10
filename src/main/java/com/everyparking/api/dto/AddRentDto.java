@@ -6,15 +6,13 @@ package com.everyparking.api.dto;
 
 
 import java.time.LocalDateTime;
-import java.util.*;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Future;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
@@ -36,6 +34,7 @@ public class AddRentDto {
     @Length(max = 255, message = "주의사항은 255자리 미만으로 작성해주세요.")
     private String message;
 
-    private long cost;
+    @Range(min = 10000, max = 50000, message = "가격은 10,000원 이상 50,000원 이하입니다.")
+    private int cost;
 
 }
