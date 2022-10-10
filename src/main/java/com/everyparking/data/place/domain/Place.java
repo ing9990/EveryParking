@@ -5,6 +5,7 @@ package com.everyparking.data.place.domain;
  */
 
 
+import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -42,17 +43,19 @@ public class Place {
     private String mapX;
     private String mapY;
 
+    @Column(name = "PLACE_SIZE")
+    @Enumerated(EnumType.ORDINAL)
+    private Car.CarSize placeSize;
+
     private boolean isBorrow = false;
 
-    @Column(name="PLACE_IMG", length = 10000)
+    @Column(name = "PLACE_IMG", length = 10000)
     private String imgUrl;
 
     @Transient
-    public static Place dtoToEntity(User user, String name, String addr, String message, String mapX, String mapY, String imgUrl) {
-        return Place.builder()
-                .user(user).name(name).addr(addr).mapX(mapX).mapY(mapY).message(message)
-                .imgUrl(imgUrl)
-                .build();
+    public static Place dtoToEntity(User user, String name, String addr, String message, String mapX, String mapY, Car.CarSize size, String imgUrl) {
+        return Place.builder().user(user).name(name).addr(addr).mapX(mapX).mapY(mapY).message(message).placeSize(size)
+                .imgUrl(imgUrl).build();
     }
 
 }

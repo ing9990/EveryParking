@@ -5,6 +5,7 @@ package com.everyparking.api.dto;
  */
 
 
+import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.place.service.valid.DuplicatedAddrConstraint;
 import com.everyparking.data.place.service.valid.DuplicatedPlaceNameConstraint;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -36,6 +38,9 @@ public class PlaceRequestDto {
     private String mapAddr;
 
     private String message;
+
+    @NotNull(message = "주차공간 사이즈는 필수 값입니다.")
+    private Car.CarSize size;
 
     @Length(max = 9999, message = "이미지 주소가 10000자리 이상입니다.")
     private String imgUrl;

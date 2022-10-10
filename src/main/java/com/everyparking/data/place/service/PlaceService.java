@@ -37,6 +37,7 @@ public class PlaceService {
                         dto.getMessage(),
                         dto.getMapX(),
                         dto.getMapY(),
+                        dto.getSize(),
                         dto.getImgUrl()));
 
         return DefaultResponseDtoEntity
