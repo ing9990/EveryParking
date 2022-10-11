@@ -5,6 +5,7 @@ package com.everyparking.data.borrow.domain;
  */
 
 
+import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.user.domain.User;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -15,6 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -35,5 +37,13 @@ public class Borrow {
 
     @OneToOne(fetch = FetchType.EAGER)
     private Rent rent;
+
+    private LocalDateTime startAt;
+
+    private LocalDateTime endAt;
+
+    @OneToOne
+    @JoinColumn(name = "BORROWER_CAR_ID")
+    private Car car;
 
 }

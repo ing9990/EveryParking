@@ -33,7 +33,7 @@ public class RentService {
 
     private final PlaceService placeService;
     private final JwtTokenUtils jwtTokenUtils;
-    
+
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getMyPlace(String authorization) {
         var user = jwtTokenUtils.getUserByToken(authorization);
@@ -68,5 +68,10 @@ public class RentService {
         placeService.updateBorrow(place);
 
         return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "렌트 등록 성공", rentRepository.save(rent));
+    }
+
+
+    public List<Rent> getAvailableLots(LocalDateTime startTime) {
+        return rentRepository.getRentsByStartGreaterThanEqualOrderByStartAsc(startTime);
     }
 }

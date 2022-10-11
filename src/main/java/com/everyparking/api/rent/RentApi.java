@@ -37,6 +37,7 @@ public class RentApi {
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
             @Valid @RequestBody AddRentDto addRentDto
     ) {
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(rentService.addRent(authorization, addRentDto));
     }
