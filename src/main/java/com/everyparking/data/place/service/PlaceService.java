@@ -61,4 +61,7 @@ public class PlaceService {
     public Optional<Place> findById(Long placeId) {
         return placeRepository.findById(placeId);
     }
+    public List<Place> findAll(){
+        return placeRepository.findAll();
+    }
 }
