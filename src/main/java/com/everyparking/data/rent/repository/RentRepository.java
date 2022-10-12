@@ -3,6 +3,7 @@ package com.everyparking.data.rent.repository;
 
 import com.everyparking.data.rent.domain.Rent;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,10 @@ import java.util.List;
 
 public interface RentRepository extends JpaRepository<Rent, Long> {
     List<Rent> getRentsByStartGreaterThanEqualOrderByStartAsc(LocalDateTime start);
+
+
+    @Query("select r from Rent r where r.end >= ?1 and r.isBorrowed = false order by r.start")
+    List<Rent> getRecommandLists(LocalDateTime end);
 }
 
 
