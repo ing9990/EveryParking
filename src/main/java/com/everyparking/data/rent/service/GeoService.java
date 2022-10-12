@@ -1,6 +1,10 @@
 package com.everyparking.data.rent.service;
 
+import com.everyparking.data.rent.domain.Rent;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Taewoo
@@ -10,15 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GeoService {
 
-    /**
-     * @param lat1  p1의 위도
-     * @param lon1  p1의 경도
-     *
-     * @param lat2  p2의 위도
-     * @param lon2  p2의 경도
-     * @return distance
-     */
-    public double dec(double lat1, double lon1, double lat2, double lon2) {
+    private double dec(double lat1, double lon1, double lat2, double lon2) {
 
         double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) +
                 Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2))
@@ -39,4 +35,25 @@ public class GeoService {
         return (rad * 180 / Math.PI);
     }
 
+    /**
+     * @param availableLots 대여 가능한 Rent 리스트
+     * @param meX           나의 위도
+     * @param meY           나의 경도
+     * @return 나와 Rent의 place 사이의 거리를 리스트로 담아서 반환.
+     */
+
+    public List<Double> getDistance(List<Rent> availableLots, double meX, double meY) {
+        List<Double> adj = new ArrayList<>();
+
+        availableLots.forEach(item -> {
+            var place = item.getPlace();
+
+            double mapX = Double.parseDouble(place.getMapX());
+            double mapY = Double.parseDouble(place.getMapY());
+
+            adj.add(dec(meY, meX, mapY, mapX));
+        });
+
+        return adj;
+    }
 }

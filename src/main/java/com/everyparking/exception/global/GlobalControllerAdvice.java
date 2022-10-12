@@ -28,6 +28,7 @@ import java.util.List;
 @Slf4j
 public class GlobalControllerAdvice {
 
+
     @ExceptionHandler(InvalidAuthenticationException.class)
     public ResponseEntity<?> invalidAuth(HttpServletRequest request, InvalidAuthenticationException e) {
         return ResponseEntity

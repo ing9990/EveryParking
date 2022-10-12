@@ -1,5 +1,6 @@
 package com.everyparking.data.borrow.service;
 
+import com.auth0.jwt.JWT;
 import com.everyparking.api.dto.BorrowRequestDto;
 import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.data.borrow.repository.BorrowRepository;
@@ -57,23 +58,14 @@ public class BorrowService {
         if (borrowRequestDto.getStartTime().isAfter(borrowRequestDto.getEndTime()))
             throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
 
-        var availableLots = rentService.getAvailableLots(borrowRequestDto.getStartTime());
-        List<Double> adj = new ArrayList<>();
 
-        double meX = Double.parseDouble(borrowRequestDto.getMapX());
-        double meY = Double.parseDouble(borrowRequestDto.getMapY());
+        var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime());
 
-        availableLots.forEach(item -> {
-            var place = item.getPlace();
-
-            double mapX = Double.parseDouble(place.getMapX());
-            double mapY = Double.parseDouble(place.getMapY());
-
-            adj.add(geoService.dec(meY, meX, mapY, mapX));
-        });
-
-
-
+        List<Double> adj =
+                geoService.getDistance(
+                        availableLots,
+                        Double.parseDouble(borrowRequestDto.getMapX()),
+                        Double.parseDouble(borrowRequestDto.getMapY()));
 
         return null;
     }

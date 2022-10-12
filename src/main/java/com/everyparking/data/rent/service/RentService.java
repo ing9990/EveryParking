@@ -71,7 +71,13 @@ public class RentService {
     }
 
 
-    public List<Rent> getAvailableLots(LocalDateTime startTime) {
-        return rentRepository.getRentsByStartGreaterThanEqualOrderByStartAsc(startTime);
+    @Transactional(readOnly = true)
+    public List<Rent> getAvailableLots(LocalDateTime endTime) {
+        rentRepository.getRecommandLists(endTime)
+                .forEach(x -> {
+                    log.info(x.getPlace().getName() + " -- \n");
+                });
+
+        return rentRepository.getRecommandLists(endTime);
     }
 }
