@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -49,7 +50,7 @@ public class BorrowService {
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getRecommandAvailableParkingLots(String authorization, BorrowRequestDto borrowRequestDto) {
 
-        Map<Long, Integer> recommandMap = new TreeMap<>();
+        Map<Integer, Long> recommandMap = new TreeMap<>();
 
         var user = jwtTokenUtils.getUserByToken(authorization);
 
@@ -57,6 +58,7 @@ public class BorrowService {
             throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
 
         var availableLots = rentService.getAvailableLots(borrowRequestDto.getStartTime());
+        List<Double> adj = new ArrayList<>();
 
         double meX = Double.parseDouble(borrowRequestDto.getMapX());
         double meY = Double.parseDouble(borrowRequestDto.getMapY());
@@ -67,10 +69,10 @@ public class BorrowService {
             double mapX = Double.parseDouble(place.getMapX());
             double mapY = Double.parseDouble(place.getMapY());
 
-            var ans = geoService.dec(meY, meX, mapY, mapX);
-
-            log.info(item.getPlace().getName() + "와 학교 사이의 거리는 " + ans + "km 입니다. \n");
+            adj.add(geoService.dec(meY, meX, mapY, mapX));
         });
+
+
 
 
         return null;
