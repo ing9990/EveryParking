@@ -13,16 +13,15 @@ import com.everyparking.exception.RentTimeInvalidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.juli.logging.Log;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.geo.Distance;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author Taewoo
@@ -41,6 +40,12 @@ public class BorrowService {
     private final GeoService geoService;
     private final JwtTokenUtils jwtTokenUtils;
 
+    @Value("${recommand.default-score}")
+    private Integer DEFAULT_SCORE;
+
+    @Value("${recommand.default-meter-score}")
+    private Integer MINUS_SCORE;
+
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getAllBorrows() {
         var dat = borrowRepository.findAll();
@@ -51,7 +56,7 @@ public class BorrowService {
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getRecommandAvailableParkingLots(String authorization, BorrowRequestDto borrowRequestDto) {
 
-        Map<Integer, Long> recommandMap = new TreeMap<>();
+        Map<Long, Integer> recommandMap = new HashMap<>();
 
         var user = jwtTokenUtils.getUserByToken(authorization);
 
@@ -61,13 +66,32 @@ public class BorrowService {
 
         var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime());
 
-        List<Double> adj =
-                geoService.getDistance(
-                        availableLots,
-                        Double.parseDouble(borrowRequestDto.getMapX()),
-                        Double.parseDouble(borrowRequestDto.getMapY()));
+        List<Double> adj = geoService.getDistance(availableLots, Double.parseDouble(borrowRequestDto.getMapX()), Double.parseDouble(borrowRequestDto.getMapY()));
 
-        return null;
+        availableLots.forEach(x -> recommandMap.put(x.getId(), DEFAULT_SCORE));
+
+        for (int i = 0; i < adj.size(); i++) {
+            var item = availableLots.get(i);
+            var itemId = item.getId();
+
+            var dist = adj.get(i);
+
+            recommandMap.put(itemId, recommandMap.get(itemId) - (int) Math.floor(dist));
+
+            if (!item.getStart().isAfter(borrowRequestDto.getStartTime())) {
+                var itemStart = item.getStart();
+                var meStart = borrowRequestDto.getStartTime();
+                var rst = Duration.between(itemStart, meStart).toHours();
+
+                recommandMap.put(itemId, recommandMap.get(itemId) - (int) rst);
+            }
+        }
+        List<Rent> list = new ArrayList<>();
+
+        recommandMap.keySet()
+                .forEach(x -> list.add(rentService.getRentById(x)));
+
+        return DefaultResponseDtoEntity.of(HttpStatus.OK, "성공", list);
     }
 
 

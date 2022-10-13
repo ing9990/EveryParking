@@ -73,11 +73,10 @@ public class RentService {
 
     @Transactional(readOnly = true)
     public List<Rent> getAvailableLots(LocalDateTime endTime) {
-        rentRepository.getRecommandLists(endTime)
-                .forEach(x -> {
-                    log.info(x.getPlace().getName() + " -- \n");
-                });
-
         return rentRepository.getRecommandLists(endTime);
+    }
+
+    public Rent getRentById(Long x) {
+        return rentRepository.findById(x).get();
     }
 }
