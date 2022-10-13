@@ -72,8 +72,8 @@ public class RentService {
 
 
     @Transactional(readOnly = true)
-    public List<Rent> getAvailableLots(LocalDateTime endTime) {
-        return rentRepository.getRecommandLists(endTime);
+    public List<Rent> getAvailableLots(LocalDateTime endTime, Long userId) {
+        return rentRepository.getRecommandLists(endTime, userId);
     }
 
     public Rent getRentById(Long x) {

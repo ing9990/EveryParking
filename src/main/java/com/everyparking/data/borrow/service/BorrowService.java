@@ -64,7 +64,7 @@ public class BorrowService {
             throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
 
 
-        var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime());
+        var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime(), user.getId());
 
         List<Double> adj = geoService.getDistance(availableLots, Double.parseDouble(borrowRequestDto.getMapX()), Double.parseDouble(borrowRequestDto.getMapY()));
 
@@ -73,7 +73,6 @@ public class BorrowService {
         for (int i = 0; i < adj.size(); i++) {
             var item = availableLots.get(i);
             var itemId = item.getId();
-
             var dist = adj.get(i);
 
             recommandMap.put(itemId, recommandMap.get(itemId) - (int) Math.floor(dist));
@@ -86,10 +85,10 @@ public class BorrowService {
                 recommandMap.put(itemId, recommandMap.get(itemId) - (int) rst);
             }
         }
+
         List<Rent> list = new ArrayList<>();
 
-        recommandMap.keySet()
-                .forEach(x -> list.add(rentService.getRentById(x)));
+        recommandMap.keySet().forEach(x -> list.add(rentService.getRentById(x)));
 
         return DefaultResponseDtoEntity.of(HttpStatus.OK, "성공", list);
     }

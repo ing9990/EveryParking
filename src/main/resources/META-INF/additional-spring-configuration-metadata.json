@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "recommand",
+      "type": "java.lang.String",
+      "description": "Description for recommand."
+  }
+] }
