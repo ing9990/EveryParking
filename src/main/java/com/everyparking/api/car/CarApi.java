@@ -49,7 +49,7 @@ public class CarApi {
     @GetMapping("/me")
     public ResponseEntity<?> getMyCar(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization
-    ) {
+    ){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getMyCar(authorization));
     }
