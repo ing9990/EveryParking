@@ -35,7 +35,7 @@ public class BorrowApi {
                 .body(borrowService.getAllBorrows());
     }
 
-    @GetMapping("/recommand")
+    @GetMapping("/recommend")
     public ResponseEntity<?> getRecommandAvailableParkingLots(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
             @Valid @RequestBody BorrowRequestDto borrowRequestDto

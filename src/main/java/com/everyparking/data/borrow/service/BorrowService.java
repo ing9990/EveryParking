@@ -63,11 +63,8 @@ public class BorrowService {
         if (borrowRequestDto.getStartTime().isAfter(borrowRequestDto.getEndTime()))
             throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
 
-
         var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime(), user.getId());
-
         List<Double> adj = geoService.getDistance(availableLots, Double.parseDouble(borrowRequestDto.getMapX()), Double.parseDouble(borrowRequestDto.getMapY()));
-
         availableLots.forEach(x -> recommandMap.put(x.getId(), DEFAULT_SCORE));
 
         for (int i = 0; i < adj.size(); i++) {
@@ -84,6 +81,10 @@ public class BorrowService {
 
                 recommandMap.put(itemId, recommandMap.get(itemId) - (int) rst);
             }
+        }
+
+        if (recommandMap.keySet().size() == 0) {
+            return DefaultResponseDtoEntity.of(HttpStatus.NO_CONTENT, "추천 주차장이 없습니다.", null);
         }
 
         List<Rent> list = new ArrayList<>();

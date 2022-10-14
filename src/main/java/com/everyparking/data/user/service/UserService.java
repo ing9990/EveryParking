@@ -29,14 +29,17 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtils jwtTokenUtils;
 
+    @Transactional
     public DefaultResponseDtoEntity registryUser(RegistryRequestDto registryDto) {
         return DefaultResponseDtoEntity.ok("회원가입 성공", userRepository.save(User.makeUser(registryDto.getEmail(), passwordEncoder.encode(registryDto.getPassword()), registryDto.getNickname(), registryDto.getTel(), registryDto.getIntroduce(), registryDto.getCity())));
     }
 
+    @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getUsers() {
         return DefaultResponseDtoEntity.ok("성공", userRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public DefaultResponseDtoEntity loginUser(LoginRequestDto loginRequestDto) {
         var optionalUser = userRepository.findUserByEmail(loginRequestDto.getEmail());
 
@@ -52,6 +55,7 @@ public class UserService {
         throw new EmailNotFoundException();
     }
 
+    @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getUserById(Long id) {
         if (userRepository.findById(id).isPresent())
             return DefaultResponseDtoEntity.ok("성공", userRepository.findById(id).get());

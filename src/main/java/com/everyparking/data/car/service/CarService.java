@@ -15,6 +15,8 @@ import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.Size;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -24,6 +26,9 @@ public class CarService {
     private final CarRepository carRepository;
 
     public DefaultResponseDtoEntity addCar(String jwt, AddCarDto addCarDto) {
+
+        if(addCarDto.getSize() == null)
+            addCarDto.setSize(Car.CarSize.소형);
 
         var user = jwtTokenUtils.getUserByToken(jwt);
         var car = addCarDto.dtoToEntity(addCarDto);

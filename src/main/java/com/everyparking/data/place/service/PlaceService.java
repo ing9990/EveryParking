@@ -12,6 +12,7 @@ import com.everyparking.data.place.repository.PlaceRepository;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.service.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +31,14 @@ public class PlaceService {
     public DefaultResponseDtoEntity addPlace(String token, PlaceRequestDto dto) {
         var user = jwtTokenUtils.getUserByToken(token);
 
+        if (placeRepository.existsByAddr(dto.getMapAddr() + dto.getMessage())) {
+            throw new DuplicateKeyException("장소가 중복되었습니다.");
+        }
+
         var data = placeRepository
                 .save(Place.dtoToEntity(user,
                         dto.getPlaceName(),
-                        dto.getMapAddr(),
-                        dto.getMessage(),
+                        dto.getMapAddr() + dto.getMessage(),
                         dto.getMapX(),
                         dto.getMapY(),
                         dto.getSize(),
@@ -49,9 +53,9 @@ public class PlaceService {
                 .ok("성공", placeRepository.findAll());
     }
 
-    public Place updateBorrow(Place place) {
+    public void updateBorrow(Place place) {
         place.setBorrow(true);
-        return placeRepository.save(place);
+        placeRepository.save(place);
     }
 
     public List<Place> findPlacesByUser(User user) {
@@ -61,7 +65,8 @@ public class PlaceService {
     public Optional<Place> findById(Long placeId) {
         return placeRepository.findById(placeId);
     }
-    public List<Place> findAll(){
+
+    public List<Place> findAll() {
         return placeRepository.findAll();
     }
 }

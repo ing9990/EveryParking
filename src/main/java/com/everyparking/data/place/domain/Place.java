@@ -35,10 +35,8 @@ public class Place {
     @Column(name = "PLACE_NAME")
     private String name;
 
-    @Column(name = "PLACE_ADDR", unique = true)
+    @Column(name = "PLACE_ADDR")
     private String addr;
-
-    private String message;
 
     private String mapX;
     private String mapY;
@@ -53,8 +51,8 @@ public class Place {
     private String imgUrl;
 
     @Transient
-    public static Place dtoToEntity(User user, String name, String addr, String message, String mapX, String mapY, Car.CarSize size, String imgUrl) {
-        return Place.builder().user(user).name(name).addr(addr).mapX(mapX).mapY(mapY).message(message).placeSize(size)
+    public static Place dtoToEntity(User user, String name, String addr, String mapX, String mapY, Car.CarSize size, String imgUrl) {
+        return Place.builder().user(user).name(name).addr(addr).mapX(mapX).mapY(mapY).placeSize(size)
                 .imgUrl(imgUrl).build();
     }
 
