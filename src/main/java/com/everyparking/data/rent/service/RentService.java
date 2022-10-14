@@ -79,4 +79,8 @@ public class RentService {
     public Rent getRentById(Long x) {
         return rentRepository.findById(x).get();
     }
+
+    public Object getAllRents() {
+        return rentRepository.findAll();
+    }
 }

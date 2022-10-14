@@ -83,7 +83,7 @@ public class BorrowService {
             }
         }
 
-        if (recommandMap.keySet().size() == 0) {
+        if (recommandMap.size() == 0) {
             return DefaultResponseDtoEntity.of(HttpStatus.NO_CONTENT, "추천 주차장이 없습니다.", null);
         }
 

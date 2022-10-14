@@ -29,7 +29,7 @@ public class RentApi {
 
     @GetMapping("")
     public ResponseEntity<?> getAllRent() {
-        return null;
+        return ResponseEntity.ok(rentService.getAllRents());
     }
 
     @PostMapping("")

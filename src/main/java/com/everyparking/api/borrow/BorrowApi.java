@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter;
 
 @RestController
 @Slf4j
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping("/api/borrow")
 public class BorrowApi {
@@ -30,18 +30,17 @@ public class BorrowApi {
 
     @GetMapping
     public ResponseEntity<?> getAllBorrows() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(borrowService.getAllBorrows());
+        return ResponseEntity.status(HttpStatus.OK).body(borrowService.getAllBorrows());
     }
 
-    @GetMapping("/recommend")
+    @PostMapping("/recommend")
     public ResponseEntity<?> getRecommandAvailableParkingLots(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
-            @Valid @RequestBody BorrowRequestDto borrowRequestDto
-    ) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(borrowService.getRecommandAvailableParkingLots(authorization, borrowRequestDto));
+            @Valid @RequestBody BorrowRequestDto borrowRequestDto) {
+
+        log.info("hello world");
+        var res = borrowService.getRecommandAvailableParkingLots(authorization, borrowRequestDto);
+        return ResponseEntity.status(res.getHttpStatus()).body(res);
     }
 
 }
