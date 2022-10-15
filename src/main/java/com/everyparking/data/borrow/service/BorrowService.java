@@ -1,26 +1,21 @@
 package com.everyparking.data.borrow.service;
 
-import com.auth0.jwt.JWT;
 import com.everyparking.api.dto.BorrowRequestDto;
 import com.everyparking.api.dto.DefaultResponseDtoEntity;
+import com.everyparking.api.dto.RecommendResponseDto;
 import com.everyparking.data.borrow.repository.BorrowRepository;
-import com.everyparking.data.place.service.PlaceService;
-import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.rent.service.GeoService;
 import com.everyparking.data.rent.service.RentService;
 import com.everyparking.data.user.service.JwtTokenUtils;
 import com.everyparking.exception.RentTimeInvalidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.geo.Distance;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -35,8 +30,8 @@ import java.util.*;
 public class BorrowService {
 
     private final BorrowRepository borrowRepository;
+
     private final RentService rentService;
-    private final PlaceService placeService;
     private final GeoService geoService;
     private final JwtTokenUtils jwtTokenUtils;
 
@@ -44,7 +39,6 @@ public class BorrowService {
     private Integer DEFAULT_SCORE;
 
     @Value("${recommand.default-meter-score}")
-    private Integer MINUS_SCORE;
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getAllBorrows() {
@@ -56,15 +50,16 @@ public class BorrowService {
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getRecommandAvailableParkingLots(String authorization, BorrowRequestDto borrowRequestDto) {
 
-        Map<Long, Integer> recommandMap = new HashMap<>();
+        Map<Long, Integer> recommandMap = new LinkedHashMap<>();
 
         var user = jwtTokenUtils.getUserByToken(authorization);
+        var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime(), user.getId());
+        var adj = geoService.getDistance(availableLots, Double.parseDouble(borrowRequestDto.getMapX()), Double.parseDouble(borrowRequestDto.getMapY()));
+        List<RecommendResponseDto> list = new ArrayList<>();
 
         if (borrowRequestDto.getStartTime().isAfter(borrowRequestDto.getEndTime()))
             throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
 
-        var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime(), user.getId());
-        List<Double> adj = geoService.getDistance(availableLots, Double.parseDouble(borrowRequestDto.getMapX()), Double.parseDouble(borrowRequestDto.getMapY()));
         availableLots.forEach(x -> recommandMap.put(x.getId(), DEFAULT_SCORE));
 
         for (int i = 0; i < adj.size(); i++) {
@@ -80,21 +75,39 @@ public class BorrowService {
                 var rst = Duration.between(itemStart, meStart).toHours();
 
                 recommandMap.put(itemId, recommandMap.get(itemId) - (int) rst);
+
+                System.out.println(recommandMap);
             }
+
+            list.add(RecommendResponseDto.builder()
+                    .placeOwnerName(item.getPlace().getUser().getNickname())
+                    .placeName(item.getPlace().getName())
+                    .placeAddr(item.getPlace().getAddr())
+                    .placeImgUrl(item.getPlace().getImgUrl())
+                    .mapX(item.getPlace().getMapX())
+                    .mapY(item.getPlace().getMapY())
+                    .dist(dist)
+                    .startTime(item.getStart())
+                    .endTime(item.getEnd())
+                    .cost(item.getCost())
+                    .message(item.getMessage())
+                    .build());
         }
 
-        if (recommandMap.size() == 0) {
-            return DefaultResponseDtoEntity.of(HttpStatus.NO_CONTENT, "추천 주차장이 없습니다.", null);
-        }
-
-        List<Rent> list = new ArrayList<>();
-
-        recommandMap.keySet().forEach(x -> list.add(rentService.getRentById(x)));
+        if (list.size() == 0)
+            return DefaultResponseDtoEntity.of(HttpStatus.NO_CONTENT, "추천 주차장이 없습니다.", List.of());
 
         return DefaultResponseDtoEntity.of(HttpStatus.OK, "성공", list);
     }
 
 
+    public DefaultResponseDtoEntity borrow(String authorization, BorrowRequestDto borrowRequestDto) {
+
+        var user = jwtTokenUtils.getUserByToken(authorization);
+
+
+        return null;
+    }
 }
 
 
