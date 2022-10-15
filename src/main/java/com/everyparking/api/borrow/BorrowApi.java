@@ -33,12 +33,21 @@ public class BorrowApi {
         return ResponseEntity.status(HttpStatus.OK).body(borrowService.getAllBorrows());
     }
 
+    @PostMapping
+    public ResponseEntity<?> addBorrows(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
+            @Valid @RequestBody BorrowRequestDto borrowRequestDto
+    ) {
+        var res = borrowService.borrow(authorization, borrowRequestDto);
+        return ResponseEntity
+                .status(res.getHttpStatus()).body(res);
+    }
+
     @PostMapping("/recommend")
     public ResponseEntity<?> getRecommandAvailableParkingLots(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
             @Valid @RequestBody BorrowRequestDto borrowRequestDto) {
 
-        log.info("hello world");
         var res = borrowService.getRecommandAvailableParkingLots(authorization, borrowRequestDto);
         return ResponseEntity.status(res.getHttpStatus()).body(res);
     }
