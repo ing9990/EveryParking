@@ -28,7 +28,7 @@ public class BorrowRequestDto {
     @NotBlank(message = "현재 Y 좌표가 빈 칸입니다.")
     private String mapY;
 
-    @NotBlank(message = "자동차 사이즈가 빈 칸입니다.")
+    @NotBlank(message = "자동차를 선택해주세요.")
     private String carNumber;
 
     @Future(message = "시간이 올바르지 않습니다.")
