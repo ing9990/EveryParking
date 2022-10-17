@@ -20,6 +20,8 @@ import java.time.LocalDateTime;
 @Builder
 public class RecommendResponseDto {
 
+    private int recommendScore;
+
     private String placeOwnerName;
     private String placeImgUrl;
     private String placeName;
@@ -34,4 +36,24 @@ public class RecommendResponseDto {
 
     private long cost;
     private String message;
+
+    public static RecommendResponseDto of(Rent rent, double dist) {
+        var place = rent.getPlace();
+        var user = place.getUser();
+
+        return RecommendResponseDto
+                .builder()
+                .placeOwnerName(user.getNickname())
+                .placeImgUrl(place.getImgUrl())
+                .placeName(place.getName())
+                .placeAddr(place.getAddr())
+                .mapX(place.getMapX())
+                .mapY(place.getMapY())
+                .dist(dist)
+                .startTime(rent.getStart())
+                .endTime(rent.getEnd())
+                .cost(rent.getCost())
+                .message(rent.getMessage())
+                .build();
+    }
 }
