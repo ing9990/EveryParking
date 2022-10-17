@@ -28,17 +28,18 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
     private final JwtTokenUtils jwtTokenUtils;
 
+    @Transactional
     public DefaultResponseDtoEntity addPlace(String token, PlaceRequestDto dto) {
         var user = jwtTokenUtils.getUserByToken(token);
 
-        if (placeRepository.existsByAddr(dto.getMapAddr() + dto.getMessage())) {
+        if (placeRepository.existsByAddr(dto.getMapAddr() + ":" + dto.getMessage())) {
             throw new DuplicateKeyException("장소가 중복되었습니다.");
         }
 
         var data = placeRepository
                 .save(Place.dtoToEntity(user,
                         dto.getPlaceName(),
-                        dto.getMapAddr() + dto.getMessage(),
+                        dto.getMapAddr() + ":" + dto.getMessage(),
                         dto.getMapX(),
                         dto.getMapY(),
                         dto.getSize(),
@@ -48,6 +49,7 @@ public class PlaceService {
                 .of(HttpStatus.CREATED, "주차공간 등록 성공", data);
     }
 
+    @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getAllPlace() {
         return DefaultResponseDtoEntity
                 .ok("성공", placeRepository.findAll());
