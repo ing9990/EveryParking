@@ -80,7 +80,11 @@ public class RentService {
         return rentRepository.findById(x).get();
     }
 
-    public Object getAllRents() {
+    public List<Rent> getAllRents() {
         return rentRepository.findAll();
+    }
+
+    public List<Rent> findRentsByNotUserId(Long id){
+        return rentRepository.findRentsByNotUserId(id);
     }
 }
