@@ -38,10 +38,10 @@ public class BorrowService {
     private final JwtTokenUtils jwtTokenUtils;
     private final CarService carService;
 
-    @Value("${recommand.default-score}")
+    @Value("${recommend.default-score}")
     private Integer DEFAULT_SCORE;
 
-    @Value("${recommand.default-meter-score}")
+    @Value("${recommend.default-meter-score}")
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getAllBorrows() {
@@ -51,9 +51,9 @@ public class BorrowService {
     }
 
     @Transactional(readOnly = true)
-    public DefaultResponseDtoEntity getRecommandAvailableParkingLots(String authorization, BorrowRequestDto borrowRequestDto) {
+    public DefaultResponseDtoEntity getRecommendAvailableParkingLots(String authorization, BorrowRequestDto borrowRequestDto) {
 
-        Map<Long, Integer> recommandMap = new LinkedHashMap<>();
+        Map<Long, Integer> recommendMap = new LinkedHashMap<>();
 
         var user = jwtTokenUtils.getUserByToken(authorization);
         var car = carService.getCarByCarNumber(borrowRequestDto.getCarNumber());
@@ -69,27 +69,27 @@ public class BorrowService {
         if (borrowRequestDto.getStartTime().isAfter(borrowRequestDto.getEndTime()))
             throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
 
-        availableLots.forEach(x -> recommandMap.put(x.getId(), DEFAULT_SCORE));
+        availableLots.forEach(x -> recommendMap.put(x.getId(), DEFAULT_SCORE));
 
         for (int i = 0; i < adj.size(); i++) {
             var item = availableLots.get(i);
             var itemId = item.getId();
             var dist = adj.get(i);
 
-            recommandMap.put(itemId, recommandMap.get(itemId) - (int) Math.floor(dist));
+            recommendMap.put(itemId, recommendMap.get(itemId) - (int) Math.floor(dist));
 
             if (!item.getStart().isAfter(borrowRequestDto.getStartTime())) {
                 var itemStart = item.getStart();
                 var meStart = borrowRequestDto.getStartTime();
                 var rst = Duration.between(itemStart, meStart).toHours();
 
-                recommandMap.put(itemId, recommandMap.get(itemId) - (int) rst);
+                recommendMap.put(itemId, recommendMap.get(itemId) - (int) rst);
 
-                recommandMap
+                recommendMap
                         .keySet()
                         .forEach(it -> {
                             log.info("추천된 장소: " + rentService.getRentById(it).getPlace().getName() + "\t " +
-                                    "점수: " + recommandMap.get(it));
+                                    "점수: " + recommendMap.get(it));
                         });
             }
 

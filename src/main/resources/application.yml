@@ -4,7 +4,7 @@ server:
 jwt:
   secret: parking
 
-recommand:
+recommend:
   default-score: 1000
   default-meter-score: 1   # 미터당 1점씩 감점
   default-time-score: 200  # default-time 차이 날때마다 200점씩 감점

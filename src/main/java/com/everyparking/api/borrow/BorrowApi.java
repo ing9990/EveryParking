@@ -10,9 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * @author Taewoo
@@ -44,11 +41,11 @@ public class BorrowApi {
     }
 
     @PostMapping("/recommend")
-    public ResponseEntity<?> getRecommandAvailableParkingLots(
+    public ResponseEntity<?> getRecommendAvailableParkingLots(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
             @Valid @RequestBody BorrowRequestDto borrowRequestDto) {
 
-        var res = borrowService.getRecommandAvailableParkingLots(authorization, borrowRequestDto);
+        var res = borrowService.getRecommendAvailableParkingLots(authorization, borrowRequestDto);
         return ResponseEntity.status(res.getHttpStatus()).body(res);
     }
 
