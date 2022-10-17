@@ -85,7 +85,12 @@ public class BorrowService {
 
                 recommandMap.put(itemId, recommandMap.get(itemId) - (int) rst);
 
-                System.out.println(recommandMap);
+                recommandMap
+                        .keySet()
+                        .forEach(it -> {
+                            log.info("추천된 장소: " + rentService.getRentById(it).getPlace().getName() + "\t " +
+                                    "점수: " + recommandMap.get(it));
+                        });
             }
 
             list.add(RecommendResponseDto.builder()
