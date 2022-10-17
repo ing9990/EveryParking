@@ -69,6 +69,7 @@ public class BorrowService {
         if (availableLots.size() != 0) {
             availableLots.forEach(x -> recommendMap.put(x.getId(), DEFAULT_SCORE));
             for (int i = 0; i < adj.size(); i++) {
+
                 var item = availableLots.get(i);
                 var itemId = item.getId();
                 var dist = adj.get(i);
@@ -82,7 +83,7 @@ public class BorrowService {
 
                     recommendMap.put(itemId, recommendMap.get(itemId) - (int) rst);
                 }
-                list.add(RecommendResponseDto.of(item, dist));
+                list.add(RecommendResponseDto.of(item, dist, recommendMap.get(itemId)));
             }
             list.sort(Comparator.comparing(RecommendResponseDto::getRecommendScore).reversed());
             return DefaultResponseDtoEntity.of(HttpStatus.OK, "성공", list);
