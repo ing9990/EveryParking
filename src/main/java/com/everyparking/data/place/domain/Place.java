@@ -38,13 +38,16 @@ public class Place {
     @Column(name = "PLACE_ADDR")
     private String addr;
 
+    @Column(name = "PLACE_MAP_X")
     private String mapX;
+    @Column(name = "PLACE_MAP_Y")
     private String mapY;
 
     @Column(name = "PLACE_SIZE")
     @Enumerated(EnumType.ORDINAL)
     private Car.CarSize placeSize;
 
+    @Column(name = "PLACE_IS_BORROW")
     private boolean isBorrow = false;
 
     @Column(name = "PLACE_IMG", length = 10000)
@@ -53,7 +56,7 @@ public class Place {
     @Transient
     public static Place dtoToEntity(User user, String name, String addr, String mapX, String mapY, Car.CarSize size, String imgUrl) {
         return Place.builder().user(user).name(name).addr(addr).mapX(mapX).mapY(mapY).placeSize(size)
-                .imgUrl(imgUrl).build();
+                    .imgUrl(imgUrl).build();
     }
 
 }
