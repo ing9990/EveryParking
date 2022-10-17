@@ -56,4 +56,25 @@ public class RecommendResponseDto {
                 .message(rent.getMessage())
                 .build();
     }
+
+    public static RecommendResponseDto of(Rent rent, double dist, int recommendScore) {
+        var place = rent.getPlace();
+        var user = place.getUser();
+
+        return RecommendResponseDto
+                .builder()
+                .recommendScore(recommendScore)
+                .placeOwnerName(user.getNickname())
+                .placeImgUrl(place.getImgUrl())
+                .placeName(place.getName())
+                .placeAddr(place.getAddr())
+                .mapX(place.getMapX())
+                .mapY(place.getMapY())
+                .dist(dist)
+                .startTime(rent.getStart())
+                .endTime(rent.getEnd())
+                .cost(rent.getCost())
+                .message(rent.getMessage())
+                .build();
+    }
 }
