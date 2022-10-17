@@ -53,4 +53,8 @@ public class CarService {
         return DefaultResponseDtoEntity
                 .ok("내 차 조회 성공", carRepository.findCarsByUser(user));
     }
+
+    public Car getCarByCarNumber(String carNumber) {
+        return carRepository.findCarByCarNumber(carNumber);
+    }
 }
