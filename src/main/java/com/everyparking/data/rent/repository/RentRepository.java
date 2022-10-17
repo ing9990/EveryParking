@@ -16,15 +16,10 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
     List<Rent> getRentsByStartGreaterThanEqualOrderByStartAsc(LocalDateTime start);
 
 
-    @Query("select r " +
-            "from Rent r " +
-            "where r.end >= ?1 and r.isBorrowed = false and r.place.user.id <> ?2 " +
-            "order by r.start")
+    @Query("select r " + "from Rent r " + "where r.end >= ?1 and r.isBorrowed = false and r.place.user.id <> ?2 " + "order by r.start")
     List<Rent> getRecommandLists(LocalDateTime end, Long userId);
 
-    @Query("select r " +
-            "from Rent r " +
-            "where r.place.user.id <> ?1")
+    @Query("select r " + "from Rent r " + "where r.place.user.id <> ?1 and r.isBorrowed = false")
     List<Rent> findRentsByNotUserId(Long id);
 }
 
