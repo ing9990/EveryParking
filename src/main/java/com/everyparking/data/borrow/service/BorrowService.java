@@ -5,6 +5,7 @@ import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.api.dto.RecommendResponseDto;
 import com.everyparking.data.borrow.repository.BorrowRepository;
 import com.everyparking.data.car.service.CarService;
+import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.rent.service.GeoService;
 import com.everyparking.data.rent.service.RentService;
 import com.everyparking.data.user.service.JwtTokenUtils;
@@ -58,10 +59,11 @@ public class BorrowService {
         var user = jwtTokenUtils.getUserByToken(authorization);
         var car = carService.getCarByCarNumber(borrowRequestDto.getCarNumber());
 
-        var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime(), user.getId())
-                .stream()
-                .filter(item -> item.getPlace().getPlaceSize().getValue() >= car.getCarSize().getValue())
-                .collect(Collectors.toList());
+        var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime(), user.getId()).stream().filter(item -> item.getPlace().getPlaceSize().getValue() >= car.getCarSize().getValue()).collect(Collectors.toList());
+
+        for (Rent availableLot : availableLots) {
+            System.out.println(availableLot.getPlace().getName());
+        }
 
         var adj = geoService.getDistance(availableLots, Double.parseDouble(borrowRequestDto.getMapX()), Double.parseDouble(borrowRequestDto.getMapY()));
         List<RecommendResponseDto> list = new ArrayList<>();
@@ -84,33 +86,27 @@ public class BorrowService {
                 var rst = Duration.between(itemStart, meStart).toHours();
 
                 recommendMap.put(itemId, recommendMap.get(itemId) - (int) rst);
-
-                recommendMap
-                        .keySet()
-                        .forEach(it -> {
-                            log.info("추천된 장소: " + rentService.getRentById(it).getPlace().getName() + "\t " +
-                                    "점수: " + recommendMap.get(it));
-                        });
             }
 
-            list.add(RecommendResponseDto.builder()
-                    .placeOwnerName(item.getPlace().getUser().getNickname())
-                    .placeName(item.getPlace().getName())
-                    .placeAddr(item.getPlace().getAddr())
-                    .placeImgUrl(item.getPlace().getImgUrl())
-                    .mapX(item.getPlace().getMapX())
-                    .mapY(item.getPlace().getMapY())
-                    .dist(dist)
-                    .startTime(item.getStart())
-                    .endTime(item.getEnd())
-                    .cost(item.getCost())
-                    .message(item.getMessage())
-                    .build());
+            list.add(RecommendResponseDto.of(item, dist));
         }
 
-        if (list.size() == 0)
-            return DefaultResponseDtoEntity.of(HttpStatus.NO_CONTENT, "추천 주차장이 없습니다.", List.of());
+        if (list.size() == 0) {
+            var rents = rentService.findRentsByNotUserId(user.getId());
+            var adjDist = geoService.getDistance(rents, Double.parseDouble(borrowRequestDto.getMapX()), Double.parseDouble(borrowRequestDto.getMapY()));
 
+            for (int i = 0; i < adjDist.size(); i++) {
+                var item = rents.get(i);
+                var dist = adjDist.get(i);
+
+                list.add(RecommendResponseDto.of(item, dist));
+            }
+
+            list.sort(Comparator.comparing(RecommendResponseDto::getDist));
+            return DefaultResponseDtoEntity.of(HttpStatus.OK, "추천 주차장이 없어서 거리순서로 조회합니다.", list);
+        }
+
+        list.sort(Comparator.comparing(RecommendResponseDto::getRecommendScore).reversed());
         return DefaultResponseDtoEntity.of(HttpStatus.OK, "성공", list);
     }
 
