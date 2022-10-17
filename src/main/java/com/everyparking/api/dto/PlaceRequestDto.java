@@ -23,7 +23,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class PlaceRequestDto {
 
-    @DuplicatedPlaceNameConstraint
     @NotBlank(message = "장소 별칭이 빈칸입니다.")
     private String placeName;
 
