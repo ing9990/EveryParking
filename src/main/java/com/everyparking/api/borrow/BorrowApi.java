@@ -46,7 +46,7 @@ public class BorrowApi {
             @Valid @RequestBody BorrowRequestDto borrowRequestDto) {
 
         var res = borrowService.getRecommendAvailableParkingLots(authorization, borrowRequestDto);
-        return ResponseEntity.status(res.getHttpStatus()).body(res);
+        return ResponseEntity.status(HttpStatus.OK).body(res);
     }
 
 }
