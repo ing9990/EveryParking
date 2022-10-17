@@ -46,24 +46,14 @@ public class RentService {
 
         log.info(addRentDto.getEndTime().toString());
 
-        var place = placeService.findById(addRentDto.getPlaceId())
-                .orElseThrow(PlaceNotFoundException::new);
+        var place = placeService.findById(addRentDto.getPlaceId()).orElseThrow(PlaceNotFoundException::new);
 
         var user = jwtTokenUtils.getUserByToken(authorization);
 
-        if (LocalDateTime.now().isAfter(addRentDto.getStartTime())
-                || LocalDateTime.now().isAfter(addRentDto.getEndTime())
-                || addRentDto.getStartTime().isAfter(addRentDto.getEndTime()))
+        if (LocalDateTime.now().isAfter(addRentDto.getStartTime()) || LocalDateTime.now().isAfter(addRentDto.getEndTime()) || addRentDto.getStartTime().isAfter(addRentDto.getEndTime()))
             throw new RentTimeInvalidException("대여 시간이 정확하지 않습니다.");
 
-        var rent = Rent.dtoToEntity(
-                place,
-                addRentDto.getCost(),
-                addRentDto.getMessage(),
-                false,
-                addRentDto.getStartTime().minusHours(3).plusSeconds(49),
-                addRentDto.getEndTime().minusHours(3).plusSeconds(49)
-        );
+        var rent = Rent.dtoToEntity(place, addRentDto.getCost(), addRentDto.getMessage(), false, addRentDto.getStartTime().minusHours(3).plusSeconds(49), addRentDto.getEndTime().minusHours(3).plusSeconds(49));
 
         placeService.updateBorrow(place);
 
@@ -76,15 +66,18 @@ public class RentService {
         return rentRepository.getRecommandLists(endTime, userId);
     }
 
+    @Transactional(readOnly = true)
     public Rent getRentById(Long x) {
         return rentRepository.findById(x).get();
     }
 
+    @Transactional(readOnly = true)
     public List<Rent> getAllRents() {
         return rentRepository.findAll();
     }
 
-    public List<Rent> findRentsByNotUserId(Long id){
+    @Transactional(readOnly = true)
+    public List<Rent> findRentsByNotUserId(Long id) {
         return rentRepository.findRentsByNotUserId(id);
     }
 }
