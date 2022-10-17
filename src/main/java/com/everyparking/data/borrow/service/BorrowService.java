@@ -4,6 +4,7 @@ import com.everyparking.api.dto.BorrowRequestDto;
 import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.api.dto.RecommendResponseDto;
 import com.everyparking.data.borrow.repository.BorrowRepository;
+import com.everyparking.data.car.service.CarService;
 import com.everyparking.data.rent.service.GeoService;
 import com.everyparking.data.rent.service.RentService;
 import com.everyparking.data.user.service.JwtTokenUtils;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Taewoo
@@ -34,6 +36,7 @@ public class BorrowService {
     private final RentService rentService;
     private final GeoService geoService;
     private final JwtTokenUtils jwtTokenUtils;
+    private final CarService carService;
 
     @Value("${recommand.default-score}")
     private Integer DEFAULT_SCORE;
@@ -53,7 +56,13 @@ public class BorrowService {
         Map<Long, Integer> recommandMap = new LinkedHashMap<>();
 
         var user = jwtTokenUtils.getUserByToken(authorization);
-        var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime(), user.getId());
+        var car = carService.getCarByCarNumber(borrowRequestDto.getCarNumber());
+
+        var availableLots = rentService.getAvailableLots(borrowRequestDto.getEndTime(), user.getId())
+                .stream()
+                .filter(item -> item.getPlace().getPlaceSize().getValue() >= car.getCarSize().getValue())
+                .collect(Collectors.toList());
+
         var adj = geoService.getDistance(availableLots, Double.parseDouble(borrowRequestDto.getMapX()), Double.parseDouble(borrowRequestDto.getMapY()));
         List<RecommendResponseDto> list = new ArrayList<>();
 
