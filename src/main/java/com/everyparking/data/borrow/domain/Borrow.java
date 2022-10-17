@@ -38,8 +38,10 @@ public class Borrow {
     @OneToOne(fetch = FetchType.EAGER)
     private Rent rent;
 
+    @Column(name = "BORROW_START_AT")
     private LocalDateTime startAt;
 
+    @Column(name = "BORROW_END_AT")
     private LocalDateTime endAt;
 
     @OneToOne
