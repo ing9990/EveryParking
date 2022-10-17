@@ -7,10 +7,7 @@ package com.everyparking.data.car.domain;
 
 import com.everyparking.data.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -36,7 +33,10 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarSize carSize;
 
+    @AllArgsConstructor
+    @Getter
     public static enum CarSize {
-        소형, 중형, 대형
+        소형(1), 중형(2), 대형(3);
+        private final int value;
     }
 }
