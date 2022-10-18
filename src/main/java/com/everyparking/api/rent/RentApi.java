@@ -23,6 +23,7 @@ import java.time.ZoneOffset;
 @RequestMapping("/api/rent")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin("*")
 public class RentApi {
 
     private final RentService rentService;
@@ -32,6 +33,14 @@ public class RentApi {
         return ResponseEntity.ok(rentService.getAllRents());
     }
 
+    @PutMapping("/{placeId}")
+    public ResponseEntity<?> cancelRent(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
+            @PathVariable Long placeId
+    ) {
+        return ResponseEntity.ok(rentService.cancelRent(authorization, placeId));
+    }
+
     @PostMapping("")
     public ResponseEntity<?> addRent(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
@@ -39,7 +48,7 @@ public class RentApi {
     ) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(rentService.addRent(authorization, addRentDto));
+                             .body(rentService.addRent(authorization, addRentDto));
     }
 }
 
