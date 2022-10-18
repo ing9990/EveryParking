@@ -8,6 +8,7 @@ package com.everyparking.data.user.service;
 import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.api.dto.LoginRequestDto;
 import com.everyparking.api.dto.RegistryRequestDto;
+import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.repository.UserRepository;
 import com.everyparking.exception.EmailNotFoundException;
@@ -61,5 +62,21 @@ public class UserService {
             return DefaultResponseDtoEntity.ok("성공", userRepository.findById(id).get());
 
         return DefaultResponseDtoEntity.of(HttpStatus.NO_CONTENT, "성공", "");
+    }
+
+    /**
+     *
+     * @param renter 주차장 등록자
+     * @param user 주차장 대여자
+     * @param cost 렌트 비용
+     */
+    @Transactional
+    public void payPoint(User renter, User user, long cost) {
+
+        renter.setPoint(renter.getPoint() + cost);
+        user.setPoint(user.getPoint() - cost);
+
+        userRepository.save(renter);
+        userRepository.save(user);
     }
 }
