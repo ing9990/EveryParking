@@ -8,10 +8,7 @@ package com.everyparking.data.place.domain;
 import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -47,16 +44,26 @@ public class Place {
     @Enumerated(EnumType.ORDINAL)
     private Car.CarSize placeSize;
 
-    @Column(name = "PLACE_IS_BORROW")
-    private boolean isBorrow = false;
+    @Column(name = "PLACE_STATUS")
+    @Enumerated(EnumType.STRING)
+    private PlaceStatus placeStatus = PlaceStatus.waiting;
+
+    @AllArgsConstructor
+    @Getter
+    public static enum PlaceStatus {
+        waiting(1), pending(2), inUse(3);
+
+        private final int value;
+    }
 
     @Column(name = "PLACE_IMG", length = 10000)
     private String imgUrl;
 
     @Transient
     public static Place dtoToEntity(User user, String name, String addr, String mapX, String mapY, Car.CarSize size, String imgUrl) {
-        return Place.builder().user(user).name(name).addr(addr).mapX(mapX).mapY(mapY).placeSize(size)
-                    .imgUrl(imgUrl).build();
+        return Place.builder().user(user)
+                    .placeStatus(PlaceStatus.waiting)
+                    .name(name).addr(addr).mapX(mapX).mapY(mapY).placeSize(size).imgUrl(imgUrl).build();
     }
 
 }
