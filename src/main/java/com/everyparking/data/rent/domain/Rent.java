@@ -11,10 +11,7 @@ import java.util.*;
 import com.everyparking.data.place.domain.Place;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -40,8 +37,17 @@ public class Rent {
     @Column(name = "RENT_MESSAGE")
     private String message;
 
-    @Column(name = "RENT_ISBORROWED")
-    private boolean isBorrowed;
+    @Column(name = "RENT_STATUS")
+    @Enumerated(EnumType.STRING)
+    private RentStatus rentStatus;
+
+    @AllArgsConstructor
+    @Getter
+    public static enum RentStatus {
+        waiting(1), pending(2), inUse(3);
+
+        private final int value;
+    }
 
     @Column(name = "RENT_START_TIME")
     private LocalDateTime start;
@@ -49,14 +55,14 @@ public class Rent {
     @Column(name = "RENT_END_TIME")
     private LocalDateTime end;
 
-    public static Rent dtoToEntity(Place place, long cost, String message, boolean isBorrowed, LocalDateTime start, LocalDateTime end) {
+    public static Rent dtoToEntity(Place place, long cost, String message, RentStatus rentStatus, LocalDateTime start, LocalDateTime end) {
         return Rent.builder()
-                .place(place)
-                .cost(cost)
-                .message(message)
-                .isBorrowed(isBorrowed)
-                .start(start)
-                .end(end)
-                .build();
+                   .place(place)
+                   .cost(cost)
+                   .message(message)
+                   .rentStatus(rentStatus)
+                   .start(start)
+                   .end(end)
+                   .build();
     }
 }
