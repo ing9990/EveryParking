@@ -37,7 +37,6 @@ public class UsersApi {
                 .body(userService.getUserById(id));
     }
 
-
     @PostMapping("")
     public ResponseEntity<?> registyUser(@Valid @RequestBody RegistryRequestDto registryDto) {
         log.info("회원가입 요청: " + registryDto.getEmail());
