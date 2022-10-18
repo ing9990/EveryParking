@@ -27,12 +27,12 @@ public class BorrowHistory {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "BORROWER_ID")
-    private User borrowerId;
+    @JoinColumn(name = "RENTER_ID")
+    private User renterId;
 
     @OneToOne
-    @JoinColumn(name = "USER_ID")
-    private User userId;
+    @JoinColumn(name = "BORROWER_ID")
+    private User borrowerId;
 
     @OneToOne
     @JoinColumn(name = "PLACE_ID")
