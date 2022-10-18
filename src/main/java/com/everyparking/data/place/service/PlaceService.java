@@ -9,8 +9,10 @@ import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.api.dto.PlaceRequestDto;
 import com.everyparking.data.place.domain.Place;
 import com.everyparking.data.place.repository.PlaceRepository;
+import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.service.JwtTokenUtils;
+import com.everyparking.exception.PlaceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -36,27 +38,18 @@ public class PlaceService {
             throw new DuplicateKeyException("장소가 중복되었습니다.");
         }
 
-        var data = placeRepository
-                .save(Place.dtoToEntity(user,
-                        dto.getPlaceName(),
-                        dto.getMapAddr() + ":" + dto.getMessage(),
-                        dto.getMapX(),
-                        dto.getMapY(),
-                        dto.getSize(),
-                        dto.getImgUrl()));
+        var data = placeRepository.save(Place.dtoToEntity(user, dto.getPlaceName(), dto.getMapAddr() + ":" + dto.getMessage(), dto.getMapX(), dto.getMapY(), dto.getSize(), dto.getImgUrl()));
 
-        return DefaultResponseDtoEntity
-                .of(HttpStatus.CREATED, "주차공간 등록 성공", data);
+        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차공간 등록 성공", data);
     }
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getAllPlace() {
-        return DefaultResponseDtoEntity
-                .ok("성공", placeRepository.findAll());
+        return DefaultResponseDtoEntity.ok("성공", placeRepository.findAll());
     }
 
-    public void updateBorrow(Place place) {
-        place.setBorrow(true);
+    public void updateBorrow(Place place, Place.PlaceStatus placeStatus) {
+        place.setPlaceStatus(placeStatus);
         placeRepository.save(place);
     }
 
@@ -71,4 +64,17 @@ public class PlaceService {
     public List<Place> findAll() {
         return placeRepository.findAll();
     }
+
+
+    public Place updateStatus(Long placeId) {
+        var place = placeRepository.findById(placeId).orElseThrow(PlaceNotFoundException::new);
+
+        place.setPlaceStatus(Place.PlaceStatus.waiting);
+        return placeRepository.save(place);
+    }
+
+    public void updateStatus(Place place, Place.PlaceStatus placeStatus) {
+        place.setPlaceStatus(placeStatus);
+    }
+
 }
