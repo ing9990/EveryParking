@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 @Builder
 public class RecommendResponseDto {
 
+    private Long rentId;
     private int recommendScore;
 
     private String placeOwnerName;
@@ -43,6 +44,7 @@ public class RecommendResponseDto {
 
         return RecommendResponseDto
                 .builder()
+                .rentId(rent.getId())
                 .placeOwnerName(user.getNickname())
                 .placeImgUrl(place.getImgUrl())
                 .placeName(place.getName())
@@ -63,6 +65,7 @@ public class RecommendResponseDto {
 
         return RecommendResponseDto
                 .builder()
+                .rentId(rent.getId())
                 .recommendScore(recommendScore)
                 .placeOwnerName(user.getNickname())
                 .placeImgUrl(place.getImgUrl())
