@@ -1,6 +1,7 @@
 package com.everyparking.api.borrow;
 
 import com.everyparking.api.dto.BorrowRequestDto;
+import com.everyparking.api.dto.RecommendRequestDto;
 import com.everyparking.data.borrow.service.BorrowService;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -31,11 +32,12 @@ public class BorrowApi {
     }
 
     @PostMapping
-    public ResponseEntity<?> addBorrows(
+    public ResponseEntity<?> addBorrow(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
             @Valid @RequestBody BorrowRequestDto borrowRequestDto
     ) {
         var res = borrowService.borrow(authorization, borrowRequestDto);
+
         return ResponseEntity
                 .status(res.getHttpStatus()).body(res);
     }
@@ -43,9 +45,9 @@ public class BorrowApi {
     @PostMapping("/recommend")
     public ResponseEntity<?> getRecommendAvailableParkingLots(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
-            @Valid @RequestBody BorrowRequestDto borrowRequestDto) {
+            @Valid @RequestBody RecommendRequestDto recommendRequestDto) {
 
-        var res = borrowService.getRecommendAvailableParkingLots(authorization, borrowRequestDto);
+        var res = borrowService.getRecommendAvailableParkingLots(authorization, recommendRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }
 
