@@ -10,6 +10,7 @@ import com.everyparking.api.dto.RegistryRequestDto;
 import com.everyparking.data.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +29,23 @@ public class UsersApi {
     @GetMapping("")
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok()
-                .body(userService.getUsers());
+                             .body(userService.getUsers());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+    @GetMapping("/me")
+    public ResponseEntity<?> getUserById(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization
+    ) {
         return ResponseEntity.ok()
-                .body(userService.getUserById(id));
+                             .body(userService.getUserById(authorization));
+    }
+
+    @PutMapping("")
+    public ResponseEntity<?> addPoint(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizaiton
+    ) {
+        return ResponseEntity.ok()
+                .body(userService.addPoint(authorizaiton));
     }
 
 
@@ -43,7 +54,7 @@ public class UsersApi {
         log.info("회원가입 요청: " + registryDto.getEmail());
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(userService.registryUser(registryDto));
+                             .body(userService.registryUser(registryDto));
     }
 
     @PostMapping("/login")
@@ -51,6 +62,6 @@ public class UsersApi {
         log.info("로그인 요청: " + loginRequestDto.getEmail());
 
         return ResponseEntity.ok()
-                .body(userService.loginUser(loginRequestDto));
+                             .body(userService.loginUser(loginRequestDto));
     }
 }

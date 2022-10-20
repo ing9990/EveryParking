@@ -5,7 +5,9 @@ package com.everyparking.data.borrow.domain;
  */
 
 
+import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.place.domain.Place;
+import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,20 +29,24 @@ public class BorrowHistory {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "RENTER_ID")
-    private User renterId;
-
-    @OneToOne
     @JoinColumn(name = "BORROWER_ID")
-    private User borrowerId;
+    private User borrower;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private Rent rent;
+
+    @Transient
+    private String renterName;
+
+    @Column(name = "BORROW_START_AT")
+    private LocalDateTime startAt;
+
+    @Column(name = "BORROW_END_AT")
+    private LocalDateTime endAt;
 
     @OneToOne
-    @JoinColumn(name = "PLACE_ID")
-    private Place place;
-
-    private LocalDateTime startTime;
-
-    private LocalDateTime endTime;
+    @JoinColumn(name = "BORROWER_CAR_ID")
+    private Car car;
 }
 
 

@@ -1,10 +1,9 @@
 package com.everyparking.scheduler;
 
 import com.everyparking.data.borrow.service.BorrowService;
-import jdk.jfr.consumer.RecordedFrame;
+import com.everyparking.data.rent.service.RentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +18,11 @@ import org.springframework.stereotype.Component;
 public class EndTimeScheduler {
 
     private final BorrowService borrowService;
+    private final RentService rentService;
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 1000 * 60 * 5)
     public void endTimeTracker() {
-
+        borrowService.endTime();
+        rentService.endTime();
     }
 }

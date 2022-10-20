@@ -11,6 +11,7 @@ import com.everyparking.data.place.service.PlaceService;
 import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.rent.service.GeoService;
 import com.everyparking.data.rent.service.RentService;
+import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.service.JwtTokenUtils;
 import com.everyparking.data.user.service.UserService;
 import com.everyparking.exception.BeShortOfPointException;
@@ -138,10 +139,7 @@ public class BorrowService {
         placeService.updateStatus(rent.getPlace(), Place.PlaceStatus.inUse);
 
         var borrow = Borrow.builder().borrower(user).rent(rent).startAt(borrowRequestDto.getStartTime()).endAt(borrowRequestDto.getEndTime()).car(car).build();
-        var borrowHistory = BorrowHistory.builder().borrowerId(user).renterId(rent.getPlace().getUser()).place(rent.getPlace()).startTime(borrow.getStartAt()).endTime(borrow.getEndAt()).build();
-
         var savedBorrow = borrowRepository.save(borrow);
-        var savedHistory = borrowHistoryRepository.save(borrowHistory);
 
         log.info("주차 요금: " + cost);
         log.info("주차 시작까지 남은 시간: " + Math.abs(rentService.compareEndTime(rent.getStart(), borrow.getStartAt()).toHours()));
@@ -152,8 +150,47 @@ public class BorrowService {
         }
 
         userService.payPoint(rent.getPlace().getUser(), user, cost);
+
         var dat = BorrowResponseDto.of(savedBorrow, borrow.getStartAt(), user, car, rent, cost);
         return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공", dat);
+    }
+
+    public List<Borrow> findBorrowsByUser(User user) {
+        return borrowRepository.findBorrowByBorrower(user);
+    }
+
+    public void endTime() {
+        var borrows = borrowRepository.findBorrowsByEndAtIsBefore(LocalDateTime.now());
+
+        for (Borrow borrow : borrows) {
+            var rent = borrow.getRent();
+
+            rentService.updateStatus(rent, Rent.RentStatus.waiting);
+            placeService.updateBorrow(rent.getPlace(), Place.PlaceStatus.waiting);
+            borrowRepository.deleteById(borrow.getId());
+
+            BorrowHistory.builder()
+                         .borrower(borrow.getBorrower())
+                         .rent(borrow.getRent())
+                         .renterName(borrow.getRent().getPlace().getUser().getNickname())
+                         .startAt(borrow.getStartAt())
+                         .endAt(borrow.getEndAt())
+                         .car(borrow.getCar())
+                         .build();
+
+            borrowHistoryRepository.save(BorrowHistory.builder()
+                                                      .borrower(borrow.getBorrower())
+                                                      .rent(borrow.getRent())
+                                                      .renterName(borrow.getRent().getPlace().getUser().getNickname())
+                                                      .startAt(borrow.getStartAt())
+                                                      .endAt(borrow.getEndAt())
+                                                      .car(borrow.getCar())
+                                                      .build());
+        }
+    }
+
+    public List<Borrow> findBorrowsByBorrower(User user) {
+        return borrowRepository.findBorrowsByRenter(user);
     }
 }
 

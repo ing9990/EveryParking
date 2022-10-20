@@ -28,6 +28,9 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
     @Modifying
     @Query("delete from Rent r where r.place.id = ?1")
     void deleteRentByPlaceId(Long placeId);
+
+    @Query("select r from Rent r where r.end > ?1")
+    List<Rent> findRentsByEndIsAfter(LocalDateTime now);
 }
 
 

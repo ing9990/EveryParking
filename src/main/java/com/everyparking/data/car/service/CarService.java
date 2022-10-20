@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Service
 @Transactional
@@ -61,5 +62,9 @@ public class CarService {
     @Transactional(readOnly = true)
     public Car getCarByCarNumber(String carNumber) {
         return carRepository.findCarByCarNumber(carNumber);
+    }
+
+    public List<Car> findCarsByUserId(User user) {
+        return carRepository.findCarsByUser(user);
     }
 }

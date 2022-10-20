@@ -106,6 +106,13 @@ public class RentService {
         rentRepository.save(rent);
     }
 
+    @Transactional
+    @Modifying
+    public void updateStatus(Rent rent, Rent.RentStatus status) {
+        rent.setRentStatus(status);
+        rentRepository.save(rent);
+    }
+
     public Duration compareEndTime(LocalDateTime endTime, Rent rent) {
         return Duration.between(endTime, rent.getEnd());
     }
@@ -120,5 +127,16 @@ public class RentService {
     public void updateStartTime(Rent rent, LocalDateTime endAt) {
         rent.setStart(endAt);
         rentRepository.save(rent);
+    }
+
+    @Transactional
+    @Modifying
+    public void endTime() {
+        var rents = rentRepository.findRentsByEndIsAfter(LocalDateTime.now());
+
+        for (Rent rent : rents) {
+            rent.setRentStatus(Rent.RentStatus.waiting);
+            rentRepository.save(rent);
+        }
     }
 }
