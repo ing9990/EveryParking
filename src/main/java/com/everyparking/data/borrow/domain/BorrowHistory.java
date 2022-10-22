@@ -9,6 +9,7 @@ import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.place.domain.Place;
 import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,15 +29,32 @@ public class BorrowHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "BORROWER_ID")
-    private User borrower;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    private Rent rent;
-
-    @Transient
+    @Column(name = "RENTER_NAME")
     private String renterName;
+
+    @Column(name = "BORROWER_NAME")
+    private String borrowerName;
+
+    @Column(name = "RENTER_TEL")
+    private String renterTel;
+
+    @Column(name = "CAR_NUMBER")
+    private String carNumber;
+
+    @Column(name = "CAR_MODEL")
+    private String carModel;
+
+    @Column(name = "RENT_MESSAGE")
+    private String message;
+
+    @Column(name = "RENT_COST")
+    private long cost;
+
+    @Column(name = "PLACE_ADDR")
+    private String addr;
+
+    @Column(name = "PLACE_IMG_URL")
+    private String placeImgUrl;
 
     @Column(name = "BORROW_START_AT")
     private LocalDateTime startAt;
@@ -44,9 +62,9 @@ public class BorrowHistory {
     @Column(name = "BORROW_END_AT")
     private LocalDateTime endAt;
 
-    @OneToOne
-    @JoinColumn(name = "BORROWER_CAR_ID")
-    private Car car;
+    @Column(name = "CREATE_AT")
+    private LocalDateTime createAt = LocalDateTime.now();
+
 }
 
 

@@ -164,28 +164,29 @@ public class BorrowService {
 
         for (Borrow borrow : borrows) {
             var rent = borrow.getRent();
+            var renter = rent.getPlace().getUser();
+            var place = rent.getPlace();
+            var car = borrow.getCar();
 
             rentService.updateStatus(rent, Rent.RentStatus.waiting);
             placeService.updateBorrow(rent.getPlace(), Place.PlaceStatus.waiting);
             borrowRepository.deleteById(borrow.getId());
 
-            BorrowHistory.builder()
-                         .borrower(borrow.getBorrower())
-                         .rent(borrow.getRent())
-                         .renterName(borrow.getRent().getPlace().getUser().getNickname())
-                         .startAt(borrow.getStartAt())
-                         .endAt(borrow.getEndAt())
-                         .car(borrow.getCar())
-                         .build();
+            var history = BorrowHistory.builder()
+                                       .renterName(renter.getNickname())
+                                       .renterTel(renter.getTel())
+                                       .carNumber(car.getCarNumber())
+                                       .carModel(car.getCarModel())
+                                       .message(rent.getMessage())
+                                       .cost(rent.getCost())
+                                       .addr(place.getAddr())
+                                       .placeImgUrl(place.getImgUrl())
+                                       .endAt(rent.getEnd())
+                                       .startAt(rent.getStart())
+                                       .createAt(LocalDateTime.now())
+                                       .build();
 
-            borrowHistoryRepository.save(BorrowHistory.builder()
-                                                      .borrower(borrow.getBorrower())
-                                                      .rent(borrow.getRent())
-                                                      .renterName(borrow.getRent().getPlace().getUser().getNickname())
-                                                      .startAt(borrow.getStartAt())
-                                                      .endAt(borrow.getEndAt())
-                                                      .car(borrow.getCar())
-                                                      .build());
+            borrowHistoryRepository.save(history);
         }
     }
 

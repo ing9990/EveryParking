@@ -25,11 +25,11 @@ public class BorrowHistoryService {
 
 
     public List<BorrowHistory> findBorrowsByUser(User user) {
-        return borrowHistoryRepository.findBorrowHistoriesByBorrower(user);
+        return borrowHistoryRepository.findBorrowHistoriesByBorrower(user.getNickname());
     }
 
     public List<BorrowHistory> findBorrowHistoriesByUser(User user) {
-        return borrowHistoryRepository.findBorrowHistoriesByRenter(user);
+        return borrowHistoryRepository.findBorrowHistoriesByRenter(user.getNickname());
     }
 }
 

@@ -8,6 +8,7 @@ package com.everyparking.data.borrow.domain;
 import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class Borrow {
 
     @OneToOne
     @JoinColumn(name = "BORROWER_ID")
+    @JsonIgnore
     private User borrower;
 
     @OneToOne(fetch = FetchType.EAGER)

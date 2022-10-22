@@ -86,7 +86,7 @@ public class RentService {
         var user = jwtTokenUtils.getUserByToken(authorization);
         var place = placeService.updateStatus(placeId);
 
-        rentRepository.deleteRentByPlaceId(placeId);
+        rentRepository.deleteRentByPlace(placeId);
 
         return DefaultResponseDtoEntity.ok("취소되었습니다. [" + place.getName() + "]");
     }

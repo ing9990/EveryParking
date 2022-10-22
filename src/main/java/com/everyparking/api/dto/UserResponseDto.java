@@ -24,6 +24,7 @@ import java.util.List;
 @JsonRootName("user")
 public class UserResponseDto {
 
+    // profile
     private String nickname;
     private String email;
     private long point;
@@ -33,6 +34,7 @@ public class UserResponseDto {
 
     private List<Car> cars;
     private List<Place> places;
+
     private List<Borrow> myBorrows;
     private List<Borrow> userBorrows;
 
