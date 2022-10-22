@@ -22,11 +22,8 @@ public class ParkingApi {
     private final RentService rentService;
 
     @GetMapping
-    public ResponseEntity<?> getMyPlace(@RequestHeader(name = HttpHeaders.AUTHORIZATION)String authorization) {
-        log.info("User 접속");
-
-        return ResponseEntity.ok()
-                .body(rentService.getMyPlace(authorization));
+    public ResponseEntity<?> getMyPlace(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization) {
+        return ResponseEntity.ok().body(rentService.getMyPlace(authorization));
     }
 
 

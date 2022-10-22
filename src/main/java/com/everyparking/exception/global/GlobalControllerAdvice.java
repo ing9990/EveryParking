@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,37 +26,9 @@ import java.util.List;
 @Slf4j
 public class GlobalControllerAdvice {
 
-
-    @ExceptionHandler(InvalidAuthenticationException.class)
-    public ResponseEntity<?> invalidAuth(HttpServletRequest request, InvalidAuthenticationException e) {
-        return ResponseEntity
-                .badRequest()
-                .body(Error.builder()
-                        .path(request.getRequestURI())
-                        .message(e.getMessage())
-                        .build());
-    }
-
-    @ExceptionHandler(RentTimeInvalidException.class)
-    public ResponseEntity<?> invalidTime(HttpServletRequest request, RentTimeInvalidException e) {
-        return ResponseEntity
-                .badRequest()
-                .body(Error
-                        .builder()
-                        .path(request.getRequestURI())
-                        .message(e.getMessage())
-                        .build());
-    }
-
-    @ExceptionHandler(BeShortOfPointException.class)
-    public ResponseEntity<?> invalidTime(HttpServletRequest request, BeShortOfPointException e) {
-        return ResponseEntity
-                .badRequest()
-                .body(Error
-                        .builder()
-                        .path(request.getRequestURI())
-                        .message(e.getMessage())
-                        .build());
+    @ExceptionHandler({InvalidAuthenticationException.class, RentTimeInvalidException.class, BeShortOfPointException.class, PlaceNotFoundException.class})
+    public ResponseEntity<?> custom(HttpServletRequest req, Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Error.builder().path(req.getRequestURI()).message(e.getMessage()).build());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
