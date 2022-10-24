@@ -1,10 +1,5 @@
 package com.everyparking.data.borrow.domain;
 
-/**
- * @author Taewoo
- */
-
-
 import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.user.domain.User;
