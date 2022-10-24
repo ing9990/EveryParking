@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import com.everyparking.data.place.domain.Place;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
@@ -29,6 +30,7 @@ public class Rent {
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Place place;
 
     @Column(name = "RENT_COST")
