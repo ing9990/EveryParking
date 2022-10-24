@@ -1,9 +1,5 @@
 package com.everyparking.api.place;
 
-/**
- * @author Taewoo
- */
-
 
 import com.everyparking.api.dto.PlaceRequestDto;
 import com.everyparking.data.place.service.PlaceService;

@@ -1,10 +1,5 @@
 package com.everyparking.config;
 
-/**
- * @author Taewoo
- */
-
-
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

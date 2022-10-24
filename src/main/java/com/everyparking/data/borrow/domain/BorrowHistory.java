@@ -4,12 +4,6 @@ package com.everyparking.data.borrow.domain;
  * @author Taewoo
  */
 
-
-import com.everyparking.data.car.domain.Car;
-import com.everyparking.data.place.domain.Place;
-import com.everyparking.data.rent.domain.Rent;
-import com.everyparking.data.user.domain.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

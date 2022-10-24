@@ -1,8 +1,4 @@
 package com.everyparking.config;
-/**
- * @author Taewoo
- */
-
 
 import com.everyparking.data.user.service.UserSecurityService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +16,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 
 import static java.util.Arrays.asList;
 

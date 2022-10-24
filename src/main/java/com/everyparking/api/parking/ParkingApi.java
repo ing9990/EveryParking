@@ -1,9 +1,5 @@
 package com.everyparking.api.parking;
 
-/**
- * @author Taewoo
- */
-
 
 import com.everyparking.data.rent.service.RentService;
 import lombok.RequiredArgsConstructor;

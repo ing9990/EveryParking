@@ -9,6 +9,9 @@ import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.api.dto.LoginRequestDto;
 import com.everyparking.api.dto.RegistryRequestDto;
 import com.everyparking.api.dto.UserResponseDto;
+import com.everyparking.api.dto.resource.BorrowResponse;
+import com.everyparking.api.dto.resource.UserBorrowResponse;
+import com.everyparking.data.borrow.domain.Borrow;
 import com.everyparking.data.borrow.domain.BorrowHistory;
 import com.everyparking.data.borrow.repository.BorrowRepository;
 import com.everyparking.data.borrow.service.BorrowHistoryService;
@@ -27,6 +30,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -77,12 +84,16 @@ public class UserService {
         var user = jwtTokenUtils.getUserByToken(authorization);
         var cars = carService.findCarsByUserId(user);
         var places = placeService.findPlacesByUser(user);
-        var borrows = borrowRepository.findBorrowByBorrower(user);
-        var userBorrows = borrowRepository.findBorrowsByRenter(user);
-        var histories = borrowHistoryService.findBorrowsByUser(user);
-        var userHistories = borrowHistoryService.findBorrowHistoriesByUser(user);
 
-        return DefaultResponseDtoEntity.ok("성공", UserResponseDto.of(user, cars, places, borrows, userBorrows, histories, userHistories));
+
+        List<BorrowResponse> myUsing = new ArrayList<>();
+        List<UserBorrowResponse> userUsing = new ArrayList<>();
+        List<BorrowHistory> used = borrowHistoryService.findAllHistories();
+
+        borrowRepository.findBorrowsByBorrowerIs(user).forEach(dat -> myUsing.add(BorrowResponse.of(dat)));
+        borrowRepository.findBorrowsByRenter(user).forEach(dat -> userUsing.add(UserBorrowResponse.of(dat)));
+
+        return DefaultResponseDtoEntity.ok("성공", UserResponseDto.of(user, cars, places, myUsing, userUsing, used));
     }
 
     /**

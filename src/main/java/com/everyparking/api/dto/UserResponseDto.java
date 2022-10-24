@@ -4,6 +4,8 @@ package com.everyparking.api.dto;
  * @author Taewoo
  */
 
+import com.everyparking.api.dto.resource.BorrowResponse;
+import com.everyparking.api.dto.resource.UserBorrowResponse;
 import com.everyparking.data.borrow.domain.Borrow;
 import com.everyparking.data.borrow.domain.BorrowHistory;
 import com.everyparking.data.car.domain.Car;
@@ -35,17 +37,24 @@ public class UserResponseDto {
     private List<Car> cars;
     private List<Place> places;
 
-    private List<Borrow> myBorrows;
-    private List<Borrow> userBorrows;
+    private List<BorrowResponse> myUsing;
+    private List<UserBorrowResponse> userUsing;
+    private List<BorrowHistory> used;
 
-    private List<BorrowHistory> myBorrowHistories;
-    private List<BorrowHistory> userBorrowHistories;
 
-    public static UserResponseDto of(User user, List<Car> cars, List<Place> places, List<Borrow> myBorrows, List<Borrow> userBorrows, List<BorrowHistory> myBorrowHistories, List<BorrowHistory> userBorrowHistories) {
-        return UserResponseDto.builder().nickname(user.getNickname()).email(user.getEmail()).point(user.getPoint()).introduce(user.getIntroduce()).city(user.getCity()).tel(user.getTel()).cars(cars).places(places).myBorrows(myBorrows).myBorrowHistories(myBorrowHistories).userBorrows(userBorrows).userBorrowHistories(userBorrowHistories).build();
-    }
+    public static UserResponseDto of(User user, List<Car> cars, List<Place> places,
+            List<BorrowResponse> myUsing, List<UserBorrowResponse> userUsing,
+            List<BorrowHistory> used
+    ) {
 
-    public static UserResponseDto of(User user, List<Car> cars, List<Place> places) {
-        return UserResponseDto.builder().nickname(user.getNickname()).email(user.getEmail()).point(user.getPoint()).introduce(user.getIntroduce()).city(user.getCity()).tel(user.getTel()).cars(cars).places(places).build();
+        return UserResponseDto.builder().nickname(user.getNickname())
+                              .email(user.getEmail()).point(user.getPoint())
+                              .introduce(user.getIntroduce()).city(user.getCity()).tel(user.getTel())
+                              .cars(cars).places(places)
+
+                              .myUsing(myUsing)
+                              .userUsing(userUsing)
+                              .used(used)
+                              .build();
     }
 }

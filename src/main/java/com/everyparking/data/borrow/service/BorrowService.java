@@ -75,7 +75,12 @@ public class BorrowService {
 
         var user = jwtTokenUtils.getUserByToken(authorization);
         var car = carService.getCarByCarNumber(recommendRequestDto.getCarNumber());
-        var availableLots = rentService.getAvailableLots(recommendRequestDto.getEndTime(), user.getId()).stream().filter(item -> item.getPlace().getPlaceSize().getValue() >= car.getCarSize().getValue()).collect(Collectors.toList());
+
+        var availableLots = rentService.getAvailableLots(recommendRequestDto.getEndTime(), user.getId()).stream()
+                                       .filter(item ->
+                                               item.getPlace().getPlaceSize().getValue() >= car.getCarSize().getValue())
+                                       .collect(Collectors.toList());
+
         var adj = geoService.getDistance(availableLots, Double.parseDouble(recommendRequestDto.getMapX()), Double.parseDouble(recommendRequestDto.getMapY()));
 
         if (availableLots.size() != 0) {
@@ -143,15 +148,14 @@ public class BorrowService {
         log.info("주차 요금: " + cost);
         log.info("주차 시작까지 남은 시간: " + Math.abs(rentService.compareEndTime(rent.getStart(), borrow.getStartAt()).toHours()));
 
-        if (Math.abs(rentService.compareEndTime(borrow.getEndAt(), rent).toHours()) >= 1) {
-            log.info(Math.abs(rentService.compareEndTime(borrow.getEndAt(), rent).toHours()) + " 시간이 남습니다.");
-            rentService.updateStartTime(rent, borrow.getEndAt());
-        }
-
         userService.payPoint(rent.getPlace().getUser(), user, cost);
 
-        var dat = BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost);
-        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공", dat);
+//        if (Math.abs(rentService.compareEndTime(borrow.getEndAt(), rent).toHours()) >= 1) {
+//            log.info(Math.abs(rentService.compareEndTime(borrow.getEndAt(), rent).toHours()) + " 시간이 남습니다.");
+//            rentService.updateStartTime(rent, borrow.getEndAt());
+//        }
+
+        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공", BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost));
     }
 
     public List<Borrow> findBorrowsByUser(User user) {

@@ -1,9 +1,5 @@
 package com.everyparking.api.users;
 
-/**
- * @author Taewoo
- */
-
 
 import com.everyparking.api.dto.LoginRequestDto;
 import com.everyparking.api.dto.RegistryRequestDto;

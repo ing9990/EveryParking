@@ -10,10 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * @author Taewoo
- */
-
 
 @Service
 @Slf4j
@@ -30,6 +26,10 @@ public class BorrowHistoryService {
 
     public List<BorrowHistory> findBorrowHistoriesByUser(User user) {
         return borrowHistoryRepository.findBorrowHistoriesByRenter(user.getNickname());
+    }
+
+    public List<BorrowHistory> findAllHistories() {
+        return borrowHistoryRepository.findAll();
     }
 }
 
