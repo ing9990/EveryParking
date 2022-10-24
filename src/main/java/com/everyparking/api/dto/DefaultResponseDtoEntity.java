@@ -51,4 +51,13 @@ public class DefaultResponseDtoEntity {
                 .data(data)
                 .build();
     }
+
+    public static DefaultResponseDtoEntity ok(String message, Object[] data) {
+        return DefaultResponseDtoEntity
+                .builder()
+                .httpStatus(HttpStatus.OK)
+                .message(message)
+                .data(data)
+                .build();
+    }
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * @author Taewoo
  */
 
-public interface CarRepository extends JpaRepository<Car, Long> {
+public interface CarRepository extends JpaRepository<Car, String> {
 
     boolean existsByCarNumber(String carNumber);
 

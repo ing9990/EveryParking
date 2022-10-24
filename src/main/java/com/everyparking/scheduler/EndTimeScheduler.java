@@ -20,7 +20,7 @@ public class EndTimeScheduler {
     private final BorrowService borrowService;
     private final RentService rentService;
 
-    @Scheduled(fixedDelay = 1000 * 60 * 5)
+    @Scheduled(fixedDelay = 1000 * 10)
     public void endTimeTracker() {
         borrowService.endTime();
         rentService.endTime();

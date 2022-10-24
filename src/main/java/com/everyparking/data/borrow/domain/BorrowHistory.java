@@ -53,7 +53,7 @@ public class BorrowHistory {
     @Column(name = "PLACE_ADDR")
     private String addr;
 
-    @Column(name = "PLACE_IMG_URL")
+    @Column(name = "PLACE_IMG_URL", length = 10000)
     private String placeImgUrl;
 
     @Column(name = "BORROW_START_AT")

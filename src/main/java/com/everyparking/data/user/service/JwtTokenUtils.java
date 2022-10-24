@@ -33,14 +33,15 @@ public class JwtTokenUtils {
     }
 
     public User getUserByToken(String token) {
+
         if (token == null | !token.startsWith("Bearer "))
             throw new InvalidAuthenticationException();
 
         return userRepository
                 .findUserByEmail(
                         JWT.decode(token.substring(7))
-                                .getClaim("email")
-                                .asString())
-                .orElseThrow(() -> new InvalidAuthenticationException());
+                           .getClaim("email")
+                           .asString())
+                .orElseThrow(InvalidAuthenticationException::new);
     }
 }

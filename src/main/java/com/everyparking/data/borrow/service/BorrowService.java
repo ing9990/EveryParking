@@ -138,8 +138,7 @@ public class BorrowService {
         rentService.updateStatus(rent);
         placeService.updateStatus(rent.getPlace(), Place.PlaceStatus.inUse);
 
-        var borrow = Borrow.builder().borrower(user).rent(rent).startAt(borrowRequestDto.getStartTime()).endAt(borrowRequestDto.getEndTime()).car(car).build();
-        var savedBorrow = borrowRepository.save(borrow);
+        var borrow = borrowRepository.save(Borrow.builder().borrower(user).rent(rent).startAt(borrowRequestDto.getStartTime()).endAt(borrowRequestDto.getEndTime()).car(car).build());
 
         log.info("주차 요금: " + cost);
         log.info("주차 시작까지 남은 시간: " + Math.abs(rentService.compareEndTime(rent.getStart(), borrow.getStartAt()).toHours()));
@@ -151,7 +150,7 @@ public class BorrowService {
 
         userService.payPoint(rent.getPlace().getUser(), user, cost);
 
-        var dat = BorrowResponseDto.of(savedBorrow, borrow.getStartAt(), user, car, rent, cost);
+        var dat = BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost);
         return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공", dat);
     }
 
@@ -167,6 +166,7 @@ public class BorrowService {
             var renter = rent.getPlace().getUser();
             var place = rent.getPlace();
             var car = borrow.getCar();
+            var borrower = borrow.getBorrower();
 
             rentService.updateStatus(rent, Rent.RentStatus.waiting);
             placeService.updateBorrow(rent.getPlace(), Place.PlaceStatus.waiting);
@@ -176,15 +176,7 @@ public class BorrowService {
                                        .renterName(renter.getNickname())
                                        .renterTel(renter.getTel())
                                        .carNumber(car.getCarNumber())
-                                       .carModel(car.getCarModel())
-                                       .message(rent.getMessage())
-                                       .cost(rent.getCost())
-                                       .addr(place.getAddr())
-                                       .placeImgUrl(place.getImgUrl())
-                                       .endAt(rent.getEnd())
-                                       .startAt(rent.getStart())
-                                       .createAt(LocalDateTime.now())
-                                       .build();
+                                       .carModel(car.getCarModel()).borrowerName(borrower.getNickname()).message(rent.getMessage()).cost(rent.getCost()).addr(place.getAddr()).placeImgUrl(place.getImgUrl()).endAt(rent.getEnd()).startAt(rent.getStart()).createAt(LocalDateTime.now()).build();
 
             borrowHistoryRepository.save(history);
         }

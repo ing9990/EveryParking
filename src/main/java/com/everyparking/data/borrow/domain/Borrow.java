@@ -47,7 +47,6 @@ public class Borrow {
     private LocalDateTime endAt;
 
     @OneToOne
-    @JoinColumn(name = "BORROWER_CAR_ID")
+    @JoinColumn(name = "BORROWER_CAR")
     private Car car;
-
 }
