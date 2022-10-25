@@ -38,7 +38,7 @@ public class BorrowResponse {
         var place = rent.getPlace();
         var owner = place.getUser();
         var car = borrow.getCar();
-
+        // startAt과 endAt은 borrow의 데이터를 보내주세요
         return BorrowResponse.builder().placeAddr(place.getAddr())
                              .carModel(car.getCarModel())
                              .placeImg(place.getImgUrl()).startAt(rent.getStart()).cost(rent.getCost()).endAt(rent.getEnd()).message(rent.getMessage()).renterName(owner.getNickname()).renterTel(owner.getTel()).carNumber(car.getCarNumber()).carSize(car.getCarSize()).build();
