@@ -5,6 +5,7 @@ package com.everyparking.api;
  */
 
 
+import com.everyparking.api.dto.TestDto;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,17 @@ public class BasicApi {
         if (listSize == null) return ResponseEntity.ok().body(User.City.values());
         return ResponseEntity.ok().body(Arrays.stream(User.City.values()).limit(listSize));
     }
+
+    @GetMapping("/{id}")
+    public @ResponseBody
+    TestDto getUsers(@PathVariable String id) {
+        return TestDto.builder()
+                      .id(id)
+                      .username("유저" + id)
+                      .introduce("안녕하세요!! 저는 " + id + "번 입니다.")
+                      .build();
+    }
+
 
 }
 
