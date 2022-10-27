@@ -8,11 +8,9 @@ package com.everyparking.data.user.service;
 import com.everyparking.api.dto.*;
 import com.everyparking.api.dto.resource.BorrowResponse;
 import com.everyparking.api.dto.resource.UserBorrowResponse;
-import com.everyparking.data.borrow.domain.Borrow;
 import com.everyparking.data.borrow.domain.BorrowHistory;
 import com.everyparking.data.borrow.repository.BorrowRepository;
 import com.everyparking.data.borrow.service.BorrowHistoryService;
-import com.everyparking.data.borrow.service.BorrowService;
 import com.everyparking.data.car.service.CarService;
 import com.everyparking.data.place.service.PlaceService;
 import com.everyparking.data.user.domain.User;
@@ -21,10 +19,6 @@ import com.everyparking.exception.EmailNotFoundException;
 import com.everyparking.exception.PasswordNotMatchException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.asm.Advice;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -120,7 +113,7 @@ public class UserService {
     }
 
     @Transactional
-   public DefaultResponseDtoEntity editUser(String authorization, EditUserDto editRequestDto) {
+    public DefaultResponseDtoEntity editUser(String authorization, EditUserDto editRequestDto) {
         var user = jwtTokenUtils.getUserByToken(authorization);
 
         user.setIntroduce(editRequestDto.getIntro());
