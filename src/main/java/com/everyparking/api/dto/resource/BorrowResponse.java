@@ -41,6 +41,15 @@ public class BorrowResponse {
 
         return BorrowResponse.builder().placeAddr(place.getAddr())
                              .carModel(car.getCarModel())
-                             .placeImg(place.getImgUrl()).startAt(rent.getStart()).cost(rent.getCost()).endAt(rent.getEnd()).message(rent.getMessage()).renterName(owner.getNickname()).renterTel(owner.getTel()).carNumber(car.getCarNumber()).carSize(car.getCarSize()).build();
+                             .placeImg(place.getImgUrl())
+                             .startAt(borrow.getStartAt())
+                             .cost(rent.getCost())
+                             .endAt(borrow.getEndAt())
+                             .message(rent.getMessage())
+                             .renterName(owner.getNickname())
+                             .renterTel(owner.getTel())
+                             .carNumber(car.getCarNumber())
+                             .carSize(car.getCarSize())
+                             .build();
     }
 }
