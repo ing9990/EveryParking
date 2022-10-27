@@ -1,6 +1,7 @@
 package com.everyparking.api.users;
 
 
+import com.everyparking.api.dto.EditUserDto;
 import com.everyparking.api.dto.LoginRequestDto;
 import com.everyparking.api.dto.RegistryRequestDto;
 import com.everyparking.data.user.service.UserService;
@@ -36,12 +37,21 @@ public class UsersApi {
                              .body(userService.getUserById(authorization));
     }
 
-    @PutMapping("")
+    @PatchMapping("")
     public ResponseEntity<?> addPoint(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizaiton
     ) {
         return ResponseEntity.ok()
-                .body(userService.addPoint(authorizaiton));
+                             .body(userService.addPoint(authorizaiton));
+    }
+
+    @PutMapping("")
+    public ResponseEntity<?> edit(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
+            @RequestBody EditUserDto editRequestDto
+    ) {
+        return ResponseEntity.ok()
+                             .body(userService.editUser(authorization, editRequestDto));
     }
 
 

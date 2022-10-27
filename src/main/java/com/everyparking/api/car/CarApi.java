@@ -28,7 +28,6 @@ public class CarApi {
 
     @GetMapping()
     public ResponseEntity<?> getCarSize() {
-        log.info("차 사이즈 조회");
         return ResponseEntity.ok().body(Car.CarSize.values());
     }
 
@@ -43,7 +42,7 @@ public class CarApi {
     public ResponseEntity<?> addCar(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization, @Valid @RequestBody AddCarDto addCarDto) {
         log.info("자동차 등록: " + addCarDto.getCarNumber());
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(carService.addCar(authorization, addCarDto));
+                             .body(carService.addCar(authorization, addCarDto));
     }
 
     @GetMapping("/me")
@@ -51,7 +50,7 @@ public class CarApi {
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization
     ) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(carService.getMyCar(authorization));
+                             .body(carService.getMyCar(authorization));
     }
 
 

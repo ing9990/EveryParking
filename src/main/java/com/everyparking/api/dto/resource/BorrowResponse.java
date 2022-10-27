@@ -19,8 +19,12 @@ import java.time.LocalDateTime;
 public class BorrowResponse {
     private String placeImg;
     private String placeAddr;
-    private LocalDateTime startAt;
-    private LocalDateTime endAt;
+
+    private LocalDateTime borrowStartAt;
+    private LocalDateTime borrowEndAt;
+    private LocalDateTime rentStartAt;
+    private LocalDateTime rentEndAt;
+
     private String message;
 
     private long cost;
@@ -42,9 +46,11 @@ public class BorrowResponse {
         return BorrowResponse.builder().placeAddr(place.getAddr())
                              .carModel(car.getCarModel())
                              .placeImg(place.getImgUrl())
-                             .startAt(borrow.getStartAt())
+                             .borrowStartAt(borrow.getStartAt())
                              .cost(rent.getCost())
-                             .endAt(borrow.getEndAt())
+                             .borrowEndAt(borrow.getEndAt())
+                             .rentStartAt(rent.getStart())
+                             .rentEndAt(rent.getEnd())
                              .message(rent.getMessage())
                              .renterName(owner.getNickname())
                              .renterTel(owner.getTel())
