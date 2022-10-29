@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 @Builder
 @JsonRootName("myUsing")
 public class BorrowResponse {
+
+    private Long borrowId;
     private String placeImg;
     private String placeAddr;
 
@@ -44,6 +46,7 @@ public class BorrowResponse {
         var car = borrow.getCar();
 
         return BorrowResponse.builder().placeAddr(place.getAddr())
+                             .borrowId(borrow.getId())
                              .carModel(car.getCarModel())
                              .placeImg(place.getImgUrl())
                              .borrowStartAt(borrow.getStartAt())

@@ -50,7 +50,6 @@ public class BorrowApi {
         var res = borrowService.getRecommendAvailableParkingLots(authorization, recommendRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }
-
 }
 
 

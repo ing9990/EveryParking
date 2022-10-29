@@ -189,6 +189,7 @@ public class BorrowService {
     public List<Borrow> findBorrowsByBorrower(User user) {
         return borrowRepository.findBorrowsByRenter(user);
     }
+
 }
 
 
