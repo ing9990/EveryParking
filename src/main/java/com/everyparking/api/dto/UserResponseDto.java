@@ -26,7 +26,6 @@ import java.util.List;
 @JsonRootName("user")
 public class UserResponseDto {
 
-    // profile
     private String nickname;
     private String email;
     private long point;
@@ -50,7 +49,6 @@ public class UserResponseDto {
                               .email(user.getEmail()).point(user.getPoint())
                               .introduce(user.getIntroduce()).city(user.getCity()).tel(user.getTel())
                               .cars(cars).places(places)
-
                               .myUsing(myUsing)
                               .userUsing(userUsing)
                               .used(used)

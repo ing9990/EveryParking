@@ -20,6 +20,7 @@ import com.everyparking.exception.InvalidAuthenticationException;
 import com.everyparking.exception.PasswordNotMatchException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -104,6 +105,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+
     @Transactional
     public DefaultResponseDtoEntity addPoint(String authorizaiton) {
         var user = jwtTokenUtils.getUserByToken(authorizaiton);
@@ -128,6 +130,6 @@ public class UserService {
 
     public User findUserById(Long user) {
         return userRepository.findById(user)
-                .orElseThrow(InvalidAuthenticationException::new);
+                             .orElseThrow(InvalidAuthenticationException::new);
     }
 }

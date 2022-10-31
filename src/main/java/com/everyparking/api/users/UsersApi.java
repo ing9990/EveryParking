@@ -4,6 +4,7 @@ package com.everyparking.api.users;
 import com.everyparking.api.dto.EditUserDto;
 import com.everyparking.api.dto.LoginRequestDto;
 import com.everyparking.api.dto.RegistryRequestDto;
+import com.everyparking.data.user.service.MailService;
 import com.everyparking.data.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 public class UsersApi {
 
     private final UserService userService;
+
 
     @GetMapping("")
     public ResponseEntity<?> getAllUsers() {

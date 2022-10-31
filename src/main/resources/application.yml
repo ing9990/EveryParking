@@ -32,6 +32,18 @@ spring:
     username: root
     password: 1111
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mail80782258@gmail.com
+    password: dlyrklicfisroohv
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+
   security:
     oauth2:
       client:
