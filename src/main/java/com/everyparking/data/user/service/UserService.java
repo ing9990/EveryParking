@@ -16,6 +16,7 @@ import com.everyparking.data.place.service.PlaceService;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.repository.UserRepository;
 import com.everyparking.exception.EmailNotFoundException;
+import com.everyparking.exception.InvalidAuthenticationException;
 import com.everyparking.exception.PasswordNotMatchException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -125,4 +126,8 @@ public class UserService {
     }
 
 
+    public User findUserById(Long user) {
+        return userRepository.findById(user)
+                .orElseThrow(InvalidAuthenticationException::new);
+    }
 }

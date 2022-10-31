@@ -41,7 +41,6 @@ public class UserResponseDto {
     private List<UserBorrowResponse> userUsing;
     private List<BorrowHistory> used;
 
-
     public static UserResponseDto of(User user, List<Car> cars, List<Place> places,
             List<BorrowResponse> myUsing, List<UserBorrowResponse> userUsing,
             List<BorrowHistory> used
