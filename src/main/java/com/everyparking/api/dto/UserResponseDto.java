@@ -17,6 +17,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Data
@@ -47,11 +49,12 @@ public class UserResponseDto {
             List<BorrowHistory> used
     ) {
 
+        used.sort(Comparator.comparing(BorrowHistory::getCreateAt).reversed());
+
         return UserResponseDto.builder().nickname(user.getNickname())
                               .email(user.getEmail()).point(user.getPoint())
                               .introduce(user.getIntroduce()).city(user.getCity()).tel(user.getTel())
                               .cars(cars).places(places)
-
                               .myUsing(myUsing)
                               .userUsing(userUsing)
                               .used(used)

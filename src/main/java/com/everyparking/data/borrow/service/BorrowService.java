@@ -180,7 +180,15 @@ public class BorrowService {
                                        .renterName(renter.getNickname())
                                        .renterTel(renter.getTel())
                                        .carNumber(car.getCarNumber())
-                                       .carModel(car.getCarModel()).borrowerName(borrower.getNickname()).message(rent.getMessage()).cost(rent.getCost()).addr(place.getAddr()).placeImgUrl(place.getImgUrl()).endAt(rent.getEnd()).startAt(rent.getStart()).createAt(LocalDateTime.now()).build();
+                                       .carModel(car.getCarModel())
+                                       .borrowerName(borrower.getNickname())
+                                       .message(rent.getMessage())
+                                       .cost(rent.getCost())
+                                       .addr(place.getAddr())
+                                       .placeImgUrl(place.getImgUrl())
+                                       .endAt(borrow.getEndAt())
+                                       .startAt(borrow.getStartAt())
+                                       .createAt(LocalDateTime.now()).build();
 
             borrowHistoryRepository.save(history);
         }

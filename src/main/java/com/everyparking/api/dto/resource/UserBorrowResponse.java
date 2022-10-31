@@ -27,6 +27,7 @@ public class UserBorrowResponse {
 
     private String borrowerName;
     private String borrowerTel;
+    private long remainMinutes;
 
     private String carNumber;
     private String carModel;
@@ -50,6 +51,7 @@ public class UserBorrowResponse {
                                  .message(rent.getMessage())
                                  .carNumber(car.getCarNumber())
                                  .carSize(car.getCarSize())
+                                 .remainMinutes(BorrowResponse.getRemains(borrow.getStartAt()))
                                  .carModel(car.getCarModel())
                                  .placeStatus(place.getPlaceStatus())
                                  .placeName(place.getName())

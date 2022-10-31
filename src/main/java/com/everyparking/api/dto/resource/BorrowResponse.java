@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Data
@@ -30,6 +31,8 @@ public class BorrowResponse {
     private String message;
 
     private long cost;
+    private long allCost;
+    private long remainTime;
 
     private String renterName;
     private String renterTel;
@@ -45,20 +48,18 @@ public class BorrowResponse {
         var owner = place.getUser();
         var car = borrow.getCar();
 
-        return BorrowResponse.builder().placeAddr(place.getAddr())
-                             .borrowId(borrow.getId())
-                             .carModel(car.getCarModel())
-                             .placeImg(place.getImgUrl())
-                             .borrowStartAt(borrow.getStartAt())
-                             .cost(rent.getCost())
-                             .borrowEndAt(borrow.getEndAt())
-                             .rentStartAt(rent.getStart())
-                             .rentEndAt(rent.getEnd())
-                             .message(rent.getMessage())
-                             .renterName(owner.getNickname())
-                             .renterTel(owner.getTel())
-                             .carNumber(car.getCarNumber())
-                             .carSize(car.getCarSize())
-                             .build();
+        return BorrowResponse.builder().placeAddr(place.getAddr()).remainTime(getRemains(borrow.getStartAt())).borrowId(borrow.getId()).carModel(car.getCarModel()).allCost(getAllCost(borrow)).placeImg(place.getImgUrl()).borrowStartAt(borrow.getStartAt()).cost(rent.getCost()).borrowEndAt(borrow.getEndAt()).rentStartAt(rent.getStart()).rentEndAt(rent.getEnd()).message(rent.getMessage()).renterName(owner.getNickname()).renterTel(owner.getTel()).carNumber(car.getCarNumber()).carSize(car.getCarSize()).build();
+    }
+
+    public static long getAllCost(Borrow borrow) {
+        return borrow.getRent().getCost() * Duration.between(borrow.getEndAt(), borrow.getStartAt()).abs().toHours();
+    }
+
+    public static long getAllCost(long cost, LocalDateTime startAt, LocalDateTime endAt) {
+        return cost * Duration.between(endAt, startAt).abs().toHours();
+    }
+
+    public static long getRemains(LocalDateTime start) {
+        return Duration.between(LocalDateTime.now(), start).toMinutes();
     }
 }

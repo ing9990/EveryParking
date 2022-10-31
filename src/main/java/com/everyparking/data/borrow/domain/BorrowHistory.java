@@ -59,6 +59,8 @@ public class BorrowHistory {
     @Column(name = "CREATE_AT")
     private LocalDateTime createAt = LocalDateTime.now();
 
+    @Transient
+    private long allCost;
 }
 
 

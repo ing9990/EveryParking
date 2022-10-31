@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -81,6 +82,10 @@ public class UserService {
         List<BorrowResponse> myUsing = new ArrayList<>();
         List<UserBorrowResponse> userUsing = new ArrayList<>();
         List<BorrowHistory> used = borrowHistoryService.findAllHistories();
+
+        used.forEach(
+                history -> history.setAllCost(
+                        BorrowResponse.getAllCost(history.getCost(), history.getStartAt(), history.getEndAt())));
 
         borrowRepository.findBorrowsByBorrowerIs(user).forEach(dat -> myUsing.add(BorrowResponse.of(dat)));
         borrowRepository.findBorrowsByRenter(user).forEach(dat -> userUsing.add(UserBorrowResponse.of(dat)));
