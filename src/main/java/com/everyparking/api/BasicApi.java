@@ -33,9 +33,9 @@ public class BasicApi {
 
     @GetMapping("/{id}")
     public @ResponseBody
-    TestDto getUsers(@PathVariable String id) {
+    TestDto getUsers(@PathVariable Long id) {
         return TestDto.builder()
-                      .id(id)
+                      .id(id + "")
                       .username("유저" + id)
                       .introduce("안녕하세요!! 저는 " + id + "번 입니다.")
                       .build();
