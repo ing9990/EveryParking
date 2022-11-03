@@ -6,6 +6,7 @@ import com.everyparking.exception.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,11 +27,6 @@ import java.util.List;
 @Slf4j
 public class GlobalControllerAdvice {
 
-    @ExceptionHandler({InvalidAuthenticationException.class, RentTimeInvalidException.class, BeShortOfPointException.class, PlaceNotFoundException.class})
-    public ResponseEntity<?> custom(HttpServletRequest req, Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Error.builder().path(req.getRequestURI()).message(e.getMessage()).build());
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> methodArgsNotValidException(HttpServletRequest request, MethodArgumentNotValidException e) {
         List<Error> errorList = new ArrayList<>();
@@ -46,16 +42,14 @@ public class GlobalControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().errorList(errorList).message("").requestUrl(request.getRequestURI()).statusCode(HttpStatus.BAD_REQUEST.value()).resultCode("FAIL").build());
     }
 
-    @ExceptionHandler({EmailNotFoundException.class, PasswordNotMatchException.class})
-    public ResponseEntity<?> emailException(HttpServletRequest request, Exception e) {
-        Exception exception = null;
-
-        if (e instanceof EmailNotFoundException) exception = (EmailNotFoundException) e;
-        if (e instanceof PasswordNotMatchException) exception = (PasswordNotMatchException) e;
-
-        log.warn(e.getMessage());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Error.builder().message(exception.getMessage()).path(request.getRequestURI()).build());
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> exception(HttpServletRequest request, Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Error.builder()
+                           .message(e.getMessage())
+                           .path(request.getRequestURI())
+                           .build());
     }
 
 }
