@@ -46,3 +46,8 @@
 
 ![](rent.gif)
 
+
+# ERD
+
+![](ERD.png)
+
