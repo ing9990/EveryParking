@@ -4,6 +4,10 @@
 
 ## [FE](https://github.com/NYH0227/everyparking-frontend)
 
+## ER-D
+![](ERD.png)
+
+
 - ## 내 정보
 
 ```
@@ -45,9 +49,4 @@
 ```
 
 ![](rent.gif)
-
-
-# ERD
-
-![](ERD.png)
 
