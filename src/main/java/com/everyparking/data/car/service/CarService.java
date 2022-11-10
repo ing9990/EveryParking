@@ -11,12 +11,14 @@ import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.car.repository.CarRepository;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.service.JwtTokenUtils;
+import com.everyparking.exception.CarNotFoundException;
 import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -61,7 +63,8 @@ public class CarService {
 
     @Transactional(readOnly = true)
     public Car getCarByCarNumber(String carNumber) {
-        return carRepository.findCarByCarNumber(carNumber);
+        return carRepository.findCarByCarNumber(carNumber)
+                            .orElseThrow(() -> new CarNotFoundException(carNumber));
     }
 
     public List<Car> findCarsByUserId(User user) {
