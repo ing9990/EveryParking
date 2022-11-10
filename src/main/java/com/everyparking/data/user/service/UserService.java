@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USE;
 import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USELESS;
@@ -81,7 +80,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public DefaultResponseDtoEntity getUserById(String authorization) {
+    public DefaultResponseDtoEntity getUserByAuthorization(String authorization) {
 
         var user = jwtTokenUtils.getUserByToken(authorization);
         var cars = carService.findCarsByUserId(user);

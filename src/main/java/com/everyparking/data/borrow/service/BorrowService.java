@@ -155,8 +155,7 @@ public class BorrowService {
 //            rentService.updateStartTime(rent, borrow.getEndAt());
 //        }
 
-        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공",
-                BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost), USELESS);
+        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공", BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost), USELESS);
     }
 
     public List<Borrow> findBorrowsByUser(User user) {

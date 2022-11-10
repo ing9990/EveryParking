@@ -34,7 +34,7 @@ public class UsersApi {
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization
     ) {
         return ResponseEntity.ok()
-                             .body(userService.getUserById(authorization));
+                             .body(userService.getUserByAuthorization(authorization));
     }
 
     @PatchMapping("")
