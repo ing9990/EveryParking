@@ -20,6 +20,9 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Optional;
 
+import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USE;
+import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USELESS;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,14 +34,13 @@ public class CarService {
     @Transactional
     public DefaultResponseDtoEntity addCar(String jwt, AddCarDto addCarDto) {
 
-        if (addCarDto.getSize() == null)
-            addCarDto.setSize(Car.CarSize.소형);
+        if (addCarDto.getSize() == null) addCarDto.setSize(Car.CarSize.소형);
 
         var user = jwtTokenUtils.getUserByToken(jwt);
         var car = addCarDto.dtoToEntity(addCarDto);
 
         updateUser(car, user);
-        return DefaultResponseDtoEntity.ok("자동차 등록 성공", car);
+        return DefaultResponseDtoEntity.ok("자동차 등록 성공", car, USE);
     }
 
     @Transactional
@@ -49,22 +51,19 @@ public class CarService {
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getAll() {
-        return DefaultResponseDtoEntity
-                .ok("자동차 조회 성공", carRepository.findAll());
+        return DefaultResponseDtoEntity.ok("자동차 조회 성공", carRepository.findAll(), USELESS);
     }
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getMyCar(String authorization) {
         var user = jwtTokenUtils.getUserByToken(authorization);
 
-        return DefaultResponseDtoEntity
-                .ok("내 차 조회 성공", carRepository.findCarsByUser(user));
+        return DefaultResponseDtoEntity.ok("내 차 조회 성공", carRepository.findCarsByUser(user), USE);
     }
 
     @Transactional(readOnly = true)
     public Car getCarByCarNumber(String carNumber) {
-        return carRepository.findCarByCarNumber(carNumber)
-                            .orElseThrow(() -> new CarNotFoundException(carNumber));
+        return carRepository.findCarByCarNumber(carNumber).orElseThrow(() -> new CarNotFoundException(carNumber));
     }
 
     public List<Car> findCarsByUserId(User user) {

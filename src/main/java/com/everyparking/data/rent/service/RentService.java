@@ -25,6 +25,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USE;
+import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USELESS;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -40,7 +43,7 @@ public class RentService {
     public DefaultResponseDtoEntity getMyPlace(String authorization) {
         var user = jwtTokenUtils.getUserByToken(authorization);
         List<Place> places = placeService.findPlacesByUser(user);
-        return DefaultResponseDtoEntity.ok("성공", places);
+        return DefaultResponseDtoEntity.ok("성공", places, USELESS);
     }
 
     @Transactional
@@ -57,7 +60,7 @@ public class RentService {
 
         placeService.updateBorrow(place, Place.PlaceStatus.pending);
 
-        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "렌트 등록 성공", rentRepository.save(rent));
+        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "렌트 등록 성공", rentRepository.save(rent), USE);
     }
 
 
@@ -88,7 +91,7 @@ public class RentService {
 
         rentRepository.deleteRentByPlace(placeId);
 
-        return DefaultResponseDtoEntity.ok("취소되었습니다. [" + place.getName() + "]");
+        return DefaultResponseDtoEntity.ok("취소되었습니다. [" + place.getName() + "]", USE);
     }
 
     public Rent findRentById(Long rentId) {

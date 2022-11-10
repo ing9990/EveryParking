@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USE;
+import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USELESS;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -47,12 +50,18 @@ public class UserService {
 
     @Transactional
     public DefaultResponseDtoEntity registryUser(RegistryRequestDto registryDto) {
-        return DefaultResponseDtoEntity.ok("회원가입 성공", userRepository.save(User.makeUser(registryDto.getEmail(), passwordEncoder.encode(registryDto.getPassword()), registryDto.getNickname(), registryDto.getTel(), registryDto.getIntroduce(), registryDto.getCity())));
+        return DefaultResponseDtoEntity.ok("회원가입 성공",
+                userRepository.save(User.makeUser(registryDto.getEmail(),
+                        passwordEncoder.encode(registryDto.getPassword()),
+                        registryDto.getNickname(),
+                        registryDto.getTel(),
+                        registryDto.getIntroduce(), registryDto.getCity())), USE);
     }
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getUsers() {
-        return DefaultResponseDtoEntity.ok("성공", userRepository.findAll());
+        return DefaultResponseDtoEntity.ok("성공",
+                userRepository.findAll(), USELESS);
     }
 
     @Transactional(readOnly = true)
@@ -64,7 +73,7 @@ public class UserService {
                 var user = optionalUser.get();
                 var token = jwtTokenUtils.buildToken(user.getEmail(), user.getNickname(), user.getTel(), user.getIntroduce(), user.getPoint(), user.getCity());
 
-                return DefaultResponseDtoEntity.ok("로그인 성공", token);
+                return DefaultResponseDtoEntity.ok("로그인 성공", token, USE);
             }
             throw new PasswordNotMatchException();
         }
@@ -90,7 +99,8 @@ public class UserService {
         borrowRepository.findBorrowsByBorrowerIs(user).forEach(dat -> myUsing.add(BorrowResponse.of(dat)));
         borrowRepository.findBorrowsByRenter(user).forEach(dat -> userUsing.add(UserBorrowResponse.of(dat)));
 
-        return DefaultResponseDtoEntity.ok("성공", UserResponseDto.of(user, cars, places, myUsing, userUsing, used));
+        return DefaultResponseDtoEntity.ok("성공",
+                UserResponseDto.of(user, cars, places, myUsing, userUsing, used), USE);
     }
 
     /**
@@ -114,7 +124,7 @@ public class UserService {
         user.setPoint(user.getPoint() + 10000);
         userRepository.save(user);
 
-        return DefaultResponseDtoEntity.ok("10000 포인트 충전 완료.", user);
+        return DefaultResponseDtoEntity.ok("10000 포인트 충전 완료.", user, USE);
     }
 
     @Transactional
@@ -126,7 +136,7 @@ public class UserService {
         user.setTel(editRequestDto.getTel());
         user.setUpdated(LocalDateTime.now());
 
-        return DefaultResponseDtoEntity.ok("정보 수정이 완료.", userRepository.save(user));
+        return DefaultResponseDtoEntity.ok("정보 수정이 완료.", userRepository.save(user), USE);
     }
 
 

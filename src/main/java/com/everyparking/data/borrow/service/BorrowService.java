@@ -28,6 +28,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USELESS;
+
 /**
  * @author Taewoo
  */
@@ -60,7 +62,7 @@ public class BorrowService {
     public DefaultResponseDtoEntity getAllBorrows() {
         var dat = borrowRepository.findAll();
 
-        return DefaultResponseDtoEntity.of(dat.size() == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK, dat.size() == 0 ? "(성공) 대여 0건" : "(성공) 대여 " + dat.size() + "건", dat);
+        return DefaultResponseDtoEntity.of(dat.size() == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK, dat.size() == 0 ? "(성공) 대여 0건" : "(성공) 대여 " + dat.size() + "건", dat, USELESS);
     }
 
     @Transactional(readOnly = true)
@@ -100,7 +102,7 @@ public class BorrowService {
                 list.add(RecommendResponseDto.of(item, dist, recommendMap.get(itemId)));
             }
             list.sort(Comparator.comparing(RecommendResponseDto::getRecommendScore).reversed());
-            return DefaultResponseDtoEntity.of(HttpStatus.OK, "성공", list);
+            return DefaultResponseDtoEntity.of(HttpStatus.OK, "성공", list, USELESS);
         }
 
         var rents = rentService.findRentsByNotUserId(user.getId());
@@ -115,7 +117,7 @@ public class BorrowService {
 
         list.sort(Comparator.comparing(RecommendResponseDto::getDist));
 
-        return DefaultResponseDtoEntity.of(HttpStatus.OK, "추천 주차장이 없어 거리순서로 조회합니다.", list);
+        return DefaultResponseDtoEntity.of(HttpStatus.OK, "추천 주차장이 없어 거리순서로 조회합니다.", list, USELESS);
     }
 
 
@@ -153,7 +155,8 @@ public class BorrowService {
 //            rentService.updateStartTime(rent, borrow.getEndAt());
 //        }
 
-        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공", BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost));
+        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공",
+                BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost), USELESS);
     }
 
     public List<Borrow> findBorrowsByUser(User user) {
