@@ -66,9 +66,10 @@ public class BorrowService {
     }
 
     @Transactional(readOnly = true)
-    public DefaultResponseDtoEntity getRecommendAvailableParkingLots(String authorization, RecommendRequestDto recommendRequestDto) {
+    public DefaultResponseDtoEntity getRecommendAvailableParkingLots(String authorization,
+            RecommandRequestDto recommandRequestDto) {
 
-        if (recommendRequestDto.getStartTime().isAfter(recommendRequestDto.getEndTime()))
+        if (recommandRequestDto.getStartTime().isAfter(recommandRequestDto.getEndTime()))
             throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
 
 
@@ -76,11 +77,17 @@ public class BorrowService {
         List<RecommendResponseDto> list = new ArrayList<>();
 
         var user = jwtTokenUtils.getUserByToken(authorization);
-        var car = carService.getCarByCarNumber(recommendRequestDto.getCarNumber());
+        var car = carService.getCarByCarNumber(recommandRequestDto.getCarNumber());
 
-        var availableLots = rentService.getAvailableLots(recommendRequestDto.getEndTime(), user.getId()).stream().filter(item -> item.getPlace().getPlaceSize().getValue() >= car.getCarSize().getValue()).collect(Collectors.toList());
+        var availableLots =
+                rentService.
+                        getAvailableLots(recommandRequestDto.getEndTime(), user.getId())
+                        .stream().filter(item ->
+                                item.getPlace().getPlaceSize()
+                                    .getValue() >= car.getCarSize().getValue())
+                        .collect(Collectors.toList());
 
-        var adj = geoService.getDistance(availableLots, Double.parseDouble(recommendRequestDto.getMapX()), Double.parseDouble(recommendRequestDto.getMapY()));
+        var adj = geoService.getDistance(availableLots, Double.parseDouble(recommandRequestDto.getMapX()), Double.parseDouble(recommandRequestDto.getMapY()));
 
         if (availableLots.size() != 0) {
             availableLots.forEach(x -> recommendMap.put(x.getId(), DEFAULT_SCORE));
@@ -92,9 +99,9 @@ public class BorrowService {
 
                 recommendMap.put(itemId, recommendMap.get(itemId) - (int) Math.floor(dist));
 
-                if (!item.getStart().isAfter(recommendRequestDto.getStartTime())) {
+                if (!item.getStart().isAfter(recommandRequestDto.getStartTime())) {
                     var itemStart = item.getStart();
-                    var meStart = recommendRequestDto.getStartTime();
+                    var meStart = recommandRequestDto.getStartTime();
                     var rst = Duration.between(itemStart, meStart).toHours();
 
                     recommendMap.put(itemId, recommendMap.get(itemId) - (int) rst);
@@ -106,7 +113,7 @@ public class BorrowService {
         }
 
         var rents = rentService.findRentsByNotUserId(user.getId());
-        var adjDist = geoService.getDistance(rents, Double.parseDouble(recommendRequestDto.getMapX()), Double.parseDouble(recommendRequestDto.getMapY()));
+        var adjDist = geoService.getDistance(rents, Double.parseDouble(recommandRequestDto.getMapX()), Double.parseDouble(recommandRequestDto.getMapY()));
 
         for (int i = 0; i < adjDist.size(); i++) {
             var item = rents.get(i);
@@ -143,17 +150,17 @@ public class BorrowService {
         rentService.updateStatus(rent);
         placeService.updateStatus(rent.getPlace(), Place.PlaceStatus.inUse);
 
-        var borrow = borrowRepository.save(Borrow.builder().borrower(user).rent(rent).startAt(borrowRequestDto.getStartTime()).endAt(borrowRequestDto.getEndTime()).car(car).build());
+        var borrow = borrowRepository.save(
+                Borrow.builder()
+                      .borrower(user)
+                      .rent(rent)
+                      .startAt(borrowRequestDto.getStartTime())
+                      .endAt(borrowRequestDto.getEndTime()).car(car).build());
 
         log.info("주차 요금: " + cost);
         log.info("주차 시작까지 남은 시간: " + Math.abs(rentService.compareEndTime(rent.getStart(), borrow.getStartAt()).toHours()));
 
         userService.payPoint(rent.getPlace().getUser(), user, cost);
-
-//        if (Math.abs(rentService.compareEndTime(borrow.getEndAt(), rent).toHours()) >= 1) {
-//            log.info(Math.abs(rentService.compareEndTime(borrow.getEndAt(), rent).toHours()) + " 시간이 남습니다.");
-//            rentService.updateStartTime(rent, borrow.getEndAt());
-//        }
 
         return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공", BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost), USELESS);
     }

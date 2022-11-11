@@ -1,8 +1,5 @@
 package com.everyparking.data.user.repository;
 
-import com.everyparking.api.dto.LoginRequestDto;
-import com.everyparking.data.user.domain.User;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

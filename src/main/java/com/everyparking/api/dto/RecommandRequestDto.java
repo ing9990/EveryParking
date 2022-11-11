@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RecommendRequestDto {
+public class RecommandRequestDto {
 
     @NotBlank(message = "현재 X 좌표가 빈 칸입니다.")
     private String mapX;

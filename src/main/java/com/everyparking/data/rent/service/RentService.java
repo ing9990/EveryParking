@@ -95,7 +95,8 @@ public class RentService {
     }
 
     public Rent findRentById(Long rentId) {
-        return rentRepository.findById(rentId).orElseThrow(PlaceNotFoundException::new);
+        return rentRepository.findById(rentId)
+                             .orElseThrow(PlaceNotFoundException::new);
     }
 
     public boolean comparePoint(long cost, long point) {
