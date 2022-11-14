@@ -42,8 +42,8 @@ public class BorrowApi {
         return ResponseEntity.status(res.getHttpStatus()).body(res);
     }
 
-    @PostMapping("/recommand")
-    public ResponseEntity<?> getRecommandAvailableParkingLots(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
+    @GetMapping("/recommend")
+    public ResponseEntity<?> getRecommendAvailableParkingLots(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,
             @NotBlank(message = "현재 X 좌표가 빈 칸입니다.") @RequestParam(value = "mapY", required = true) String mapY,
 
             @NotBlank(message = "현재 Y 좌표가 빈 칸입니다.") @RequestParam(value = "mapX", required = true) String mapX,
