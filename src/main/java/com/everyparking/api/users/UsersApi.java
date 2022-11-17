@@ -54,7 +54,6 @@ public class UsersApi {
                              .body(userService.editUser(authorization, editRequestDto));
     }
 
-
     @PostMapping("")
     public ResponseEntity<?> registyUser(@Valid @RequestBody RegistryRequestDto registryDto) {
         log.info("회원가입 요청: " + registryDto.getEmail());
