@@ -11,8 +11,7 @@ import com.everyparking.api.dto.resource.UserBorrowResponse;
 import com.everyparking.data.borrow.domain.BorrowHistory;
 import com.everyparking.data.borrow.repository.BorrowRepository;
 import com.everyparking.data.borrow.service.BorrowHistoryService;
-import com.everyparking.data.car.service.CarService;
-import com.everyparking.data.place.service.PlaceService;
+import com.everyparking.data.borrow.service.PlaceService;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.repository.UserRepository;
 import com.everyparking.exception.EmailNotFoundException;
@@ -86,7 +85,6 @@ public class UserService {
         var cars = carService.findCarsByUserId(user);
         var places = placeService.findPlacesByUser(user);
 
-
         List<BorrowResponse> myUsing = new ArrayList<>();
         List<UserBorrowResponse> userUsing = new ArrayList<>();
         List<BorrowHistory> used = borrowHistoryService.findAllHistories();
@@ -135,8 +133,6 @@ public class UserService {
         user.setTel(editRequestDto.getTel());
         user.setUpdated(LocalDateTime.now());
 
-        return DefaultResponseDtoEntity.ok("정보 수정이 완료.", userRepository.save(user), USE);
+        return DefaultResponseDtoEntity.ok("정보 수정이 완료.", user, USE);
     }
-
-
 }
