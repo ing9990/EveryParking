@@ -11,7 +11,8 @@ import com.everyparking.api.dto.resource.UserBorrowResponse;
 import com.everyparking.data.borrow.domain.BorrowHistory;
 import com.everyparking.data.borrow.repository.BorrowRepository;
 import com.everyparking.data.borrow.service.BorrowHistoryService;
-import com.everyparking.data.borrow.service.PlaceService;
+import com.everyparking.data.car.service.CarService;
+import com.everyparking.data.place.service.PlaceService;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.repository.UserRepository;
 import com.everyparking.exception.EmailNotFoundException;
@@ -50,13 +51,13 @@ public class UserService {
                         passwordEncoder.encode(registryDto.getPassword()),
                         registryDto.getNickname(),
                         registryDto.getTel(),
-                        registryDto.getIntroduce(), registryDto.getCity())), USE);
+                        registryDto.getIntroduce(), registryDto.getCity())));
     }
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getUsers() {
         return DefaultResponseDtoEntity.ok("성공",
-                userRepository.findAll(), USELESS);
+                userRepository.findAll());
     }
 
     @Transactional(readOnly = true)
@@ -68,7 +69,7 @@ public class UserService {
                 var user = optionalUser.get();
                 var token = jwtTokenUtils.buildToken(user.getEmail(), user.getNickname(), user.getTel(), user.getIntroduce(), user.getPoint(), user.getCity());
 
-                return DefaultResponseDtoEntity.ok("로그인 성공", token, USE);
+                return DefaultResponseDtoEntity.ok("로그인 성공", token);
             }
             throw new PasswordNotMatchException();
         }
@@ -94,7 +95,7 @@ public class UserService {
         borrowRepository.findBorrowsByRenter(user).forEach(dat -> userUsing.add(UserBorrowResponse.of(dat)));
 
         return DefaultResponseDtoEntity.ok("성공",
-                UserResponseDto.of(user, cars, places, myUsing, userUsing, used), USE);
+                UserResponseDto.of(user, cars, places, myUsing, userUsing, used));
     }
 
     /**
@@ -127,6 +128,6 @@ public class UserService {
         user.setTel(editRequestDto.getTel());
         user.setUpdated(LocalDateTime.now());
 
-        return DefaultResponseDtoEntity.ok("정보 수정이 완료.", user, USE);
+        return DefaultResponseDtoEntity.ok("정보 수정이 완료.", user);
     }
 }

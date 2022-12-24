@@ -25,8 +25,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USE;
-import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USELESS;
 
 @Service
 @RequiredArgsConstructor
@@ -43,14 +41,13 @@ public class RentService {
     public DefaultResponseDtoEntity getMyPlace(String authorization) {
         var user = jwtTokenUtils.getUserByToken(authorization);
         List<Place> places = placeService.findPlacesByUser(user);
-        return DefaultResponseDtoEntity.ok("성공", places, USELESS);
+        return DefaultResponseDtoEntity.ok("성공", places);
     }
 
     @Transactional
     public DefaultResponseDtoEntity addRent(String authorization, AddRentDto addRentDto) {
 
         var place = placeService.findById(addRentDto.getPlaceId()).orElseThrow(PlaceNotFoundException::new);
-
         var user = jwtTokenUtils.getUserByToken(authorization);
 
         if (LocalDateTime.now().isAfter(addRentDto.getStartTime()) || LocalDateTime.now().isAfter(addRentDto.getEndTime()) || addRentDto.getStartTime().isAfter(addRentDto.getEndTime()))
@@ -60,7 +57,7 @@ public class RentService {
 
         placeService.updateBorrow(place, Place.PlaceStatus.pending);
 
-        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "렌트 등록 성공", rentRepository.save(rent), USE);
+        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "렌트 등록 성공", rentRepository.save(rent));
     }
 
 
@@ -69,10 +66,6 @@ public class RentService {
         return rentRepository.getRecommandLists(endTime, userId);
     }
 
-    @Transactional(readOnly = true)
-    public Rent getRentById(Long x) {
-        return rentRepository.findById(x).get();
-    }
 
     @Transactional(readOnly = true)
     public List<Rent> getAllRents() {
@@ -91,12 +84,11 @@ public class RentService {
 
         rentRepository.deleteRentByPlace(placeId);
 
-        return DefaultResponseDtoEntity.ok("취소되었습니다. [" + place.getName() + "]", USE);
+        return DefaultResponseDtoEntity.ok("취소되었습니다. [" + place.getName() + "]");
     }
 
     public Rent findRentById(Long rentId) {
-        return rentRepository.findById(rentId)
-                             .orElseThrow(PlaceNotFoundException::new);
+        return rentRepository.findById(rentId).orElseThrow(PlaceNotFoundException::new);
     }
 
     public boolean comparePoint(long cost, long point) {

@@ -17,10 +17,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-/**
- * @author Taewoo
- */
-
 
 @RestController
 @Slf4j

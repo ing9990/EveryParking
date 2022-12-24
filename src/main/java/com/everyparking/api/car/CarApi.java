@@ -1,9 +1,5 @@
 package com.everyparking.api.car;
 
-/**
- * @author Taewoo
- */
-
 
 import com.everyparking.api.dto.AddCarDto;
 import com.everyparking.data.car.domain.Car;
@@ -42,15 +38,15 @@ public class CarApi {
     public ResponseEntity<?> addCar(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization, @Valid @RequestBody AddCarDto addCarDto) {
         log.info("자동차 등록: " + addCarDto.getCarNumber());
         return ResponseEntity.status(HttpStatus.CREATED)
-                             .body(carService.addCar(authorization, addCarDto));
+                .body(carService.addCar(authorization, addCarDto));
     }
 
     @GetMapping("/me")
     public ResponseEntity<?> getMyCar(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization
-    ){
+    ) {
         return ResponseEntity.status(HttpStatus.OK)
-                             .body(carService.getMyCar(authorization));
+                .body(carService.getMyCar(authorization));
     }
 
 

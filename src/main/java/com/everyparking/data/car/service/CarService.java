@@ -16,12 +16,8 @@ import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Optional;
 
-import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USE;
-import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USELESS;
 
 @Service
 @Transactional
@@ -40,7 +36,7 @@ public class CarService {
         var car = addCarDto.dtoToEntity(addCarDto);
 
         updateUser(car, user);
-        return DefaultResponseDtoEntity.ok("자동차 등록 성공", car, USE);
+        return DefaultResponseDtoEntity.ok("자동차 등록 성공", car);
     }
 
     @Transactional
@@ -51,14 +47,14 @@ public class CarService {
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getAll() {
-        return DefaultResponseDtoEntity.ok("자동차 조회 성공", carRepository.findAll(), USELESS);
+        return DefaultResponseDtoEntity.ok("자동차 조회 성공", carRepository.findAll());
     }
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getMyCar(String authorization) {
         var user = jwtTokenUtils.getUserByToken(authorization);
 
-        return DefaultResponseDtoEntity.ok("내 차 조회 성공", carRepository.findCarsByUser(user), USE);
+        return DefaultResponseDtoEntity.ok("내 차 조회 성공", carRepository.findCarsByUser(user));
     }
 
     @Transactional(readOnly = true)

@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USE;
 
 @Service
 @RequiredArgsConstructor
@@ -42,12 +41,12 @@ public class PlaceService {
 
         var data = placeRepository.save(Place.dtoToEntity(user, dto.getPlaceName(), dto.getMapAddr() + ":" + dto.getMessage(), dto.getMapX(), dto.getMapY(), dto.getSize(), dto.getImgUrl()));
 
-        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차공간 등록 성공", data, USE);
+        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차공간 등록 성공", data);
     }
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getAllPlace() {
-        return DefaultResponseDtoEntity.ok("성공", placeRepository.findAll(), USE);
+        return DefaultResponseDtoEntity.ok("성공", placeRepository.findAll());
     }
 
     public void updateBorrow(Place place, Place.PlaceStatus placeStatus) {
