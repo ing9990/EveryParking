@@ -26,9 +26,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USE;
-import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USELESS;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -108,11 +105,8 @@ public class UserService {
 
     @Transactional
     public void payPoint(User renter, User user, long cost) {
-        renter.setPoint(renter.getPoint() + cost);
-        user.setPoint(user.getPoint() - cost);
-
-        userRepository.save(renter);
-        userRepository.save(user);
+        renter.upPoint(cost);
+        user.downPoint(cost);
     }
 
     @Transactional
@@ -121,7 +115,7 @@ public class UserService {
         user.setPoint(user.getPoint() + 10000);
         userRepository.save(user);
 
-        return DefaultResponseDtoEntity.ok("10000 포인트 충전 완료.", user, USE);
+        return DefaultResponseDtoEntity.ok("10000 포인트 충전 완료.", user);
     }
 
     @Transactional

@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.everyparking.data.car.domain.Car;
+import com.everyparking.exception.BeShortOfPointException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -116,5 +117,18 @@ public class User implements UserDetails {
         return User.builder().email(email).password(password).nickname(nickname).tel(tel).introduce(introduce).city(city).created(LocalDateTime.now()).updated(LocalDateTime.now()).build();
     }
 
+    public Long downPoint(long cost) {
+        if (this.point < cost) {
+            throw new BeShortOfPointException("잔액이 부족합니다.");
+        }
+        this.point -= cost;
 
+        return this.id;
+    }
+
+    public Long upPoint(long cost) {
+        this.point += cost;
+
+        return this.id;
+    }
 }

@@ -19,6 +19,7 @@ import com.everyparking.exception.RentTimeInvalidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +28,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.everyparking.api.dto.DefaultResponseDtoEntity.Swal.USELESS;
 
 /**
  * @author Taewoo
@@ -55,19 +54,18 @@ public class BorrowService {
     @Value("${recommend.default-score}")
     private Integer DEFAULT_SCORE;
 
-    @Value("${recommend.default-meter-score}")
-    private Integer DEFAULT_METER_SCORE;
-
     @Transactional(readOnly = true)
-    public DefaultResponseDtoEntity getAllBorrows() {
-        var dat = borrowRepository.findAll();
+    public DefaultResponseDtoEntity getAllBorrows(Pageable pageable) {
+        var dat = borrowRepository.findAll(pageable).getContent();
 
-        return DefaultResponseDtoEntity.of(dat.size() == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK, dat.size() == 0 ? "(성공) 대여 0건" : "(성공) 대여 " + dat.size() + "건", dat, USELESS);
+        return dat.size() == 0 ?
+                DefaultResponseDtoEntity.of(HttpStatus.NO_CONTENT, "NO CONTENT")
+                : DefaultResponseDtoEntity.ok("조회 완료", dat);
     }
 
     @Transactional(readOnly = true)
     public DefaultResponseDtoEntity getRecommendAvailableParkingLots(String authorization,
-            RecommandRequestDto recommandRequestDto) {
+                                                                     RecommandRequestDto recommandRequestDto) {
 
         if (recommandRequestDto.getStartTime().isAfter(recommandRequestDto.getEndTime()))
             throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
@@ -84,7 +82,7 @@ public class BorrowService {
                         getAvailableLots(recommandRequestDto.getEndTime(), user.getId())
                         .stream().filter(item ->
                                 item.getPlace().getPlaceSize()
-                                    .getValue() >= car.getCarSize().getValue())
+                                        .getValue() >= car.getCarSize().getValue())
                         .collect(Collectors.toList());
 
         var adj = geoService.getDistance(availableLots, Double.parseDouble(recommandRequestDto.getMapX()), Double.parseDouble(recommandRequestDto.getMapY()));
@@ -109,7 +107,7 @@ public class BorrowService {
                 list.add(RecommendResponseDto.of(item, dist, recommendMap.get(itemId)));
             }
             list.sort(Comparator.comparing(RecommendResponseDto::getRecommendScore).reversed());
-            return DefaultResponseDtoEntity.of(HttpStatus.OK, "성공", list, USELESS);
+            return DefaultResponseDtoEntity.of(HttpStatus.OK, "성공", list);
         }
 
         var rents = rentService.findRentsByNotUserId(user.getId());
@@ -124,7 +122,7 @@ public class BorrowService {
 
         list.sort(Comparator.comparing(RecommendResponseDto::getDist));
 
-        return DefaultResponseDtoEntity.of(HttpStatus.OK, "추천 주차장이 없어 거리순서로 조회합니다.", list, USELESS);
+        return DefaultResponseDtoEntity.of(HttpStatus.OK, "추천 주차장이 없어 거리순서로 조회합니다.", list);
     }
 
 
@@ -152,22 +150,20 @@ public class BorrowService {
 
         var borrow = borrowRepository.save(
                 Borrow.builder()
-                      .borrower(user)
-                      .rent(rent)
-                      .startAt(borrowRequestDto.getStartTime())
-                      .endAt(borrowRequestDto.getEndTime()).car(car).build());
+                        .borrower(user)
+                        .rent(rent)
+                        .startAt(borrowRequestDto.getStartTime())
+                        .endAt(borrowRequestDto.getEndTime()).car(car).build());
 
         log.info("주차 요금: " + cost);
         log.info("주차 시작까지 남은 시간: " + Math.abs(rentService.compareEndTime(rent.getStart(), borrow.getStartAt()).toHours()));
 
         userService.payPoint(rent.getPlace().getUser(), user, cost);
 
-        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공", BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost), USELESS);
+        return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공",
+                BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost));
     }
 
-    public List<Borrow> findBorrowsByUser(User user) {
-        return borrowRepository.findBorrowByBorrower(user);
-    }
 
     public void endTime() {
         var borrows = borrowRepository.findBorrowsByEndAtIsBefore(LocalDateTime.now());
@@ -183,7 +179,20 @@ public class BorrowService {
             placeService.updateBorrow(rent.getPlace(), Place.PlaceStatus.waiting);
             borrowRepository.deleteById(borrow.getId());
 
-            var history = BorrowHistory.builder().renterName(renter.getNickname()).renterTel(renter.getTel()).carNumber(car.getCarNumber()).carModel(car.getCarModel()).borrowerName(borrower.getNickname()).message(rent.getMessage()).cost(rent.getCost()).addr(place.getAddr()).placeImgUrl(place.getImgUrl()).endAt(borrow.getEndAt()).startAt(borrow.getStartAt()).createAt(LocalDateTime.now()).build();
+            var history = BorrowHistory.builder()
+                    .renterName(renter.getNickname())
+                    .renterTel(renter.getTel())
+                    .carNumber(car.getCarNumber())
+                    .carModel(car.getCarModel())
+                    .borrowerName(borrower.getNickname())
+                    .message(rent.getMessage())
+                    .cost(rent.getCost())
+                    .addr(place.getAddr())
+                    .placeImgUrl(place.getImgUrl())
+                    .endAt(borrow.getEndAt())
+                    .startAt(borrow.getStartAt())
+                    .createAt(LocalDateTime.now())
+                    .build();
 
             borrowHistoryRepository.save(history);
         }
