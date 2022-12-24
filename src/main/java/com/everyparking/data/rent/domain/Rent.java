@@ -1,12 +1,6 @@
 package com.everyparking.data.rent.domain;
 
-/**
- * @author Taewoo
- */
-
-
 import java.time.LocalDateTime;
-import java.util.*;
 
 import com.everyparking.data.place.domain.Place;
 import com.fasterxml.jackson.annotation.JsonIgnore;

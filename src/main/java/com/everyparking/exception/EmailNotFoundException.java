@@ -1,8 +1,5 @@
 package com.everyparking.exception;
 
-/**
- * @author Taewoo
- */
 
 public class EmailNotFoundException extends RuntimeException {
     public EmailNotFoundException() {

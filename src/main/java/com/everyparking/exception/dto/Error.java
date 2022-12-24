@@ -1,10 +1,5 @@
 package com.everyparking.exception.dto;
 
-/**
- * @author Taewoo
- */
-
-
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonInclude;

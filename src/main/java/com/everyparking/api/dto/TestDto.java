@@ -1,8 +1,5 @@
 package com.everyparking.api.dto;
 
-/**
- * @author Taewoo
- */
 
 
 import lombok.AllArgsConstructor;

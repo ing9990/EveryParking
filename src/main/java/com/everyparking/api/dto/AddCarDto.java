@@ -1,10 +1,5 @@
 package com.everyparking.api.dto;
 
-/**
- * @author Taewoo
- */
-
-
 import com.everyparking.data.car.domain.Car;
 import com.everyparking.exception.valid.DuplicatedCarNumberConstraint;
 import lombok.AllArgsConstructor;

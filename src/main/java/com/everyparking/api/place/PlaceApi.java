@@ -26,7 +26,6 @@ public class PlaceApi {
         return ResponseEntity.ok().body(placeService.getAllPlace());
     }
 
-
     @PostMapping
     public ResponseEntity<?> addPlace(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization,

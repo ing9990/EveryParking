@@ -5,9 +5,6 @@ import javax.validation.Payload;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-/**
- * @author Taewoo
- */
 
 @Constraint(validatedBy = DuplicatedEmailValidator.class)
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,10 +1,5 @@
 package com.everyparking.api.dto;
 
-/**
- * @author Taewoo
- */
-
-
 import com.everyparking.data.user.domain.User;
 import com.everyparking.exception.valid.DuplicatedEmailConstraint;
 import com.everyparking.exception.valid.DuplicatedNicknameConstraint;

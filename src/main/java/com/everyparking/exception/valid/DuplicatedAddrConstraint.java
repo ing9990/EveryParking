@@ -5,10 +5,6 @@ import javax.validation.Payload;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-/**
- * @author Taewoo
- */
-
 @Constraint(validatedBy = DuplicatedAddrValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DuplicatedAddrConstraint {

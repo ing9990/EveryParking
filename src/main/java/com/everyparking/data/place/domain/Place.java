@@ -1,10 +1,5 @@
 package com.everyparking.data.place.domain;
 
-/**
- * @author Taewoo
- */
-
-
 import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;

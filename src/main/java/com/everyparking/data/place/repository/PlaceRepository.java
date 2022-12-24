@@ -7,10 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-/**
- * @author Taewoo
- */
-
 public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     @Query("select (count(p) > 0) from Place p where p.addr = ?1")

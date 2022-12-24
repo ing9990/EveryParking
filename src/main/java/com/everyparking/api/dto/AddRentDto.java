@@ -1,10 +1,5 @@
 package com.everyparking.api.dto;
 
-/**
- * @author Taewoo
- */
-
-
 import java.time.LocalDateTime;
 
 import lombok.*;

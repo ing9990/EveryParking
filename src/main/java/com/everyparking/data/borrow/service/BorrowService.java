@@ -11,7 +11,6 @@ import com.everyparking.data.place.service.PlaceService;
 import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.rent.service.GeoService;
 import com.everyparking.data.rent.service.RentService;
-import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.service.JwtTokenUtils;
 import com.everyparking.data.user.service.UserService;
 import com.everyparking.exception.BeShortOfPointException;
@@ -28,11 +27,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-
-/**
- * @author Taewoo
- */
-
 
 @Service
 @Transactional
@@ -196,10 +190,6 @@ public class BorrowService {
 
             borrowHistoryRepository.save(history);
         }
-    }
-
-    public List<Borrow> findBorrowsByBorrower(User user) {
-        return borrowRepository.findBorrowsByRenter(user);
     }
 
 }

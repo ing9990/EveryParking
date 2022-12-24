@@ -1,9 +1,5 @@
 package com.everyparking.exception.dto;
 
-/**
- * @author Taewoo
- */
-
 
 import java.util.*;
 
@@ -11,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 @Data
 @AllArgsConstructor

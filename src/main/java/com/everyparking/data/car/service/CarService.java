@@ -1,9 +1,5 @@
 package com.everyparking.data.car.service;
 
-/**
- * @author Taewoo
- */
-
 
 import com.everyparking.api.dto.AddCarDto;
 import com.everyparking.api.dto.DefaultResponseDtoEntity;

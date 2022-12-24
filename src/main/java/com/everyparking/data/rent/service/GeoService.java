@@ -6,10 +6,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Taewoo
- */
-
 
 @Component
 public class GeoService {

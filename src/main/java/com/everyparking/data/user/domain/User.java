@@ -1,14 +1,9 @@
 package com.everyparking.data.user.domain;
 
-/**
- * @author Taewoo
- */
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Map;
 
-import com.everyparking.data.car.domain.Car;
 import com.everyparking.exception.BeShortOfPointException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;

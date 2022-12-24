@@ -1,12 +1,7 @@
 package com.everyparking.api.dto;
 
-/**
- * @author Taewoo
- */
-
 import com.everyparking.api.dto.resource.BorrowResponse;
 import com.everyparking.api.dto.resource.UserBorrowResponse;
-import com.everyparking.data.borrow.domain.Borrow;
 import com.everyparking.data.borrow.domain.BorrowHistory;
 import com.everyparking.data.car.domain.Car;
 import com.everyparking.data.place.domain.Place;
@@ -16,8 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

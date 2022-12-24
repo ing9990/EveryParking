@@ -1,9 +1,5 @@
 package com.everyparking.api.dto;
 
-/**
- * @author Taewoo
- */
-
 
 import com.everyparking.data.borrow.domain.Borrow;
 import com.everyparking.data.car.domain.Car;

@@ -1,9 +1,5 @@
 package com.everyparking.exception;
 
-/**
- * @author Taewoo
- */
-
 
 public class PasswordNotMatchException extends RuntimeException {
     public PasswordNotMatchException() {

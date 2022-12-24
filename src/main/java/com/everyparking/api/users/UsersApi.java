@@ -1,6 +1,5 @@
 package com.everyparking.api.users;
 
-
 import com.everyparking.api.dto.EditUserDto;
 import com.everyparking.api.dto.LoginRequestDto;
 import com.everyparking.api.dto.RegistryRequestDto;

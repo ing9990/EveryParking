@@ -1,10 +1,5 @@
 package com.everyparking.exception.valid;
 
-/**
- * @author Taewoo
- */
-
-
 import com.everyparking.data.car.repository.CarRepository;
 import lombok.RequiredArgsConstructor;
 

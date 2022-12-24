@@ -10,8 +10,6 @@ recommend:
   default-time-score: 200  # default-time 차이 날때마다 200점씩 감점
   default-time: 60
 
-schedule:
-  refresh-endTime: 10000
 
 spring:
 
@@ -26,6 +24,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    open-in-view: false
 
   datasource:
     url: jdbc:mysql://localhost:3306/parking

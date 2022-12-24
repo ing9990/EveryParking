@@ -1,10 +1,5 @@
 package com.everyparking.exception.valid;
 
-/**
- * @author Taewoo
- */
-
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Retention;

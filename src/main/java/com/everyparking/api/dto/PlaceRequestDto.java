@@ -1,13 +1,8 @@
 package com.everyparking.api.dto;
 
-/**
- * @author Taewoo
- */
-
 
 import com.everyparking.data.car.domain.Car;
 import com.everyparking.exception.valid.DuplicatedAddrConstraint;
-import com.everyparking.exception.valid.DuplicatedPlaceNameConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +10,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor

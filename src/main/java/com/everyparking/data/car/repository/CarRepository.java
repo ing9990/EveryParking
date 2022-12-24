@@ -8,9 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @author Taewoo
- */
 
 public interface CarRepository extends JpaRepository<Car, String> {
 

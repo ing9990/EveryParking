@@ -1,9 +1,5 @@
 package com.everyparking.data.borrow.domain;
 
-/**
- * @author Taewoo
- */
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -62,5 +58,3 @@ public class BorrowHistory {
     @Transient
     private long allCost;
 }
-
-

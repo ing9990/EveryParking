@@ -1,10 +1,5 @@
 package com.everyparking.api.dto;
 
-/**
- * @author Taewoo
- */
-
-
 import com.everyparking.data.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

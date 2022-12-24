@@ -1,15 +1,9 @@
 package com.everyparking.data.place.service;
 
-/**
- * @author Taewoo
- */
-
-
 import com.everyparking.api.dto.DefaultResponseDtoEntity;
 import com.everyparking.api.dto.PlaceRequestDto;
 import com.everyparking.data.place.domain.Place;
 import com.everyparking.data.place.repository.PlaceRepository;
-import com.everyparking.data.rent.domain.Rent;
 import com.everyparking.data.user.domain.User;
 import com.everyparking.data.user.service.JwtTokenUtils;
 import com.everyparking.exception.PlaceNotFoundException;
@@ -21,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -61,11 +54,6 @@ public class PlaceService {
     public Optional<Place> findById(Long placeId) {
         return placeRepository.findById(placeId);
     }
-
-    public List<Place> findAll() {
-        return placeRepository.findAll();
-    }
-
 
     public Place updateStatus(Long placeId) {
         var place = placeRepository.findById(placeId).orElseThrow(PlaceNotFoundException::new);

@@ -21,6 +21,4 @@ public class ParkingApi {
     public ResponseEntity<?> getMyPlace(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization) {
         return ResponseEntity.ok().body(rentService.getMyPlace(authorization));
     }
-
-
 }

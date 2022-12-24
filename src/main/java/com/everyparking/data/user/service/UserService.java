@@ -1,8 +1,5 @@
 package com.everyparking.data.user.service;
 
-/**
- * @author Taewoo
- */
 
 
 import com.everyparking.api.dto.*;

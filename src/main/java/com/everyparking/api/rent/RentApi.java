@@ -1,6 +1,5 @@
 package com.everyparking.api.rent;
 
-
 import com.everyparking.api.dto.AddRentDto;
 import com.everyparking.data.rent.service.RentService;
 import lombok.RequiredArgsConstructor;
@@ -44,18 +43,3 @@ public class RentApi {
                              .body(rentService.addRent(authorization, addRentDto));
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
