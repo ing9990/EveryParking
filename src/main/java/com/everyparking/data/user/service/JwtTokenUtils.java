@@ -1,8 +1,5 @@
 package com.everyparking.data.user.service;
 
-/**
- * @author Taewoo
- */
 
 
 import com.auth0.jwt.JWT;
@@ -34,14 +31,14 @@ public class JwtTokenUtils {
 
     public User getUserByToken(String token) {
 
-        if (token == null | !token.startsWith("Bearer "))
+        if (token == null || !token.startsWith("Bearer "))
             throw new InvalidAuthenticationException();
 
         return userRepository
                 .findUserByEmail(
                         JWT.decode(token.substring(7))
-                           .getClaim("email")
-                           .asString())
+                                .getClaim("email")
+                                .asString())
                 .orElseThrow(InvalidAuthenticationException::new);
     }
 }
