@@ -30,7 +30,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/parking
     username: root
-    password: 1111
+    password:
 
   security:
     oauth2:

@@ -1,7 +1,5 @@
 package com.everyparking.data.user.service;
 
-
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.everyparking.data.user.domain.User;
@@ -26,11 +24,18 @@ public class JwtTokenUtils {
     private String secret;
 
     public String buildToken(String email, String nickname, String tel, String intro, long point, User.City city) {
-        return "Bearer " + JWT.create().withSubject(nickname).withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY)).withClaim("email", email).withClaim("nickname", nickname).withClaim("tel", tel).withClaim("intro", intro).withClaim("point", point).withClaim("city", city.toString()).sign(Algorithm.HMAC256(secret.getBytes()));
+        return "Bearer " + JWT.create()
+                .withSubject(nickname)
+                .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
+                .withClaim("email", email).withClaim("nickname", nickname)
+                .withClaim("tel", tel)
+                .withClaim("intro", intro)
+                .withClaim("point", point)
+                .withClaim("city", city.toString())
+                .sign(Algorithm.HMAC256(secret.getBytes()));
     }
 
     public User getUserByToken(String token) {
-
         if (token == null || !token.startsWith("Bearer "))
             throw new InvalidAuthenticationException();
 

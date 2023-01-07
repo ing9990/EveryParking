@@ -40,8 +40,6 @@ public class BasicApi {
                       .introduce("안녕하세요!! 저는 " + id + "번 입니다.")
                       .build();
     }
-
-
 }
 
 
