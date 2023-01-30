@@ -20,6 +20,7 @@ class UserRepositoryTest {
     @DisplayName("1.[Not Null] UserRepository")
     @Test
     void NN_유저_전체_테스트() {
+        System.out.println("hello");
         assertNotNull(userRepository);
     }
 

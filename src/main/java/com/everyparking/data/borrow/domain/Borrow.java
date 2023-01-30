@@ -44,4 +44,14 @@ public class Borrow {
     @OneToOne
     @JoinColumn(name = "BORROWER_CAR")
     private Car car;
+
+    public static Borrow makeBorrow(User borrower, Rent rent, Car car, LocalDateTime borrowStartTime, LocalDateTime borrowEndTime) {
+        return Borrow.builder()
+                .borrower(borrower)
+                .rent(rent)
+                .car(car)
+                .startAt(borrowStartTime)
+                .endAt(borrowEndTime)
+                .build();
+    }
 }

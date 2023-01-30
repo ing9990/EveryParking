@@ -19,6 +19,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
@@ -119,10 +120,10 @@ public class User implements UserDetails {
 
     public Long downPoint(long cost) {
         if (this.point < cost) {
-            throw new BeShortOfPointException("잔액이 부족합니다.");
+            throw new BeShortOfPointException("포인트가 부족하여 결제를 진행할 수 없습니다.");
         }
-        this.point -= cost;
 
+        this.point -= cost;
         return this.id;
     }
 

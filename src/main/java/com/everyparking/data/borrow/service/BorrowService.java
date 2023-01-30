@@ -138,22 +138,13 @@ public class BorrowService {
         var borrowTime = Math.abs(rentService.compareEndTime(borrowRequestDto.getStartTime(), borrowRequestDto.getEndTime()).toHours());
         var cost = borrowTime * rent.getCost();
 
-        if (borrowRequestDto.getStartTime().isAfter(borrowRequestDto.getEndTime()))
-            throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
-
-        if (rentService.comparePoint(borrowTime * rent.getCost(), user.getPoint()))
-            throw new BeShortOfPointException("포인트가 부족합니다.");
-
+        validateBorrowTime(borrowRequestDto.getStartTime(), borrowRequestDto.getEndTime());
 
         rentService.updateStatus(rent);
         placeService.updateStatus(rent.getPlace(), Place.PlaceStatus.inUse);
 
-        var borrow = borrowRepository.save(
-                Borrow.builder()
-                        .borrower(user)
-                        .rent(rent)
-                        .startAt(borrowRequestDto.getStartTime())
-                        .endAt(borrowRequestDto.getEndTime()).car(car).build());
+        var borrow = borrowRepository.save(Borrow.makeBorrow(user, rent, car,
+                borrowRequestDto.getStartTime(), borrowRequestDto.getEndTime()));
 
         log.info("주차 요금: " + cost);
         log.info("주차 시작까지 남은 시간: " + Math.abs(rentService.compareEndTime(rent.getStart(), borrow.getStartAt()).toHours()));
@@ -162,6 +153,15 @@ public class BorrowService {
 
         return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공",
                 BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost));
+    }
+
+    /*
+        시작시간이 종료시간보다 늦을 경우 InvalidRentTimeException 을 던짐
+     */
+    private void validateBorrowTime(LocalDateTime start, LocalDateTime end) {
+        if (start.isAfter(end)) {
+            throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
+        }
     }
 
 
