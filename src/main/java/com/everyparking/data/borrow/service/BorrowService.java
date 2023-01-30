@@ -43,6 +43,8 @@ public class BorrowService {
     private final BorrowRepository borrowRepository;
     private final BorrowHistoryRepository borrowHistoryRepository;
 
+    private final PayService payService;
+
     private final RentService rentService;
     private final GeoService geoService;
     private final CarService carService;
@@ -146,10 +148,7 @@ public class BorrowService {
         var borrow = borrowRepository.save(Borrow.makeBorrow(user, rent, car,
                 borrowRequestDto.getStartTime(), borrowRequestDto.getEndTime()));
 
-        log.info("주차 요금: " + cost);
-        log.info("주차 시작까지 남은 시간: " + Math.abs(rentService.compareEndTime(rent.getStart(), borrow.getStartAt()).toHours()));
-
-        userService.payPoint(rent.getPlace().getUser(), user, cost);
+        payPoint(rent.getPlace().getUser(), user, cost);
 
         return DefaultResponseDtoEntity.of(HttpStatus.CREATED, "주차장 대여 성공",
                 BorrowResponseDto.of(borrow, borrow.getStartAt(), user, car, rent, cost));
@@ -162,6 +161,11 @@ public class BorrowService {
         if (start.isAfter(end)) {
             throw new RentTimeInvalidException("종료시간이 시작시간보다 이릅니다.");
         }
+    }
+
+    // 결제 서비스
+    private void payPoint(User renter, User borrower, long cost) {
+        payService.payPoint(renter, borrower, cost, PayPolicy.NONE);
     }
 
 
